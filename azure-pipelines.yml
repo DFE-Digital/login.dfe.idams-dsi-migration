@@ -23,13 +23,13 @@ steps:
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
     deploymentScope: 'Resource Group'
-    azureResourceManagerConnection: $(DevServiceConnection)
+    azureResourceManagerConnection: 's141d-Pirean.azdo-deployment'
     subscriptionId: '9d98d71c-7399-47fc-a888-d5ea74c3d8c0'
-    action: 'Create or Update Resource Group'
+    action: 'Create Or Update Resource Group'
     resourceGroupName: 's141d02-pirean-logicapps'
     location: 'West Europe'
     templateLocation: 'Linked artifact'
-    csmFile: '$(Build.ArtifactStagingDirectory)\**\LogicApp.parameters.json'
+    csmFile: '$(Build.ArtifactStagingDirectory)\**\LogicApp.json'
     csmParametersFile: '$(Build.ArtifactStagingDirectory)\**\LogicApp.parameters.json'
-    overrideParameters: '-logicAppName IDAMS-ImportApp'
+    overrideParameters: '-logicAppName ''IDAMS-Import-App'''
     deploymentMode: 'Incremental'
