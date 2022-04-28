@@ -31,5 +31,5 @@ steps:
     templateLocation: 'Linked artifact'
     csmFile: '$(Build.ArtifactStagingDirectory)\**\LogicApp.json'
     csmParametersFile: '$(Build.ArtifactStagingDirectory)\**\LogicApp.parameters.json'
-    overrideParameters: '-logicAppName ''IDAMS-Import-App''' -logicAppLocation 'West Europe' -azureblob_1_Connection_Name 'IDAMS-Blob-Connection'
+    overrideParameters: '-logicAppName ''IDAMS-Import-App'' -logicAppLocation ''West Europe'' -azureblob_1_Connection_Name ''IDAMS-Blob-Connection'''
     deploymentMode: 'Incremental'
