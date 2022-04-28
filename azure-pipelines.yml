@@ -24,6 +24,7 @@ steps:
   inputs:
     deploymentScope: 'Resource Group'
     azureResourceManagerConnection: $(DevServiceConnection)
+    subscriptionId: '9d98d71c-7399-47fc-a888-d5ea74c3d8c0'
     action: 'Create or Update Resource Group'
     resourceGroupName: 's141d02-pirean-logicapps'
     location: 'West Europe'
