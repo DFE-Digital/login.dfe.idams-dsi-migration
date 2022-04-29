@@ -14,8 +14,16 @@ stages:
             -  task: VSBuild@1
                inputs:
                   solution: '**\*.sln' 
+     -  job: Copy
+        dependsOn: Build
+        displayName: Copy Files
+        steps:
+       
+        - task: CopyFiles@2
+          inputs:
+            targetFolder: '$(Build.ArtifactStagingDirectory)' 
      - job: Publish
-       dependsOn: Build
+       dependsOn: Copy
        displayName: Publish
        steps:
        
