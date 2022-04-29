@@ -18,19 +18,20 @@ stages:
        dependsOn: Build
        displayName: Publish
        steps:
-            -  task: PublishBuildArtifacts@1
-               inputs:
-                  PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-                  ArtifactName: 'drop'
-                  publishLocation: 'Container'
+       
+        - task: PublishBuildArtifacts@1
+          inputs:
+            PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+            ArtifactName: 'drop'
+            publishLocation: 'Container'
   
  
  - stage: 'Deploy'
    displayName: 'Deploy Dev'
    dependsOn: 'Build'
    jobs:
-    - job: Build
-      displayName: Build
+    - job: Deploy
+      displayName: Deploy
       steps:
             -  task: AzureResourceManagerTemplateDeployment@3
                inputs:
