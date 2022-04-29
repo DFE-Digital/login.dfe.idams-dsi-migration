@@ -15,17 +15,17 @@ stages:
       - template: ../jobs/pirean-master-logicapp-build-job.yml
         
 
- - stage: deployDev
-   displayName: "Package & Deploy [DEV]"
-   dependsOn: build
-   jobs:
-      - template: ../jobs/pirean-master-deploy-infrastructure-job.yml
-        parameters:
-          applicationType: logicapp
-          variableGroups:
-            - platform-dev
-            - "platform-dev-${{parameters.applicationName}}"
-          serviceConnection: "${{parameters.devServiceConnection}}"
-          subscriptionId: "${{parameters.devSubscriptionId}}"
+  - stage: deployDev
+    displayName: "Package & Deploy [DEV]"
+    dependsOn: build
+    jobs:
+        - template: ../jobs/pirean-master-deploy-infrastructure-job.yml
+          parameters:
+            applicationType: logicapp
+            variableGroups:
+              - platform-dev
+              - "platform-dev-${{parameters.applicationName}}"
+            serviceConnection: "${{parameters.devServiceConnection}}"
+            subscriptionId: "${{parameters.devSubscriptionId}}"
           
    
