@@ -2,13 +2,11 @@ jobs:
      - job: Build
        displayName: Build
        steps:
-            - task: VSBuild@1
-               inputs:
-                  solution: '**\*.sln' 
-     
-       
-            - task: PublishBuildArtifacts@1
-               inputs:
-                PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-                ArtifactName: 'drop'
-                publishLocation: 'Container'  
+        - task: VSBuild@1
+          inputs:
+           solution: '**\*.sln' 
+        - task: PublishBuildArtifacts@1
+          inputs:
+           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+           ArtifactName: 'drop'
+           publishLocation: 'Container'  
