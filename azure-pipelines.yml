@@ -1,4 +1,11 @@
 name: $(BuildDefinitionName)_tag-$(BuildID)_at-$(Date:yyyyMMdd)$(Rev:.r)
+resources:
+  repositories:
+    - repository: devopsTemplates
+      type: github
+      endpoint: DfE-Digital
+      name: DFE-Digital/login.dfe.idams-dsi-migration
+      ref: master
 trigger:
 - master
 
@@ -9,7 +16,7 @@ variables:
 - group: platform-global
 
 stages:
- - template: /templates/stages/pirean-master-logicapp-stage.yml@devopsTemplates
+ - template: /templates/logicapps/stages/pirean-master-logicapp-stage.yml@devopsTemplates
    parameters:
      applicationName: idamsdsiapp
     
