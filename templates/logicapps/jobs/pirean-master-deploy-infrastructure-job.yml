@@ -1,10 +1,10 @@
 parameters:
  - name: applicationName
-    type: string
-- name: serviceConnection
-    type: string
-- name: subscriptionId
-    type: string
+   type: string
+ - name: serviceConnection
+   type: string
+ - name: subscriptionId
+   type: string
 
 jobs:
 - deployment: packageAndDeploy
@@ -12,8 +12,8 @@ jobs:
   environment: '${{parameters.environmentName}}'
   variables:
   - '${{ each variableGroup in parameters.variableGroups }}': 
-    - group: '${{variableGroup}}'
-      - job: Deploy
+  - group: '${{variableGroup}}'
+    - job: Deploy
         displayName: Deploy
         
         steps:
