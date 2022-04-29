@@ -47,7 +47,7 @@ stages:
                 templateLocation: 'Linked artifact'
                 csmFile: '$(System.DefaultWorkingDirectory)\**\LogicApp.json'
                 csmParametersFile: '$(System.DefaultWorkingDirectory)\**\LogicApp.parameters.json'
-                overrideParameters: '-logicAppName ''IDAMS-Import-App'' -logicAppLocation ''westeurope'' -azureblob_1_Connection_Name ''IDAMS-Blob-Connection'' -azureblob_1_Connection_DisplayName ''IDAMS-Blob-Connection'' -azureblob_1_accountName ''s141d02periandfstorage'' '
+                overrideParameters: '-logicAppName IDAMS-Import-App -logicAppLocation westeurope -azureblob_1_Connection_Name IDAMS-Blob-Connection -azureblob_1_Connection_DisplayName IDAMS-Blob-Connection -azureblob_1_accountName s141d02periandfstorage '
                 deploymentMode: 'Incremental'
     
       
