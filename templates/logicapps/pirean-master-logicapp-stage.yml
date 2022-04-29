@@ -1,0 +1,31 @@
+parameters:
+  - name: applicationName
+    type: string
+  - name: devServiceConnection
+    type: string
+    default: s141d-Pirean.azdo-deployment
+  - name: devSubscriptionId
+    type: string
+    default: 9d98d71c-7399-47fc-a888-d5ea74c3d8c0
+
+stages:
+  - stage: build
+    displayName: Build
+    jobs:
+      - template: ../jobs/pirean-master-logicapp-build-job.yml
+        
+
+ - stage: deployDev
+   displayName: "Package & Deploy [DEV]"
+   dependsOn: build
+   jobs:
+      - template: ../jobs/pirean-master-deploy-infrastructure-job.yml
+        parameters:
+          applicationType: logicapp
+          variableGroups:
+            - platform-dev
+            - "platform-dev-${{parameters.applicationName}}"
+          serviceConnection: "${{parameters.devServiceConnection}}"
+          subscriptionId: "${{parameters.devSubscriptionId}}"
+          
+   
