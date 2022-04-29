@@ -45,7 +45,7 @@ stages:
                 resourceGroupName: 's141d02-pirean-logicapps'
                 location: 'West Europe'
                 templateLocation: 'Linked artifact'
-                csmFile: '$(Build.ArtifactStagingDirectory)\**\LogicApp.json'
+                csmFile: '$(System.DefaultWorkingDirectory)\**\LogicApp.json'
                 csmParametersFile: '$(System.DefaultWorkingDirectory)\**\LogicApp.parameters.json'
                 overrideParameters: '-logicAppName ''IDAMS-Import-App'' -logicAppLocation ''westeurope'' -azureblob_1_Connection_Name ''IDAMS-Blob-Connection'' -azureblob_1_Connection_DisplayName ''IDAMS-Blob-Connection'' -azureblob_1_accountName ''s141d02periandfstorage'' '
                 deploymentMode: 'Incremental'
