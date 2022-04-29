@@ -24,7 +24,7 @@ stages:
                   publishLocation: 'Container'
   
  
- - stage: 'Deploy Dev'
+ - stage: 'Deploy'
    displayName: 'Deploy Dev'
    dependsOn: 'Build'
    jobs:
