@@ -9,7 +9,7 @@ variables:
 - group: platform-global
 
 stages:
- - template: /templates/stages/pirean-master-logicapp-stage.yml@devopsTemplates
+ - template: /templates/stages/pirean-master-logicapp-stage.yml
    parameters:
      applicationName: idamsdsiapp
     
