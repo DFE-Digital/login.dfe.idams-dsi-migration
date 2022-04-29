@@ -5,6 +5,7 @@ resources:
       type: github
       endpoint: DfE-Digital
       name: DFE-Digital/login.dfe.idams-dsi-migration
+      ref: master
 trigger:
 - master
 
