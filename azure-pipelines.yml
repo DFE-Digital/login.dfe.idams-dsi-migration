@@ -33,21 +33,24 @@ stages:
    displayName: 'Deploy Dev'
    dependsOn: 'Build'
    jobs:
-    - job: Deploy
-      displayName: Deploy
-      steps:
-            -  task: AzureResourceManagerTemplateDeployment@3
-               inputs:
-                deploymentScope: 'Resource Group'
-                azureResourceManagerConnection: 's141d-Pirean.azdo-deployment'
-                subscriptionId: '9d98d71c-7399-47fc-a888-d5ea74c3d8c0'
-                action: 'Create Or Update Resource Group'
-                resourceGroupName: 's141d02-pirean-logicapps'
-                location: 'West Europe'
-                templateLocation: 'Linked artifact'
-                csmFile: '$(System.DefaultWorkingDirectory)\**\LogicApp.json'
-                csmParametersFile: '$(System.DefaultWorkingDirectory)\**\LogicApp.parameters.json'
-                overrideParameters: '-logicAppName IDAMS-Import-App -logicAppLocation westeurope -azureblob_1_Connection_Name IDAMS-Blob-Connection -azureblob_1_Connection_DisplayName IDAMS-Blob-Connection -azureblob_1_accountName s141d02periandfstorage '
-                deploymentMode: 'Incremental'
+   
+      - job: Deploy
+        displayName: Deploy
+        variables: 
+          - group: platform-dev-idamsdsiapp
+        steps:
+              -  task: AzureResourceManagerTemplateDeployment@3
+                 inputs:
+                  deploymentScope: 'Resource Group'
+                  azureResourceManagerConnection: 's141d-Pirean.azdo-deployment'
+                  subscriptionId: '9d98d71c-7399-47fc-a888-d5ea74c3d8c0'
+                  action: 'Create Or Update Resource Group'
+                  resourceGroupName: 's141d02-pirean-logicapps'
+                  location: 'West Europe'
+                  templateLocation: 'Linked artifact'
+                  csmFile: '$(System.DefaultWorkingDirectory)\**\LogicApp.json'
+                  csmParametersFile: '$(System.DefaultWorkingDirectory)\**\LogicApp.parameters.json'
+                  overrideParameters: '-logicAppName $(logicappname) -logicAppLocation $(logicapplocation) -azureblob_1_Connection_Name $(azureblobconnectionname) -azureblob_1_Connection_DisplayName $(azureblobconnectiondisplayname) -azureblob_1_accountName $(azureblobaccountname) -azureblob_1_accessKey $(azureblobaccesskey) -azureblob_1_authType $(azureblobauthtype) -azureblob_1_privacySetting $(azureblobprivacysetting) -office365_1_Connection_Name $(office365connectionname) -office365_1_Connection_DisplayName $(office365connectiondisplayname) '
+                  deploymentMode: 'Incremental'
     
       
