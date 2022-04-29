@@ -1,35 +1,48 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
+name: $(BuildDefinitionName)_tag-$(BuildID)_at-$(Date:yyyyMMdd)$(Rev:.r)
 trigger:
 - master
 
 pool:
   vmImage: 'windows-latest'
-
-steps:
-- task: VSBuild@1
-  inputs:
-    solution: '**\*.sln'
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
-
-- task: AzureResourceManagerTemplateDeployment@3
-  inputs:
-    deploymentScope: 'Resource Group'
-    azureResourceManagerConnection: 's141d-Pirean.azdo-deployment'
-    subscriptionId: '9d98d71c-7399-47fc-a888-d5ea74c3d8c0'
-    action: 'Create Or Update Resource Group'
-    resourceGroupName: 's141d02-pirean-logicapps'
-    location: 'West Europe'
-    templateLocation: 'Linked artifact'
-    csmFile: '$(Build.ArtifactStagingDirectory)\**\LogicApp.json'
-    csmParametersFile: '$(Build.ArtifactStagingDirectory)\**\LogicApp.parameters.json'
-    overrideParameters: '-logicAppName ''IDAMS-Import-App'' -logicAppLocation ''westeurope'' -azureblob_1_Connection_Name ''IDAMS-Blob-Connection'' -azureblob_1_Connection_DisplayName ''IDAMS-Blob-Connection'' -azureblob_1_accountName ''s141d02periandfstorage'' '
-    deploymentMode: 'Incremental'
+stages:
+ - stage: 'Build'
+   displayName: 'Build & Publish Stage'
+   jobs:
+     - job: Build
+       displayName: Build
+       steps:
+            -  task: VSBuild@1
+               inputs:
+                  solution: '**\*.sln' 
+     - job: Publish
+       displayName: Publish
+       steps:
+            -  task: PublishBuildArtifacts@1
+               inputs:
+                  PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+                  ArtifactName: 'drop'
+                  publishLocation: 'Container'
+  
+ 
+ - stage: 'Deploy Dev'
+   displayName: 'Deploy Dev'
+   dependsOn: 'Build'
+   jobs:
+    - job: Build
+      displayName: Build
+      steps:
+            -  task: AzureResourceManagerTemplateDeployment@3
+               inputs:
+                deploymentScope: 'Resource Group'
+                azureResourceManagerConnection: 's141d-Pirean.azdo-deployment'
+                subscriptionId: '9d98d71c-7399-47fc-a888-d5ea74c3d8c0'
+                action: 'Create Or Update Resource Group'
+                resourceGroupName: 's141d02-pirean-logicapps'
+                location: 'West Europe'
+                templateLocation: 'Linked artifact'
+                csmFile: '$(Build.ArtifactStagingDirectory)\**\LogicApp.json'
+                csmParametersFile: '$(Build.ArtifactStagingDirectory)\**\LogicApp.parameters.json'
+                overrideParameters: '-logicAppName ''IDAMS-Import-App'' -logicAppLocation ''westeurope'' -azureblob_1_Connection_Name ''IDAMS-Blob-Connection'' -azureblob_1_Connection_DisplayName ''IDAMS-Blob-Connection'' -azureblob_1_accountName ''s141d02periandfstorage'' '
+                deploymentMode: 'Incremental'
+    
+      
