@@ -21,6 +21,12 @@ stages:
                 PathtoPublish: '$(Build.ArtifactStagingDirectory)'
                 ArtifactName: 'drop'
                 publishLocation: 'Container'
+            - task: CopyFiles@2
+              displayName: Copy files for staging
+              inputs:
+                SourceFolder: $(Build.ArtifactStagingDirectory)
+                TargetFolder: $(System.DefaultWorkingDirectory)
+                CleanTargetFolder: true
   
  
  - stage: 'Deploy'
@@ -40,7 +46,7 @@ stages:
                 location: 'West Europe'
                 templateLocation: 'Linked artifact'
                 csmFile: '$(Build.ArtifactStagingDirectory)\**\LogicApp.json'
-                csmParametersFile: '$(Build.ArtifactStagingDirectory)\**\LogicApp.parameters.json'
+                csmParametersFile: '$(System.DefaultWorkingDirectory)\**\LogicApp.parameters.json'
                 overrideParameters: '-logicAppName ''IDAMS-Import-App'' -logicAppLocation ''westeurope'' -azureblob_1_Connection_Name ''IDAMS-Blob-Connection'' -azureblob_1_Connection_DisplayName ''IDAMS-Blob-Connection'' -azureblob_1_accountName ''s141d02periandfstorage'' '
                 deploymentMode: 'Incremental'
     
