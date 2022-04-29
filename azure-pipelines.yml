@@ -4,9 +4,13 @@ trigger:
 
 pool:
   vmImage: 'windows-latest'
+
+variables:
+- group: platform-global
+
 stages:
  - stage: 'Build'
-   displayName: 'Build & Publish Stage'
+   displayName: 'Build'
    jobs:
      - job: Build
        displayName: Build
@@ -27,8 +31,7 @@ stages:
                 SourceFolder: $(Build.ArtifactStagingDirectory)
                 TargetFolder: $(System.DefaultWorkingDirectory)
                 CleanTargetFolder: true
-  
- 
+   
  - stage: 'Deploy'
    displayName: 'Deploy Dev'
    dependsOn: 'Build'
