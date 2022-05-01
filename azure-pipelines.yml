@@ -19,6 +19,6 @@ variables:
 stages:
  - template: /templates/logicapps/stages/pirean-master-logicapp-stage.yml@devopsTemplates
    parameters:
-     applicationName: idamsdsiapp
+     applicationName: importapp
     
       
