@@ -13,8 +13,8 @@ jobs:
   variables:
   - '${{ each variableGroup in parameters.variableGroups }}': 
   - group: '${{variableGroup}}'
-  - job: Deploy
-        displayName: Deploy
+- job: Deploy
+  displayName: Deploy
         
         steps:
               -  task: AzureResourceManagerTemplateDeployment@3
