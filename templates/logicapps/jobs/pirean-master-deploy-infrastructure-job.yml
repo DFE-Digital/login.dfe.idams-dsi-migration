@@ -13,7 +13,7 @@ jobs:
   variables:
   - '${{ each variableGroup in parameters.variableGroups }}': 
   - group: '${{variableGroup}}'
-    - job: Deploy
+  - job: Deploy
         displayName: Deploy
         
         steps:
