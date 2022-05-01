@@ -5,6 +5,8 @@ parameters:
    type: string
  - name: environmentName
    type: string
+ - name: location
+   type: string
  - name: serviceConnection
    type: string
  - name: subscriptionId
