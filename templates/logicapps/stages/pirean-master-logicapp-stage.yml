@@ -21,7 +21,7 @@ stages:
     jobs:
         - template: ../jobs/pirean-master-deploy-infrastructure-job.yml
           parameters:
-            applicationType: logicapp
+            applicationName: ${{parameters.applicationName}}
             variableGroups:
               - platform-dev
               - "platform-dev-${{parameters.applicationName}}"
