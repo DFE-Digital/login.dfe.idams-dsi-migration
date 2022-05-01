@@ -37,3 +37,4 @@ jobs:
           $(office365connectionname) -office365_1_Connection_DisplayName
           $(office365connectiondisplayname) 
         deploymentMode: Incremental
+
