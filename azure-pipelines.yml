@@ -14,7 +14,8 @@ pool:
 
 variables:
 - group: platform-global
-
+- group: platform-dev
+- group: platform-dev-idamsdsiapp
 stages:
  - template: /templates/logicapps/stages/pirean-master-logicapp-stage.yml@devopsTemplates
    parameters:
