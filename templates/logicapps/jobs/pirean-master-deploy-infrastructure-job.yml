@@ -17,9 +17,9 @@ jobs:
   displayName: 'Package and Deploy : ${{parameters.environmentName}}'
   environment: '${{parameters.environmentName}}'
   variables:
-    - group: platform-global
-    - group: platform-${{parameters.environmentName}}
-    - group: platform-${{parameters.environmentName}}-${{parameters.applicationName}}
+    - group: 'platform-global'
+    - group: 'platform-${{parameters.environmentName}}'
+    - group: 'platform-${{parameters.environmentName}}-${{parameters.applicationName}}'
 - job: Deploy
   displayName: Deploy
         
