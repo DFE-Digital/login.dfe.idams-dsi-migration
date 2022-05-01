@@ -16,7 +16,7 @@ jobs:
     displayName: Deploy
     steps:
       - task: AzureResourceManagerTemplateDeployment@3
-        inputs: null
+        inputs: 
         deploymentScope: Resource Group
         azureResourceManagerConnection: '${{parameters.serviceConnection}}'
         subscriptionId: '${{parameters.subscriptionId}}'
