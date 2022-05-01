@@ -24,7 +24,6 @@ stages:
             applicationName: ${{parameters.applicationName}}
             environmentName: dev
             environmentId: d02
-            resourceGroupName: 
             variableGroups:
               - platform-dev
               - "platform-dev-${{parameters.applicationName}}"
