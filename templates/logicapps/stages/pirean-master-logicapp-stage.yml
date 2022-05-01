@@ -22,6 +22,7 @@ stages:
         - template: ../jobs/pirean-master-deploy-infrastructure-job.yml
           parameters:
             applicationName: ${{parameters.applicationName}}
+            environmentName: dev
             variableGroups:
               - platform-dev
               - "platform-dev-${{parameters.applicationName}}"

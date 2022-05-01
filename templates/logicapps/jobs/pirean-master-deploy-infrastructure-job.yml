@@ -1,6 +1,8 @@
 parameters:
  - name: applicationName
    type: string
+ - name: environmentName
+   type: string
  - name: serviceConnection
    type: string
  - name: subscriptionId
