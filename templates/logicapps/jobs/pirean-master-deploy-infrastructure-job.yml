@@ -28,7 +28,7 @@ jobs:
         ScriptType: 'InlineScript'
         Inline: 'New-AzResourceGroup -Name ${{parameters.resourceGroupName}} -Location "${{parameters.location}}" -Tag ${{parameters.tags}} -Force'
         azurePowerShellVersion: 'LatestVersion'
-    -  task: AzureResourceManagerTemplateDeployment@3
+   - task: AzureResourceManagerTemplateDeployment@3
        inputs:
           deploymentScope: 'Resource Group'
           azureResourceManagerConnection: '${{parameters.serviceConnection}}'
