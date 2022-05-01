@@ -11,12 +11,16 @@ parameters:
    type: string
  - name: variableGroups
    type: object
+ 
 
 jobs:
 - deployment: packageAndDeploy
   displayName: 'Package and Deploy : ${{parameters.environmentName}}'
   environment: '${{parameters.environmentName}}'
- 
+  variables: 
+  - name: applicationResourceGroupName
+    value: '$(platformGlobalIdentifier)-${{parameters.environmentId}}-${{parameters.applicationName}}'
+
 - job: Deploy
   displayName: Deploy
         
@@ -26,7 +30,7 @@ jobs:
      inputs:
         azureSubscription: ${{parameters.serviceConnection}}
         ScriptType: 'InlineScript'
-        Inline: 'New-AzResourceGroup -Name ${{parameters.resourceGroupName}} -Location "${{parameters.location}}" -Tag ${{parameters.tags}} -Force'
+        Inline: 'New-AzResourceGroup -Name $(applicationResourceGroupName) -Location "${{parameters.location}}" -Tag ${{parameters.tags}} -Force'
         azurePowerShellVersion: 'LatestVersion'
    - task: AzureResourceManagerTemplateDeployment@3
      inputs:
