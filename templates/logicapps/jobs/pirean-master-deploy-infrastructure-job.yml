@@ -21,13 +21,12 @@ jobs:
         azureResourceManagerConnection: '${{parameters.serviceConnection}}'
         subscriptionId: '${{parameters.subscriptionId}}'
         action: Create Or Update Resource Group
-        resourceGroupName: >-
-          $(platformGlobalIdentifier)-$(environmentId)-${{parameters.applicationName}}
+        resourceGroupName:  $(platformGlobalIdentifier)-$(environmentId)-${{parameters.applicationName}}
         location: West Europe
         templateLocation: Linked artifact
         csmFile: $(System.DefaultWorkingDirectory)\**\LogicApp.json
         csmParametersFile: $(System.DefaultWorkingDirectory)\**\LogicApp.parameters.json
-        overrideParameters: >-
+        overrideParameters: 
           -tags "$(tags)" -logicAppName $(logicappname) -logicAppLocation
           $(logicapplocation) -azureblob_1_Connection_Name
           $(azureblobconnectionname) -azureblob_1_Connection_DisplayName
