@@ -5,6 +5,8 @@ parameters:
    type: string
  - name: subscriptionId
    type: string
+- name: variableGroups
+  type: object
 
 jobs:
 - deployment: packageAndDeploy
