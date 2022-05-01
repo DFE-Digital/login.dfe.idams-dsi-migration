@@ -25,7 +25,7 @@ jobs:
   displayName: Deploy
   variables: 
   - name: applicationResourceGroupName
-    value: '$(platformGlobalIdentifier)-${{parameters.environmentId}}-${{parameters.applicationName}}'      
+    value: '$(platformGlobalIdentifier)${{parameters.environmentId}}-${{parameters.applicationName}}'      
   steps:
    - task: AzurePowerShell@5
      displayName: Create ResourceGroup with tags
@@ -40,7 +40,7 @@ jobs:
        azureResourceManagerConnection: '${{parameters.serviceConnection}}'
        subscriptionId: '${{parameters.subscriptionId}}'
        action: 'Create Or Update Resource Group'
-       resourceGroupName: '$(platformGlobalIdentifier)-${{parameters.environmentId}}-${{parameters.applicationName}}'
+       resourceGroupName: '$(platformGlobalIdentifier)${{parameters.environmentId}}-${{parameters.applicationName}}'
        location: 'West Europe'
        templateLocation: 'Linked artifact'
        csmFile: '$(System.DefaultWorkingDirectory)\**\LogicApp.json'
