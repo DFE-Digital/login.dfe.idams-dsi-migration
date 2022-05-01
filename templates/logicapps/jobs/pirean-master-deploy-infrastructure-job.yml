@@ -32,7 +32,7 @@ jobs:
      inputs:
         azureSubscription: ${{parameters.serviceConnection}}
         ScriptType: 'InlineScript'
-        Inline: 'New-AzResourceGroup -Name $(applicationResourceGroupName) -Location "${{parameters.location}}" -Tag ${{parameters.tags}} -Force'
+        Inline: 'New-AzResourceGroup -Name $(applicationResourceGroupName) -Location "${{parameters.location}}" -Tag $(Tags) -Force'
         azurePowerShellVersion: 'LatestVersion'
    - task: AzureResourceManagerTemplateDeployment@3
      inputs:
