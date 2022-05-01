@@ -1,6 +1,8 @@
 parameters:
  - name: applicationName
    type: string
+ - name: environmentId
+   type: string
  - name: environmentName
    type: string
  - name: serviceConnection
@@ -27,7 +29,7 @@ jobs:
           azureResourceManagerConnection: '${{parameters.serviceConnection}}'
           subscriptionId: '${{parameters.subscriptionId}}'
           action: 'Create Or Update Resource Group'
-          resourceGroupName: '$(platformGlobalIdentifier)-$(environmentId)-${{parameters.applicationName}}'
+          resourceGroupName: '$(platformGlobalIdentifier)-$(parameters.environmentId)-${{parameters.applicationName}}'
           location: 'West Europe'
           templateLocation: 'Linked artifact'
           csmFile: '$(System.DefaultWorkingDirectory)\**\LogicApp.json'
