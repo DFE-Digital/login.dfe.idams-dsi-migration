@@ -15,8 +15,8 @@ jobs:
   displayName: 'Package and Deploy : ${{parameters.environmentName}}'
   environment: '${{parameters.environmentName}}'
   variables:
-  - '${{ each variableGroup in parameters.variableGroups }}': 
-  - group: '${{variableGroup}}'
+  - '${{ each variableGroup in parameters.variableGroups }}':
+    - group: '${{variableGroup}}'
 - job: Deploy
   displayName: Deploy
         
