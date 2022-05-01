@@ -12,9 +12,6 @@ trigger:
 pool:
   vmImage: 'windows-latest'
 
-variables:
-- group: platform-global
-
 stages:
  - template: /templates/logicapps/stages/pirean-master-logicapp-stage.yml@devopsTemplates
    parameters:
