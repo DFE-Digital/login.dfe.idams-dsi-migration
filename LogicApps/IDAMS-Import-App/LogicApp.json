@@ -109,6 +109,59 @@
     "office365_1_Connection_DisplayName": {
       "type": "string",
       "defaultValue": "Zeeshan.ABBAS@EDUCATION.GOV.UK"
+    },
+    "azureblob_2_Connection_Name": {
+      "type": "string",
+      "defaultValue": "s141d02-pirean-dsiappblobconnector"
+    },
+    "azureblob_2_Connection_DisplayName": {
+      "type": "string",
+      "defaultValue": "s141d02-pirean-dsiappblobconnector"
+    },
+    "azureblob_2_accountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the storage account the connector should use."
+      },
+      "defaultValue": "s141d02periandfstorage"
+    },
+    "azureblob_2_accessKey": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Specify a valid primary/secondary storage account access key."
+      }
+    },
+    "azureblob_2_authType": {
+      "type": "string",
+      "metadata": {
+        "description": "Authentication type to connect to your database"
+      },
+      "defaultValue": "basic",
+      "allowedValues": [
+        "basic",
+        "anonymous"
+      ]
+    },
+    "azureblob_2_privacySetting": {
+      "type": "string",
+      "metadata": {
+        "description": "Privacy Setting"
+      },
+      "defaultValue": "Private",
+      "allowedValues": [
+        "None",
+        "Private",
+        "Organizational",
+        "Public"
+      ]
+    },
+    "office365_2_Connection_Name": {
+      "type": "string",
+      "defaultValue": "s141d02-pirean-dsiappoffice365connector"
+    },
+    "office365_2_Connection_DisplayName": {
+      "type": "string",
+      "defaultValue": "Zeeshan.ABBAS@EDUCATION.GOV.UK"
     }
   },
   "variables": {},
@@ -129,30 +182,76 @@
               "type": "Foreach",
               "foreach": "@triggerBody()?['attachments']",
               "actions": {
-                "Create_blob_(V2)": {
+                "Get_Blob_Metadata_using_path_(V2)": {
                   "type": "ApiConnection",
                   "inputs": {
                     "host": {
                       "connection": {
-                        "name": "@parameters('$connections')['azureblob']['connectionId']"
+                        "name": "@parameters('$connections')['azureblob_1']['connectionId']"
                       }
                     },
-                    "method": "post",
-                    "body": "@base64ToBinary(items('For_each')?['contentBytes'])",
-                    "headers": {
-                      "ReadFileMetadataFromServer": true
-                    },
-                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('AccountNameFromSettings'))}/files",
+                    "method": "get",
+                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('AccountNameFromSettings'))}/GetFileByPath",
                     "queries": {
-                      "folderPath": "/attachments",
-                      "name": "@items('For_each')?['name']",
+                      "path": "/attachments",
                       "queryParametersSingleEncoded": true
                     }
                   },
                   "runAfter": {},
                   "runtimeConfiguration": {
-                    "contentTransfer": {
-                      "transferMode": "Chunked"
+                    "staticResult": {
+                      "name": "Get_Blob_Metadata_using_path_(V2)0",
+                      "staticResultOptions": "Enabled"
+                    }
+                  }
+                },
+                "Condition": {
+                  "type": "If",
+                  "expression": {
+                    "and": [
+                      {
+                        "equals": [
+                          "@body('Get_Blob_Metadata_using_path_(V2)')?['Name']",
+                          "@items('For_each')?['name']"
+                        ]
+                      }
+                    ]
+                  },
+                  "actions": {},
+                  "runAfter": {
+                    "Get_Blob_Metadata_using_path_(V2)": [
+                      "Succeeded"
+                    ]
+                  },
+                  "else": {
+                    "actions": {
+                      "Create_blob_(V2)": {
+                        "type": "ApiConnection",
+                        "inputs": {
+                          "host": {
+                            "connection": {
+                              "name": "@parameters('$connections')['azureblob_1']['connectionId']"
+                            }
+                          },
+                          "method": "post",
+                          "body": "@base64ToBinary(items('For_each')?['contentBytes'])",
+                          "headers": {
+                            "ReadFileMetadataFromServer": true
+                          },
+                          "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('AccountNameFromSettings'))}/files",
+                          "queries": {
+                            "folderPath": "/attachments",
+                            "name": "@items('For_each')?['name']",
+                            "queryParametersSingleEncoded": true
+                          }
+                        },
+                        "runAfter": {},
+                        "runtimeConfiguration": {
+                          "contentTransfer": {
+                            "transferMode": "Chunked"
+                          }
+                        }
+                      }
                     }
                   }
                 }
@@ -172,7 +271,7 @@
               "inputs": {
                 "host": {
                   "connection": {
-                    "name": "@parameters('$connections')['office365_1']['connectionId']"
+                    "name": "@parameters('$connections')['office365']['connectionId']"
                   }
                 },
                 "fetch": {
@@ -206,28 +305,36 @@
             }
           },
           "contentVersion": "1.0.0.0",
-          "outputs": {}
+          "outputs": {},
+          "staticResults": {
+            "Get_Blob_Metadata_using_path_(V2)0": {
+              "status": "Failed",
+              "error": {
+                "message": "newfile"
+              }
+            }
+          }
         },
         "parameters": {
           "$connections": {
             "value": {
-              "office365_1": {
+              "office365": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'office365')]",
-                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('office365_1_Connection_Name'))]",
-                "connectionName": "[parameters('office365_1_Connection_Name')]"
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('office365_2_Connection_Name'))]",
+                "connectionName": "[parameters('office365_2_Connection_Name')]"
               },
-              "azureblob": {
+              "azureblob_1": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azureblob')]",
-                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azureblob_1_Connection_Name'))]",
-                "connectionName": "[parameters('azureblob_1_Connection_Name')]"
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azureblob_2_Connection_Name'))]",
+                "connectionName": "[parameters('azureblob_2_Connection_Name')]"
               }
             }
           }
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Web/connections', parameters('office365_1_Connection_Name'))]",
-        "[resourceId('Microsoft.Web/connections', parameters('azureblob_1_Connection_Name'))]"
+        "[resourceId('Microsoft.Web/connections', parameters('office365_2_Connection_Name'))]",
+        "[resourceId('Microsoft.Web/connections', parameters('azureblob_2_Connection_Name'))]"
       ]
     },
     {
@@ -258,6 +365,36 @@
           "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'office365')]"
         },
         "displayName": "[parameters('office365_1_Connection_DisplayName')]"
+      }
+    },
+    {
+      "type": "MICROSOFT.WEB/CONNECTIONS",
+      "apiVersion": "2018-07-01-preview",
+      "name": "[parameters('azureblob_2_Connection_Name')]",
+      "location": "[parameters('logicAppLocation')]",
+      "properties": {
+        "api": {
+          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azureblob')]"
+        },
+        "displayName": "[parameters('azureblob_2_Connection_DisplayName')]",
+        "parameterValues": {
+          "accountName": "[parameters('azureblob_2_accountName')]",
+          "accessKey": "[parameters('azureblob_2_accessKey')]",
+          "authType": "[parameters('azureblob_2_authType')]",
+          "privacySetting": "[parameters('azureblob_2_privacySetting')]"
+        }
+      }
+    },
+    {
+      "type": "MICROSOFT.WEB/CONNECTIONS",
+      "apiVersion": "2018-07-01-preview",
+      "name": "[parameters('office365_2_Connection_Name')]",
+      "location": "[parameters('logicAppLocation')]",
+      "properties": {
+        "api": {
+          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'office365')]"
+        },
+        "displayName": "[parameters('office365_2_Connection_DisplayName')]"
       }
     }
   ],
