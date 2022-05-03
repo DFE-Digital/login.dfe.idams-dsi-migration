@@ -60,19 +60,21 @@
         "description": "Location of the Logic App."
       }
     },
+       
     "azureblob_1_Connection_Name": {
       "type": "string",
-      "defaultValue": "azureblob"
+      "defaultValue": "s141d02-pirean-dsiappblobconnector"
     },
     "azureblob_1_Connection_DisplayName": {
       "type": "string",
-      "defaultValue": "IDAMS-Blob-Connection"
+      "defaultValue": "s141d02-pirean-dsiappblobconnector"
     },
     "azureblob_1_accountName": {
       "type": "string",
       "metadata": {
         "description": "Name of the storage account the connector should use."
-      }
+      },
+      "defaultValue": "s141d02periandfstorage"
     },
     "azureblob_1_accessKey": {
       "type": "securestring",
@@ -85,64 +87,13 @@
       "metadata": {
         "description": "Authentication type to connect to your database"
       },
-      "allowedValues": [
-        "basic",
-        "anonymous"
-      ]
-    },
-    "azureblob_1_privacySetting": {
-      "type": "string",
-      "metadata": {
-        "description": "Privacy Setting"
-      },
-      "allowedValues": [
-        "None",
-        "Private",
-        "Organizational",
-        "Public"
-      ]
-    },
-    "office365_1_Connection_Name": {
-      "type": "string",
-      "defaultValue": "office365"
-    },
-    "office365_1_Connection_DisplayName": {
-      "type": "string",
-      "defaultValue": "Zeeshan.ABBAS@EDUCATION.GOV.UK"
-    },
-    "azureblob_2_Connection_Name": {
-      "type": "string",
-      "defaultValue": "s141d02-pirean-dsiappblobconnector"
-    },
-    "azureblob_2_Connection_DisplayName": {
-      "type": "string",
-      "defaultValue": "s141d02-pirean-dsiappblobconnector"
-    },
-    "azureblob_2_accountName": {
-      "type": "string",
-      "metadata": {
-        "description": "Name of the storage account the connector should use."
-      },
-      "defaultValue": "s141d02periandfstorage"
-    },
-    "azureblob_2_accessKey": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Specify a valid primary/secondary storage account access key."
-      }
-    },
-    "azureblob_2_authType": {
-      "type": "string",
-      "metadata": {
-        "description": "Authentication type to connect to your database"
-      },
       "defaultValue": "basic",
       "allowedValues": [
         "basic",
         "anonymous"
       ]
     },
-    "azureblob_2_privacySetting": {
+    "azureblob_1_privacySetting": {
       "type": "string",
       "metadata": {
         "description": "Privacy Setting"
@@ -155,11 +106,11 @@
         "Public"
       ]
     },
-    "office365_2_Connection_Name": {
+    "office365_1_Connection_Name": {
       "type": "string",
       "defaultValue": "s141d02-pirean-dsiappoffice365connector"
     },
-    "office365_2_Connection_DisplayName": {
+    "office365_1_Connection_DisplayName": {
       "type": "string",
       "defaultValue": "Zeeshan.ABBAS@EDUCATION.GOV.UK"
     }
@@ -320,21 +271,21 @@
             "value": {
               "office365": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'office365')]",
-                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('office365_2_Connection_Name'))]",
-                "connectionName": "[parameters('office365_2_Connection_Name')]"
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('office365_1_Connection_Name'))]",
+                "connectionName": "[parameters('office365_1_Connection_Name')]"
               },
               "azureblob_1": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azureblob')]",
-                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azureblob_2_Connection_Name'))]",
-                "connectionName": "[parameters('azureblob_2_Connection_Name')]"
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azureblob_1_Connection_Name'))]",
+                "connectionName": "[parameters('azureblob_1_Connection_Name')]"
               }
             }
           }
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Web/connections', parameters('office365_2_Connection_Name'))]",
-        "[resourceId('Microsoft.Web/connections', parameters('azureblob_2_Connection_Name'))]"
+        "[resourceId('Microsoft.Web/connections', parameters('office365_1_Connection_Name'))]",
+        "[resourceId('Microsoft.Web/connections', parameters('azureblob_1_Connection_Name'))]"
       ]
     },
     {
@@ -367,36 +318,7 @@
         "displayName": "[parameters('office365_1_Connection_DisplayName')]"
       }
     },
-    {
-      "type": "MICROSOFT.WEB/CONNECTIONS",
-      "apiVersion": "2018-07-01-preview",
-      "name": "[parameters('azureblob_2_Connection_Name')]",
-      "location": "[parameters('logicAppLocation')]",
-      "properties": {
-        "api": {
-          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azureblob')]"
-        },
-        "displayName": "[parameters('azureblob_2_Connection_DisplayName')]",
-        "parameterValues": {
-          "accountName": "[parameters('azureblob_2_accountName')]",
-          "accessKey": "[parameters('azureblob_2_accessKey')]",
-          "authType": "[parameters('azureblob_2_authType')]",
-          "privacySetting": "[parameters('azureblob_2_privacySetting')]"
-        }
-      }
-    },
-    {
-      "type": "MICROSOFT.WEB/CONNECTIONS",
-      "apiVersion": "2018-07-01-preview",
-      "name": "[parameters('office365_2_Connection_Name')]",
-      "location": "[parameters('logicAppLocation')]",
-      "properties": {
-        "api": {
-          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'office365')]"
-        },
-        "displayName": "[parameters('office365_2_Connection_DisplayName')]"
-      }
-    }
+    
   ],
   "outputs": {}
 }
