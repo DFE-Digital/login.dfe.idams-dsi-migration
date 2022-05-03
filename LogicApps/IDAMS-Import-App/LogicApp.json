@@ -317,7 +317,7 @@
         },
         "displayName": "[parameters('office365_1_Connection_DisplayName')]"
       }
-    },
+    }
     
   ],
   "outputs": {}
