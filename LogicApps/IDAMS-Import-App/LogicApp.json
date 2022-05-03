@@ -132,7 +132,7 @@
               "type": "Foreach",
               "foreach": "@triggerBody()?['attachments']",
               "actions": {
-                "Get_Blob_Metadata_using_path_(V2)": {
+                "Lists_blobs_(V2)": {
                   "type": "ApiConnection",
                   "inputs": {
                     "host": {
@@ -141,70 +141,113 @@
                       }
                     },
                     "method": "get",
-                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('AccountNameFromSettings'))}/GetFileByPath",
+                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('AccountNameFromSettings'))}/foldersV2/@{encodeURIComponent(encodeURIComponent('/attachments'))}",
                     "queries": {
-                      "path": "/attachments",
-                      "queryParametersSingleEncoded": true
+                      "nextPageMarker": "",
+                      "useFlatListing": false
                     }
                   },
-                  "runAfter": {},
-                  "runtimeConfiguration": {
-                    "staticResult": {
-                      "name": "Get_Blob_Metadata_using_path_(V2)0",
-                      "staticResultOptions": "Disabled"
+                  "runAfter": {}
+                },
+                "For_each_2": {
+                  "type": "Foreach",
+                  "foreach": "@body('Lists_blobs_(V2)')?['value']",
+                  "actions": {
+                    "Condition": {
+                      "type": "If",
+                      "expression": {
+                        "and": [
+                          {
+                            "equals": [
+                              "@items('For_each_2')?['Name']",
+                              "@items('For_each')?['name']"
+                            ]
+                          }
+                        ]
+                      },
+                      "actions": {
+                        "Set_variable": {
+                          "type": "SetVariable",
+                          "inputs": {
+                            "name": "fileexists",
+                            "value": true
+                          },
+                          "runAfter": {}
+                        }
+                      },
+                      "runAfter": {}
                     }
+                  },
+                  "runAfter": {
+                    "Lists_blobs_(V2)": [
+                      "Succeeded"
+                    ]
                   }
                 },
-                "Condition": {
+                "Condition_2": {
                   "type": "If",
                   "expression": {
                     "and": [
                       {
                         "equals": [
-                          "@body('Get_Blob_Metadata_using_path_(V2)')?['Name']",
-                          "@items('For_each')?['name']"
+                          "@variables('fileexists')",
+                          false
                         ]
                       }
                     ]
                   },
-                  "actions": {},
-                  "runAfter": {
-                    "Get_Blob_Metadata_using_path_(V2)": [
-                      "Succeeded"
-                    ]
-                  },
-                  "else": {
-                    "actions": {
-                      "Create_blob_(V2)": {
-                        "type": "ApiConnection",
-                        "inputs": {
-                          "host": {
-                            "connection": {
-                              "name": "@parameters('$connections')['azureblob_1']['connectionId']"
-                            }
-                          },
-                          "method": "post",
-                          "body": "@base64ToBinary(items('For_each')?['contentBytes'])",
-                          "headers": {
-                            "ReadFileMetadataFromServer": true
-                          },
-                          "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('AccountNameFromSettings'))}/files",
-                          "queries": {
-                            "folderPath": "/attachments",
-                            "name": "@items('For_each')?['name']",
-                            "queryParametersSingleEncoded": true
+                  "actions": {
+                    "Create_blob_(V2)": {
+                      "type": "ApiConnection",
+                      "inputs": {
+                        "host": {
+                          "connection": {
+                            "name": "@parameters('$connections')['azureblob_1']['connectionId']"
                           }
                         },
-                        "runAfter": {},
-                        "runtimeConfiguration": {
-                          "contentTransfer": {
-                            "transferMode": "Chunked"
-                          }
+                        "method": "post",
+                        "body": "@base64ToBinary(items('For_each')?['contentBytes'])",
+                        "headers": {
+                          "ReadFileMetadataFromServer": true
+                        },
+                        "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('AccountNameFromSettings'))}/files",
+                        "queries": {
+                          "folderPath": "/attachments",
+                          "name": "@items('For_each')?['name']",
+                          "queryParametersSingleEncoded": true
+                        }
+                      },
+                      "runAfter": {},
+                      "runtimeConfiguration": {
+                        "contentTransfer": {
+                          "transferMode": "Chunked"
                         }
                       }
                     }
+                  },
+                  "runAfter": {
+                    "For_each_2": [
+                      "Succeeded"
+                    ]
                   }
                 }
+              },
+              "runAfter": {
+                "Initialize_variable": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Initialize_variable": {
+              "type": "InitializeVariable",
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "fileexists",
+                    "type": "boolean",
+                    "value": false
+                  }
+                ]
               },
               "runAfter": {}
             }
@@ -255,36 +298,28 @@
             }
           },
           "contentVersion": "1.0.0.0",
-          "outputs": {},
-          "staticResults": {
-            "Get_Blob_Metadata_using_path_(V2)0": {
-              "status": "Failed",
-              "error": {
-                "message": "newfile"
-              }
-            }
-          }
+          "outputs": {}
         },
         "parameters": {
           "$connections": {
             "value": {
-              "azureblob_1": {
-                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azureblob')]",
-                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azureblob_1_Connection_Name'))]",
-                "connectionName": "[parameters('azureblob_1_Connection_Name')]"
-              },
               "office365": {
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'office365')]",
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('office365_1_Connection_Name'))]",
                 "connectionName": "[parameters('office365_1_Connection_Name')]"
+              },
+              "azureblob_1": {
+                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azureblob')]",
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azureblob_1_Connection_Name'))]",
+                "connectionName": "[parameters('azureblob_1_Connection_Name')]"
               }
             }
           }
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Web/connections', parameters('azureblob_1_Connection_Name'))]",
-        "[resourceId('Microsoft.Web/connections', parameters('office365_1_Connection_Name'))]"
+        "[resourceId('Microsoft.Web/connections', parameters('office365_1_Connection_Name'))]",
+        "[resourceId('Microsoft.Web/connections', parameters('azureblob_1_Connection_Name'))]"
       ]
     },
     {
