@@ -39,6 +39,7 @@ stages:
   - template: ../jobs/pirean-master-standalone-deploy-infrastructure-job.yml
     parameters:
       configFileName: '${{parameters.applicationName}}'
+      applicationName: '${{parameters.applicationName}}'
       applicationType: standalone
       variableGroups:
       - platform-dev
