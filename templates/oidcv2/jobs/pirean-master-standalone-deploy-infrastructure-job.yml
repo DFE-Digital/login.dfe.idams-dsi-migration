@@ -88,7 +88,7 @@ jobs:
           inputs:
             archiveFilePatterns: '$(Pipeline.Workspace)\${{parameters.artifactName}}\${{parameters.artifactName}}.zip'
             destinationFolder: '$(System.DefaultWorkingDirectory)\${{parameters.artifactName}}\'
-        # - '${{ if eq(parameters.applicationType, ''gateway'') }}':
+        
         - pwsh: |
             Write-Host "##vso[task.setvariable variable=standaloneHostEnv]${{parameters.environmentName}}"
         - template: ../Infrastructure/steps/deploy-template.yml
@@ -101,6 +101,7 @@ jobs:
             armParameterOverrideString: ' -appServiceName "$(applicationBaseName)"  -appServicePlanName "$(applicationBaseName)-asp"  -appServiceConfigPath "$(appServiceConfigPath)"  -appServicePlanRG "$(applicationResourceGroupName)"  -minTlsVersion "$(platformGlobalMinTlsVersion)"  -certificateName "${{parameters.certificateName}}" -appServicePlanSku "$(appServiceSku)" -numberOfWorkers "$(numberOfWorkers)" -keyVaultName "$(globalKeyVaultName)"  -keyVaultResourceGroup "$(globalResourceGroupName)" -auditServiceBusConnectionString "$(auditServiceBusConnectionString)"  -auditServiceBusTopicName "$(auditServiceBusTopicName)"  -auditServiceBusSubscriptionName "$(auditServiceBusSubscriptionName)"'
             processOutputs: false
             tags: $(Tags)
+            applicationName: '${{parameters.environmentName}}'
        
         - pwsh: |
             Write-Host "##vso[task.setvariable variable=standaloneHostEnv]${{parameters.standaloneHostEnvPrefix}}"
