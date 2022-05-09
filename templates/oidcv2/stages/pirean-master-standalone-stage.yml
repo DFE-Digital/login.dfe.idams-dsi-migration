@@ -29,6 +29,7 @@ stages:
   jobs:
   - template: ../jobs/pirean-master-build-job.yml
     parameters:
+      applicationName: '${{parameters.applicationName}}'
       artifactName: '${{parameters.applicationName}}-$(Build.BuildId)'
       additionalFoldersForBuild: '${{parameters.additionalFoldersForBuild}}'
 - stage: deployDev
