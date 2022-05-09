@@ -1,6 +1,7 @@
 parameters:
 - name: applicationName
   type: string
+  default: oidc-v2
 - name: additionalFoldersForBuild
   type: object
   default: {}
