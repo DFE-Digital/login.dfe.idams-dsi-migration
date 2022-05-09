@@ -3,7 +3,7 @@ parameters:
   type: string
 - name: customFeedId
   type: string
-  default: 'Pirean-Migration-Default'
+  default: '25e8bd25-6f65-4bb8-9d2f-cfbd0d0edace'
 - name:  artifactName
   type: string
 - name: additionalFoldersForBuild
