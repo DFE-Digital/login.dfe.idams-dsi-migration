@@ -101,14 +101,14 @@ jobs:
             armParameterOverrideString: ' -appServiceName "$(applicationBaseName)"  -appServicePlanName "$(applicationBaseName)-asp"  -appServiceConfigPath "$(appServiceConfigPath)"  -appServicePlanRG "$(applicationResourceGroupName)"  -minTlsVersion "$(platformGlobalMinTlsVersion)"  -certificateName "${{parameters.certificateName}}" -appServicePlanSku "$(appServiceSku)" -numberOfWorkers "$(numberOfWorkers)" -keyVaultName "$(globalKeyVaultName)"  -keyVaultResourceGroup "$(globalResourceGroupName)" -auditServiceBusConnectionString "$(auditServiceBusConnectionString)"  -auditServiceBusTopicName "$(auditServiceBusTopicName)"  -auditServiceBusSubscriptionName "$(auditServiceBusSubscriptionName)"'
             processOutputs: false
             tags: $(Tags)
-            applicationName: '${{parameters.environmentName}}'
+            
        
         - pwsh: |
             Write-Host "##vso[task.setvariable variable=standaloneHostEnv]${{parameters.standaloneHostEnvPrefix}}"
           displayName: 'Set host env prefix : ${{parameters.standaloneHostEnvPrefix}}'
         - template: ../steps/pirean-master-get-config-standalone-step.yml
           parameters:
-                        
+            applicationName: '${{parameters.environmentName}}'            
             artifactName: '${{parameters.artifactName}}'
             environmentName: '${{parameters.environmentName}}'
             pm2ProcessFileName: '${{parameters.pm2ProcessFileName}}'
