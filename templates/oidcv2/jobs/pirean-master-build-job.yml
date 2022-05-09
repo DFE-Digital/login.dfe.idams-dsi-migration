@@ -37,7 +37,7 @@ jobs:
       command: custom
       workingDir: $(Build.Repository.LocalPath)
       verbose: true
-      customCommand: install --force --json --no-package-lock
+      customCommand: install --force --json
       customRegistry: useFeed
       customFeed: ${{parameters.customFeedId}}
   
