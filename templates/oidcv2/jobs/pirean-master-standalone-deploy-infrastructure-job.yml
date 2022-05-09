@@ -108,7 +108,7 @@ jobs:
           displayName: 'Set host env prefix : ${{parameters.standaloneHostEnvPrefix}}'
         - template: ../steps/pirean-master-get-config-standalone-step.yml
           parameters:
-            applicationName: '${{parameters.environmentName}}'            
+            applicationName: '${{parameters.applicationName}}'            
             artifactName: '${{parameters.artifactName}}'
             environmentName: '${{parameters.environmentName}}'
             pm2ProcessFileName: '${{parameters.pm2ProcessFileName}}'
