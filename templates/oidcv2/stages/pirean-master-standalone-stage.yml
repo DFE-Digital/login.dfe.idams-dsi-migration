@@ -57,19 +57,19 @@ stages:
 #       releaseArtifactName: '${{parameters.applicationName}}-dev-$(Build.BuildId)-release'
 #       certificateName: $(certificateName)
 # - template: pirean-master-publish-standalone-stage.yml
-  parameters:
+  # parameters:
           
-      variableGroups:
-      - platform-dev
-      - platform-dev-secured
-      - 'platform-dev-${{parameters.applicationName}}'
+  #     variableGroups:
+  #     - platform-dev
+  #     - platform-dev-secured
+  #     - 'platform-dev-${{parameters.applicationName}}'
       
-      serviceConnection: '${{parameters.devServiceConnection}}'
-      resourceGroupSuffix: '${{parameters.resourceGroupSuffix}}'
-      environmentName: dev
-      environmentId: d01
-      releaseArtifactName: '${{parameters.applicationName}}-dev-$(Build.BuildId)-release'
-      deploymentDependencyName: deployDev
-      stageName: publishDevStandalone
+  #     serviceConnection: '${{parameters.devServiceConnection}}'
+  #     resourceGroupSuffix: '${{parameters.resourceGroupSuffix}}'
+  #     environmentName: dev
+  #     environmentId: d01
+  #     releaseArtifactName: '${{parameters.applicationName}}-dev-$(Build.BuildId)-release'
+  #     deploymentDependencyName: deployDev
+  #     stageName: publishDevStandalone
 
     
