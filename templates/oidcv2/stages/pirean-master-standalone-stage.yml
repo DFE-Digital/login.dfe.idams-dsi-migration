@@ -1,0 +1,72 @@
+parameters:
+- name: applicationName
+  type: string
+- name: additionalFoldersForBuild
+  type: object
+  default: {}
+- name: resourceGroupSuffix
+  type: string
+- name: devServiceConnection
+  type: string
+  default: S141D.bsvc.cip.azdo
+- name: devSubscriptionId
+  type: string
+  default: 9d98d71c-7399-47fc-a888-d5ea74c3d8c0
+- name: testServiceConnection
+  type: string
+  default: S141T.bsvc.cip.azdo
+- name: testSubscriptionId
+  type: string
+  default: 7226bf32-6f0e-4e2f-aca4-e5f6a3546d14
+
+- name: armTemplateName
+  type: string
+  default: template.json
+stages:
+- stage: build
+  displayName: Build
+  jobs:
+  - template: ../jobs/pirean-master-build-job.yml
+    parameters:
+      artifactName: '${{parameters.applicationName}}-$(Build.BuildId)'
+      additionalFoldersForBuild: '${{parameters.additionalFoldersForBuild}}'
+- stage: deployDev
+  dependsOn: build
+  displayName: 'Package & Deploy [DEV]'
+  jobs:
+  - template: ../jobs/pirean-master-standalone-deploy-infrastructure-job.yml
+    parameters:
+      configFileName: '${{parameters.applicationName}}'
+      applicationType: standalone
+      variableGroups:
+      - platform-dev
+      - platform-dev-secured
+      - platform-standalone-custom-hosts
+      - 'platform-dev-${{parameters.applicationName}}'
+      standaloneHostEnvPrefix: dev
+      serviceConnection: '${{parameters.devServiceConnection}}'
+      subscriptionId: '${{parameters.devSubscriptionId}}'
+      environmentName: dev
+      environmentId: d02
+      artifactName: '${{parameters.applicationName}}-$(Build.BuildId)'
+      resourceGroupSuffix: '${{parameters.resourceGroupSuffix}}'
+      armTemplatePath: 'login.dfe.${{parameters.applicationName}}/azure/${{parameters.armTemplateName}}'
+      releaseArtifactName: '${{parameters.applicationName}}-dev-$(Build.BuildId)-release'
+      certificateName: $(certificateName)
+- template: pirean-master-publish-standalone-stage.yml
+  parameters:
+          
+      variableGroups:
+      - platform-dev
+      - platform-dev-secured
+      - 'platform-dev-${{parameters.applicationName}}'
+      
+      serviceConnection: '${{parameters.devServiceConnection}}'
+      resourceGroupSuffix: '${{parameters.resourceGroupSuffix}}'
+      environmentName: dev
+      environmentId: d01
+      releaseArtifactName: '${{parameters.applicationName}}-dev-$(Build.BuildId)-release'
+      deploymentDependencyName: deployDev
+      stageName: publishDevStandalone
+
+    

@@ -1,0 +1,96 @@
+parameters:
+- name: serviceConnection
+  type: string
+- name: environmentName
+  type: string
+- name: environmentId
+  type: string
+- name: releaseArtifactName
+  type: string
+- name: applicationName
+  type: string
+- name: resourceGroupSuffix
+  type: string
+- name: variableGroups
+  type: object
+
+- name: slotName
+  type: string
+  default: staging
+- name: runtimeStack
+  type: string
+  default: NODE|10.14
+  values:
+  - NODE|10-lts
+  - NODE|10.10
+  - NODE|10.12
+  - NODE|10.14
+  - NODE|10.16
+  - NODE|12.9
+  - NODE|12-lts
+- name: agentImage
+  displayName: Pool Image
+  type: string
+  default: ubuntu-latest
+  values:
+  - windows-latest
+  - windows-2019
+  - vs2017-win2016
+  - ubuntu-latest
+  - ubuntu-18.04
+  - ubuntu-16.04
+  - macOS-latest
+  - macOS-10.15
+  - macOS-10.14
+
+jobs:
+- deployment: publish
+  displayName: 'Publish : ${{parameters.environmentName}}'
+  environment: '${{parameters.environmentName}}'
+  pool:
+    vmImage: '${{parameters.agentImage}}'
+  variables:
+  - '${{ each variableGroup in parameters.variableGroups }}':
+    - group: ${{variableGroup}}
+  - name: applicationBaseName
+    value: $(platformGlobalIdentifier)${{parameters.environmentId}}-$(platformGlobalName)-${{parameters.applicationName}}
+  - name: applicationResourceGroupName
+    value: '$(platformGlobalIdentifier)${{parameters.environmentId}}-${{parameters.resourceGroupSuffix}}'
+  - name: appServiceConfigPath
+    value: ./config/login.dfe.${{parameters.applicationName}}.${{parameters.environmentName}}.json
+  - name: sharedResourceGroupName
+    value: $(platformGlobalIdentifier)${{parameters.environmentId}}-$(platformGlobalSharedResourceGroupNameIdentifier)
+  - name: keyVaultName
+    value: $(platformGlobalIdentifier)${{parameters.environmentId}}-$(platformGlobalName)-$(platformGlobalSharedResourceGroupNameIdentifier)-kv
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - task: AzureRmWebAppDeployment@4
+          displayName: Deploy Azure App Service
+          inputs:
+            azureSubscription: '${{parameters.serviceConnection}}'
+            appType: webAppLinux
+            WebAppName: $(applicationBaseName)
+            deployToSlotOrASE: true
+            ResourceGroupName: $(applicationResourceGroupName)
+            SlotName: '${{parameters.slotName}}'
+            packageForLinux: '$(Pipeline.Workspace)/${{parameters.releaseArtifactName}}/${{parameters.releaseArtifactName}}.zip'
+            RuntimeStack: '${{parameters.runtimeStack}}'
+            WebConfigParameters: '-Handler iisnode -NodeStartFile $(platformGlobalNodeStart) -appType node'
+            enableCustomDeployment: true
+            TakeAppOfflineFlag: false
+            RemoveAdditionalFilesFlag: true
+            ExcludeFilesFromAppDataFlag: false
+        - template: ../steps/signin-master-healthcheck-step.yml
+          parameters:
+            testUrl: https://$(applicationBaseName)-${{parameters.slotName}}.azurewebsites.net
+            healthCheckEndpoint: healthcheck
+        - task: AzureAppServiceManage@0
+          displayName: Swap Slots
+          inputs:
+            azureSubscription: '${{parameters.serviceConnection}}'
+            WebAppName: $(applicationBaseName)
+            ResourceGroupName: $(applicationResourceGroupName)
+            SourceSlot: '${{parameters.slotName}}'
+        

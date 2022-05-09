@@ -1,0 +1,54 @@
+parameters:
+- name: artifactName
+  type: string
+- name: applicationName
+  type: string
+- name: environmentName
+  type: string
+- name: pm2ProcessFileName
+  type: string
+steps:
+- checkout: config
+- task: CopyFiles@2
+  displayName: 'Copy config for ${{parameters.environmentName}}'
+  inputs:
+    SourceFolder: $(System.DefaultWorkingDirectory)
+    Contents: |
+      $(Build.SourcesDirectory)\config\${{parameters.environmentName}}\oidc-standalone-v2.json
+    TargetFolder: $(System.DefaultWorkingDirectory)\${{parameters.artifactName}}\Publish\config
+    CleanTargetFolder: true
+    flattenFolders: true
+- task: CopyFiles@2
+  displayName: 'Copy pm2 process file'
+  inputs:
+    SourceFolder: $(System.DefaultWorkingDirectory)
+    Contents: |
+        $(Build.SourcesDirectory)\config\${{parameters.environmentName}}\${{parameters.pm2ProcessFileName}}
+    TargetFolder: $(System.DefaultWorkingDirectory)\${{parameters.artifactName}}\Publish
+    flattenFolders: true
+    CleanTargetFolder: false
+- task: Tokenization@2
+  displayName: Tokenise config file
+  inputs:
+    SourcePath: '$(System.DefaultWorkingDirectory)\${{parameters.artifactName}}\Publish\config'
+    TargetFileNames: 'oidc-standalone-v2.json'
+    RequireVariable: true
+    TokenStart: '{{'
+    TokenEnd: '}}'
+- task: Tokenization@2
+  displayName: Tokenise process file
+  inputs:
+    SourcePath: '$(System.DefaultWorkingDirectory)\${{parameters.artifactName}}\Publish'
+    TargetFileNames: ${{parameters.pm2ProcessFileName}}
+    RequireVariable: true
+    TokenStart: '{{'
+    TokenEnd: '}}'
+- pwsh: |
+    $fileName = "$(System.DefaultWorkingDirectory)\${{parameters.artifactName}}\Publish\config\login.dfe.${{parameters.applicationName}}.${{parameters.environmentName}}.json"
+    if (Test-Path $fileName) {
+        write-host existing config found, deleting
+        Remove-Item $fileName
+    }
+    write-host renaming pre-built config for ${{parameters.applicationName}} [${{parameters.environmentName}}]
+    Rename-Item -path $(System.DefaultWorkingDirectory)\${{parameters.artifactName}}\Publish\config\${{parameters.applicationName}}-standalone.json -newname $(System.DefaultWorkingDirectory)\${{parameters.artifactName}}\Publish\config\login.dfe.${{parameters.applicationName}}.${{parameters.environmentName}}.json
+  displayName: Rename config file

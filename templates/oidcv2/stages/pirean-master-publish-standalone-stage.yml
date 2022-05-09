@@ -1,0 +1,33 @@
+parameters:
+- name: variableGroups
+  type: object
+- name: serviceConnection
+  type: string
+- name: applicationName
+  type: string
+- name: resourceGroupSuffix
+  type: string
+- name: environmentName
+  type: string
+- name: environmentId
+  type: string
+- name: releaseArtifactName
+  type: string
+- name: deploymentDependencyName
+  type: string
+- name: stageName
+  type: string
+stages:
+- stage: '${{parameters.stageName}}'
+  dependsOn: '${{parameters.deploymentDependencyName}}'
+  displayName: 'Standalone Publish to ${{parameters.environmentName}} [${{parameters.environmentId}}]'
+  jobs:
+  - template: ../jobs/signin-master-publish-standalone-application-job.yml
+    parameters:
+      serviceConnection: '${{parameters.serviceConnection}}'
+      environmentName: '${{parameters.environmentName}}'
+      environmentId: '${{parameters.environmentId}}'
+      releaseArtifactName: '${{parameters.releaseArtifactName}}'
+      applicationName: '${{parameters.applicationName}}'
+      resourceGroupSuffix: '${{parameters.resourceGroupSuffix}}'
+      variableGroups: '${{parameters.variableGroups}}'

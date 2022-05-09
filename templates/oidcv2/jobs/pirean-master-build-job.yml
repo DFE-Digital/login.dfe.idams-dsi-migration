@@ -1,0 +1,86 @@
+parameters:
+- name: applicationName
+  type: string
+- name: customFeedId
+  type: string
+  default: '25763a8a-0ad8-43cf-a6a5-c0fcea6b74a7'
+- name:  artifactName
+  type: string
+- name: additionalFoldersForBuild
+  type: object
+- name: agentImage
+  type: string
+  default: ubuntu-latest
+  values:
+  - windows-latest
+  - windows-2019
+  - vs2017-win2016
+  - ubuntu-latest
+  - ubuntu-18.04
+  - ubuntu-16.04
+  - macOS-latest
+  - macOS-10.15
+  - macOS-10.14
+jobs:
+- job: nodeBuild
+  displayName: 'Build ${{parameters.applicationName}}'
+  pool:
+    vmImage: '${{parameters.agentImage}}'
+  steps:
+  - task: NodeTool@0
+    displayName: 'Install Node.js'
+    inputs:
+      versionSpec: '14.18.1'  
+  - task: Npm@1
+    displayName: Npm install
+    inputs:
+      command: custom
+      workingDir: $(Build.Repository.LocalPath)
+      verbose: true
+      customCommand: install --force --json --no-package-lock
+      customRegistry: useFeed
+      customFeed: ${{parameters.customFeedId}}
+  
+  - task: Npm@1
+    displayName: Npm prune fix
+    inputs:
+      command: custom
+      workingDir: $(Build.Repository.LocalPath)
+      verbose: false
+      customCommand: install --production --json --force --no-package-lock
+      customRegistry: useFeed
+      customFeed: ${{parameters.customFeedId}}
+  - task: CopyFiles@2
+    displayName: Copy files for staging
+    inputs:
+      SourceFolder: $(Build.Repository.LocalPath)
+      Contents: |
+        app_data/**
+        azure/**
+        config/**
+        node_modules/**
+        src/**
+        package.json
+      TargetFolder: $(System.DefaultWorkingDirectory)/Publish
+      CleanTargetFolder: true
+  - ${{ each folder in parameters.additionalFoldersForBuild }}:
+    - task: CopyFiles@2
+      displayName: 'Copy $(Build.Repository.LocalPath)/${{folder}} to build output'
+      inputs:
+        SourceFolder: '$(System.DefaultWorkingDirectory)'
+        Contents: $(Build.Repository.LocalPath)/${{folder}}
+        TargetFolder: '$(System.DefaultWorkingDirectory)/Publish'
+  - task: ArchiveFiles@1
+    displayName: Build Artifact
+    inputs:
+      rootFolder: $(System.DefaultWorkingDirectory)/Publish
+      includeRootFolder: true
+      archiveType: zip
+      archiveFile: $(Build.ArtifactStagingDirectory)/${{parameters.artifactName}}.zip
+      replaceExistingArchive: true
+  - task: PublishPipelineArtifact@1
+    displayName: Publish Pipeline Artifact
+    inputs:
+      targetPath: $(Build.ArtifactStagingDirectory)/${{parameters.artifactName}}.zip
+      artifact: ${{parameters.artifactName}}
+      publishLocation: 'pipeline'

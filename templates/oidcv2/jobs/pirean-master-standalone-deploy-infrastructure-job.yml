@@ -1,0 +1,125 @@
+parameters:
+- name: serviceConnection
+  type: string
+- name: subscriptionId
+  type: string
+- name: environmentName
+  type: string
+- name: environmentId
+  type: string
+- name: artifactName
+  type: string
+- name: releaseArtifactName
+  type: string
+- name: applicationName
+  type: string
+- name: resourceGroupSuffix
+  type: string
+- name: pm2ProcessFileName
+  type: string
+  default: process.json
+- name: certificateName
+  type: string
+- name: armTemplatePath
+  type: string
+- name: variableGroups
+  type: object
+- name: deploymentLocation
+  type: string
+  default: westeurope
+- name: standaloneHostEnvPrefix
+  type: string
+  default: ''
+- name: applicationType
+  type: string
+  values:
+  - standalone
+  - gateway
+- name: configFileName
+  type: string
+  
+- name: agentImage
+  displayName: Pool Image
+  type: string
+  default: windows-latest
+  values:
+  - windows-latest
+  - windows-2019
+  - vs2017-win2016
+  - ubuntu-latest
+  - ubuntu-18.04
+  - ubuntu-16.04
+  - macOS-latest
+  - macOS-10.15
+  - macOS-10.14
+jobs:
+- deployment: packageAndDeploy
+  displayName: 'Package and Deploy : ${{parameters.environmentName}}'
+  environment: '${{parameters.environmentName}}'
+  pool:
+    vmImage: '${{parameters.agentImage}}'
+  variables:
+      
+  - '${{ each variableGroup in parameters.variableGroups }}':
+    - group: '${{variableGroup}}'
+  - name: applicationBaseName
+    value: '$(platformGlobalIdentifier)${{parameters.environmentId}}-$(platformGlobalName)-${{parameters.applicationName}}'
+  - name: applicationResourceGroupName
+    value: '$(platformGlobalIdentifier)${{parameters.environmentId}}-${{parameters.resourceGroupSuffix}}'
+  - name: appServiceConfigPath
+    value: './config/login.dfe.${{parameters.configFileName}}.${{parameters.environmentName}}.json'
+  - name: sharedResourceGroupName
+    value: '$(platformGlobalIdentifier)${{parameters.environmentId}}-$(platformGlobalSharedResourceGroupNameIdentifier)'
+  - name: globalResourceGroupName
+    value: '$(platformGlobalIdentifier)${{parameters.environmentId}}-$(platformGlobalName)-global'
+  - name: keyVaultName
+    value: '$(platformGlobalIdentifier)${{parameters.environmentId}}-$(platformGlobalName)-$(platformGlobalSharedResourceGroupNameIdentifier)-kv'
+  - name: globalKeyVaultName
+    value: '$(platformGlobalIdentifier)${{parameters.environmentId}}-$(platformGlobalName)-global-kv'
+  - name: environmentId
+    value: '${{parameters.environmentId}}'
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - checkout: self
+        - task: ExtractFiles@1
+          displayName: Unzip Artifact
+          inputs:
+            archiveFilePatterns: '$(Pipeline.Workspace)\${{parameters.artifactName}}\${{parameters.artifactName}}.zip'
+            destinationFolder: '$(System.DefaultWorkingDirectory)\${{parameters.artifactName}}\'
+        # - '${{ if eq(parameters.applicationType, ''gateway'') }}':
+        - pwsh: |
+            Write-Host "##vso[task.setvariable variable=standaloneHostEnv]${{parameters.environmentName}}"
+        - template: ../../Infrastructure/steps/deploy-template.yml
+          parameters:
+            serviceConnection: '${{parameters.serviceConnection}}'
+            subscriptionId: '${{parameters.subscriptionId}}'
+            resourceGroupName: $(applicationResourceGroupName)
+            location: '${{parameters.deploymentLocation}}'
+            templateFilePath: '${{parameters.armTemplatePath}}'
+            armParameterOverrideString: ' -appServiceName "$(applicationBaseName)"  -appServicePlanName "$(applicationBaseName)-asp"  -appServiceConfigPath "$(appServiceConfigPath)"  -appServicePlanRG "$(applicationResourceGroupName)"  -minTlsVersion "$(platformGlobalMinTlsVersion)"  -certificateName "${{parameters.certificateName}}" -appServicePlanSku "$(appServiceSku)" -numberOfWorkers "$(numberOfWorkers)" -keyVaultName "$(globalKeyVaultName)"  -keyVaultResourceGroup "$(globalResourceGroupName)" -auditServiceBusConnectionString "$(auditServiceBusConnectionString)"  -auditServiceBusTopicName "$(auditServiceBusTopicName)"  -auditServiceBusSubscriptionName "$(auditServiceBusSubscriptionName)"'
+            processOutputs: false
+            tags: $(Tags)
+       
+        - pwsh: |
+            Write-Host "##vso[task.setvariable variable=standaloneHostEnv]${{parameters.standaloneHostEnvPrefix}}"
+          displayName: 'Set host env prefix : ${{parameters.standaloneHostEnvPrefix}}'
+        - template: ../steps/pirean-master-get-config-standalone-step.yml
+          parameters:
+                        
+            artifactName: '${{parameters.artifactName}}'
+            environmentName: '${{parameters.environmentName}}'
+            pm2ProcessFileName: '${{parameters.pm2ProcessFileName}}'
+        - task: ArchiveFiles@1
+          displayName: Create Release Package
+          inputs:
+            rootFolder: '$(System.DefaultWorkingDirectory)\${{parameters.artifactName}}\Publish\'
+            includeRootFolder: false
+            archiveFile: '$(Build.ArtifactStagingDirectory)\${{parameters.releaseArtifactName}}.zip'
+        - task: PublishPipelineArtifact@1
+          displayName: Publish Release Artifact
+          inputs:
+            targetPath: '$(Build.ArtifactStagingDirectory)/${{parameters.releaseArtifactName}}.zip'
+            artifact: '${{parameters.releaseArtifactName}}'
+            publishLocation: pipeline
