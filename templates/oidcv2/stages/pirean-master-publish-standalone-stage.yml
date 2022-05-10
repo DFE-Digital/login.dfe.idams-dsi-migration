@@ -22,7 +22,7 @@ stages:
   dependsOn: '${{parameters.deploymentDependencyName}}'
   displayName: 'Standalone Publish to ${{parameters.environmentName}} [${{parameters.environmentId}}]'
   jobs:
-  - template: ../jobs/signin-master-publish-standalone-application-job.yml
+  - template: ../jobs/pirean-master-publish-standalone-application-job.yml
     parameters:
       serviceConnection: '${{parameters.serviceConnection}}'
       environmentName: '${{parameters.environmentName}}'
