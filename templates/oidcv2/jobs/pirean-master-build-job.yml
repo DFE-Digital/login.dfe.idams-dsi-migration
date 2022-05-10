@@ -25,7 +25,7 @@ jobs:
 - job: nodeBuild
   displayName: 'Build ${{parameters.applicationName}}'
   pool:
-    vmImage: 'windows-2019'
+    vmImage: '${{parameters.agentImage}}'
   steps:
   - task: NodeTool@0
     displayName: 'Install Node.js'
