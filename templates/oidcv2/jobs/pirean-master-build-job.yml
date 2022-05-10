@@ -31,15 +31,7 @@ jobs:
     displayName: 'Install Node.js'
     inputs:
       versionSpec: '14.18.1'  
-  - task: Npm@1
-    displayName: Npm Cache Clean
-    inputs:
-      command: custom
-      workingDir: $(Build.Repository.LocalPath)
-      verbose: true
-      customCommand: cache clean --force
-      customRegistry: useFeed
-      customFeed: ${{parameters.customFeedId}}
+  
   - task: Npm@1
     displayName: Npm install
     inputs:
