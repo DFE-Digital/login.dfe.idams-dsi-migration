@@ -41,6 +41,15 @@ jobs:
       customRegistry: useFeed
       customFeed: ${{parameters.customFeedId}}
   - task: Npm@1
+    displayName: Npm Audit
+    inputs:
+      command: custom
+      workingDir: $(Build.Repository.LocalPath)
+      verbose: true
+      customCommand: audit
+      customRegistry: useFeed
+      customFeed: ${{parameters.customFeedId}}
+  - task: Npm@1
     displayName: Npm install
     inputs:
       command: custom
