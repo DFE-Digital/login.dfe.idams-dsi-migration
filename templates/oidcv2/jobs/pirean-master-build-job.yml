@@ -30,7 +30,7 @@ jobs:
   - task: NodeTool@0
     displayName: 'Install Node.js'
     inputs:
-      versionSpec: '14.18.1'  
+      versionSpec: '12.16.3'  
   - task: Npm@1
     displayName: Npm Cache Clean
     inputs:
