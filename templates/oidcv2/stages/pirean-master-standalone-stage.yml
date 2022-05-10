@@ -65,7 +65,7 @@ stages:
       serviceConnection: '${{parameters.devServiceConnection}}'
       resourceGroupSuffix: '${{parameters.resourceGroupSuffix}}'
       environmentName: dev
-      environmentId: d01
+      environmentId: d02
       releaseArtifactName: '${{parameters.applicationName}}-dev-$(Build.BuildId)-release'
       deploymentDependencyName: deployDev
       stageName: publishDevStandalone
