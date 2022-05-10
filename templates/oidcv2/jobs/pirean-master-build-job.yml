@@ -30,7 +30,7 @@ jobs:
   - task: NodeTool@0
     displayName: 'Install Node.js'
     inputs:
-      versionSpec: '12.16.3'  
+      versionSpec: '14.18.1'  
   - task: Npm@1
     displayName: Npm Cache Clean
     inputs:
@@ -40,14 +40,13 @@ jobs:
       customCommand: cache clean --force
       customRegistry: useFeed
       customFeed: ${{parameters.customFeedId}}
-  
   - task: Npm@1
     displayName: Npm install
     inputs:
       command: custom
       workingDir: $(Build.Repository.LocalPath)
       verbose: true
-      customCommand: install  --force --json
+      customCommand: install  --force --json --no-package-lock
       customRegistry: useFeed
       customFeed: ${{parameters.customFeedId}}
   
