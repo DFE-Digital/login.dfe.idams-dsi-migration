@@ -82,7 +82,7 @@ jobs:
             TakeAppOfflineFlag: false
             RemoveAdditionalFilesFlag: true
             ExcludeFilesFromAppDataFlag: false
-        - template: ../steps/signin-master-healthcheck-step.yml
+        - template: ../steps/pirean-master-healthcheck-step.yml
           parameters:
             testUrl: https://$(applicationBaseName)-${{parameters.slotName}}.azurewebsites.net
             healthCheckEndpoint: healthcheck
