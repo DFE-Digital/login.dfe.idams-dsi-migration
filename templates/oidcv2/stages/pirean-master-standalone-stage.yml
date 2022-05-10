@@ -58,7 +58,7 @@ stages:
       certificateName: $(certificateName)
 - template: pirean-master-publish-standalone-stage.yml
   parameters:
-          
+      applicationName: '${{parameters.applicationName}}'    
       variableGroups:
       - platform-dev
       - platform-dev-secured
