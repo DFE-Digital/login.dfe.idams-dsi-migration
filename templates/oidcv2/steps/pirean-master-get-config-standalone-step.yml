@@ -8,7 +8,7 @@ parameters:
 - name: pm2ProcessFileName
   type: string
 steps:
-- checkout: config
+- checkout: self
 - task: CopyFiles@2
   displayName: 'Copy config for ${{parameters.environmentName}}'
   inputs:

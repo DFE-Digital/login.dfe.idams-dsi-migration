@@ -82,7 +82,7 @@ jobs:
     runOnce:
       deploy:
         steps:
-        
+        - checkout: self
         - task: ExtractFiles@1
           displayName: Unzip Artifact
           inputs:
