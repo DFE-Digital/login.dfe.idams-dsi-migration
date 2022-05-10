@@ -32,6 +32,15 @@ jobs:
     inputs:
       versionSpec: '14.18.1'  
   - task: Npm@1
+    displayName: Npm Clean
+    inputs:
+      command: custom
+      workingDir: $(Build.Repository.LocalPath)
+      verbose: true
+      customCommand: clean --force
+      customRegistry: useFeed
+      customFeed: ${{parameters.customFeedId}}
+  - task: Npm@1
     displayName: Npm install
     inputs:
       command: custom
@@ -40,6 +49,7 @@ jobs:
       customCommand: install --force --json --no-package-lock
       customRegistry: useFeed
       customFeed: ${{parameters.customFeedId}}
+  
   
   - task: Npm@1
     displayName: Npm prune fix
