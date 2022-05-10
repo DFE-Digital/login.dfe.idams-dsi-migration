@@ -9,7 +9,7 @@ parameters:
   type: string
 - name: devServiceConnection
   type: string
-  default: S141D.bsvc.cip.azdo
+  default: s141d-Pirean.azdo-deployment
 - name: devSubscriptionId
   type: string
   default: 9d98d71c-7399-47fc-a888-d5ea74c3d8c0
