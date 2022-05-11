@@ -99,7 +99,7 @@ jobs:
             resourceGroupName: $(applicationResourceGroupName)
             location: '${{parameters.deploymentLocation}}'
             templateFilePath: '${{parameters.armTemplatePath}}'
-            armParameterOverrideString: ' -appServiceName "$(applicationBaseName)"  -appServicePlanName "$(applicationBaseName)-asp"  -appServiceConfigPath "$(appServiceConfigPath)"  -appServicePlanRG "$(applicationResourceGroupName)"  -minTlsVersion "$(platformGlobalMinTlsVersion)"  -certificateName "${{parameters.certificateName}}" -appServicePlanSku "$(appServiceSku)" -numberOfWorkers "$(numberOfWorkers)" -keyVaultName "$(globalKeyVaultName)"  -keyVaultResourceGroup "$(globalResourceGroupName)" -auditServiceBusConnectionString "$(auditServiceBusConnectionString)"  -auditServiceBusTopicName "$(auditServiceBusTopicName)"  -auditServiceBusSubscriptionName "$(auditServiceBusSubscriptionName)" -environmentId "$(environmentId)"'
+            armParameterOverrideString: ' -appServiceName "$(applicationBaseName)"  -appServicePlanName "$(applicationBaseName)-asp"  -appServiceConfigPath "$(appServiceConfigPath)"  -appServicePlanRG "$(applicationResourceGroupName)"  -minTlsVersion "$(platformGlobalMinTlsVersion)"  -certificateName "${{parameters.certificateName}}" -appServicePlanSku "$(appServiceSku)" -numberOfWorkers "$(numberOfWorkers)" -keyVaultName "s141d01-signin-global-kv"  -keyVaultResourceGroup "s141d01-signin-global" -auditServiceBusConnectionString "$(auditServiceBusConnectionString)"  -auditServiceBusTopicName "$(auditServiceBusTopicName)"  -auditServiceBusSubscriptionName "$(auditServiceBusSubscriptionName)" -environmentId "$(environmentId)"'
             processOutputs: false
             tags: $(Tags)
             

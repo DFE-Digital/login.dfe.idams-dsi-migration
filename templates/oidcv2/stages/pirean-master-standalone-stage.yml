@@ -43,6 +43,7 @@ stages:
       applicationType: standalone
       variableGroups:
       - platform-dev
+      - platform-dev-secured
       - platform-standalone-custom-hosts
       - 'platform-dev-${{parameters.applicationName}}'
       standaloneHostEnvPrefix: dev
@@ -60,6 +61,7 @@ stages:
       applicationName: '${{parameters.applicationName}}'    
       variableGroups:
       - platform-dev
+      - platform-dev-secured
       - 'platform-dev-${{parameters.applicationName}}'
       
       serviceConnection: '${{parameters.devServiceConnection}}'
