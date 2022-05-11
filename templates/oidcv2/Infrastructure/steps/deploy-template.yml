@@ -42,8 +42,8 @@ steps:
     resourceGroupName: ${{parameters.resourceGroupName}}
     location: ${{parameters.location}}
     templateLocation: 'Linked artifact'
-    csmFile: '$(System.DefaultWorkingDirectory)\**\template.json'
-    csmParametersFile: '$(System.DefaultWorkingDirectory)\**\parameters.json'
+    csmFile: '$(System.DefaultWorkingDirectory)\oidc-v2**\template.json'
+    csmParametersFile: '$(System.DefaultWorkingDirectory)\oidc-v2**\parameters.json'
     overrideParameters: ${{parameters.armParameterOverrideString}}
     deploymentMode: 'Incremental'
     deploymentOutputs: armOutput
