@@ -31,7 +31,7 @@ steps:
   displayName: Tokenise config file
   inputs:
     SourcePath: '$(System.DefaultWorkingDirectory)\${{parameters.artifactName}}\Publish\config'
-    TargetFileNames: 'oidc-standalone-v2.json'
+    TargetFileNames: 'login.dfe.oidc-v2.${{parameters.environmentName}}.json'
     RequireVariable: true
     TokenStart: '{{'
     TokenEnd: '}}'
@@ -43,12 +43,12 @@ steps:
     RequireVariable: true
     TokenStart: '{{'
     TokenEnd: '}}'
-- pwsh: |
-    $fileName = "$(System.DefaultWorkingDirectory)\**\Publish\config\login.dfe.${{parameters.applicationName}}.${{parameters.environmentName}}.json"
-    if (Test-Path $fileName) {
-        write-host existing config found, deleting
-        Remove-Item $fileName
-    }
-    write-host renaming pre-built config for ${{parameters.applicationName}} [${{parameters.environmentName}}]
-    Rename-Item -path $(System.DefaultWorkingDirectory)\**\Publish\config\${{parameters.applicationName}}-standalone.json -newname $(System.DefaultWorkingDirectory)\**\Publish\config\login.dfe.${{parameters.applicationName}}.${{parameters.environmentName}}.json
-  displayName: Rename config file
+# - pwsh: |
+#     $fileName = "$(System.DefaultWorkingDirectory)\**\Publish\config\login.dfe.${{parameters.applicationName}}.${{parameters.environmentName}}.json"
+#     if (Test-Path $fileName) {
+#         write-host existing config found, deleting
+#         Remove-Item $fileName
+#     }
+#     write-host renaming pre-built config for ${{parameters.applicationName}} [${{parameters.environmentName}}]
+#     Rename-Item -path $(System.DefaultWorkingDirectory)\**\Publish\config\${{parameters.applicationName}}-standalone.json -newname $(System.DefaultWorkingDirectory)\**\Publish\config\login.dfe.${{parameters.applicationName}}.${{parameters.environmentName}}.json
+#   displayName: Rename config file
