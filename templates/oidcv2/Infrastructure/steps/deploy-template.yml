@@ -42,8 +42,8 @@ steps:
     resourceGroupName: ${{parameters.resourceGroupName}}
     location: ${{parameters.location}}
     templateLocation: 'Linked artifact'
-    csmFile: ${{parameters.templateFilePath}}
-    csmParametersFile: ${{parameters.parametersFilePath}}
+    csmFile: '$(System.DefaultWorkingDirectory)\**\template.json'
+    csmParametersFile: '$(System.DefaultWorkingDirectory)\**\parameters.json'
     overrideParameters: ${{parameters.armParameterOverrideString}}
     deploymentMode: 'Incremental'
     deploymentOutputs: armOutput
