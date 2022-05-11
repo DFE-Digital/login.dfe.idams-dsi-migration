@@ -91,7 +91,7 @@ jobs:
         
         - pwsh: |
             Write-Host "##vso[task.setvariable variable=standaloneHostEnv]${{parameters.environmentName}}"
-        - template: ../Infrastructure/steps/deploy-template.yml
+        - template: ../../../Infrastructure/steps/deploy-template.yml
           parameters:
             serviceConnection: '${{parameters.serviceConnection}}'
             subscriptionId: '${{parameters.subscriptionId}}'
