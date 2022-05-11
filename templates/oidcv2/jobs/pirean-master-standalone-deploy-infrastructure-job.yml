@@ -91,13 +91,14 @@ jobs:
         
         - pwsh: |
             Write-Host "##vso[task.setvariable variable=standaloneHostEnv]${{parameters.environmentName}}"
+            Write-Host "${{parameters.armTemplatePath}}"
         - template: ../Infrastructure/steps/deploy-template.yml
           parameters:
             serviceConnection: '${{parameters.serviceConnection}}'
             subscriptionId: '${{parameters.subscriptionId}}'
             resourceGroupName: $(applicationResourceGroupName)
             location: '${{parameters.deploymentLocation}}'
-            templateFilePath: 'D:\a\1\s\login.dfe.oidc-v2\azure\template.json'
+            templateFilePath: '${{parameters.armTemplatePath}}'
             armParameterOverrideString: ' -appServiceName "$(applicationBaseName)"  -appServicePlanName "$(applicationBaseName)-asp"  -appServiceConfigPath "$(appServiceConfigPath)"  -appServicePlanRG "$(applicationResourceGroupName)"  -minTlsVersion "$(platformGlobalMinTlsVersion)"  -certificateName "${{parameters.certificateName}}" -appServicePlanSku "$(appServiceSku)" -numberOfWorkers "$(numberOfWorkers)" -keyVaultName "$(globalKeyVaultName)"  -keyVaultResourceGroup "$(globalResourceGroupName)" -auditServiceBusConnectionString "$(auditServiceBusConnectionString)"  -auditServiceBusTopicName "$(auditServiceBusTopicName)"  -auditServiceBusSubscriptionName "$(auditServiceBusSubscriptionName)"'
             processOutputs: false
             tags: $(Tags)
