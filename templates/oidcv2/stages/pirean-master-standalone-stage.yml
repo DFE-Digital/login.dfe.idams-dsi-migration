@@ -52,7 +52,7 @@ stages:
       environmentId: d02
       artifactName: '${{parameters.applicationName}}-$(Build.BuildId)'
       resourceGroupSuffix: '${{parameters.resourceGroupSuffix}}'
-      armTemplatePath: 'login.dfe.${{parameters.applicationName}}/azure/${{parameters.armTemplateName}}'
+      armTemplatePath: 'login.dfe.${{parameters.applicationName}}/Publish/azure/${{parameters.armTemplateName}}'
       releaseArtifactName: '${{parameters.applicationName}}-dev-$(Build.BuildId)-release'
       certificateName: $(certificateName)
 - template: pirean-master-publish-standalone-stage.yml
