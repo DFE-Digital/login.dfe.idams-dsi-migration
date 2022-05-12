@@ -19,7 +19,7 @@ parameters:
   default: staging
 - name: runtimeStack
   type: string
-  default: NODE|10.14
+  default: NODE|12-lts
   values:
   - NODE|10-lts
   - NODE|10.10
