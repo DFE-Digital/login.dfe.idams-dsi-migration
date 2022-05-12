@@ -20,6 +20,7 @@ parameters:
 - name: runtimeStack
   type: string
   default: NODE|12-lts
+  
   values:
   - NODE|10-lts
   - NODE|10.10
@@ -77,6 +78,7 @@ jobs:
             SlotName: '${{parameters.slotName}}'
             packageForLinux: '$(Pipeline.Workspace)/${{parameters.releaseArtifactName}}/${{parameters.releaseArtifactName}}.zip'
             RuntimeStack: '${{parameters.runtimeStack}}'
+            startUpCommand: 'node ./src/index.js'
             WebConfigParameters: '-Handler iisnode -NodeStartFile $(platformGlobalNodeStart) -appType node'
             enableCustomDeployment: true
             TakeAppOfflineFlag: false
