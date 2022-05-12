@@ -14,7 +14,7 @@ steps:
   inputs:
     SourceFolder: $(System.DefaultWorkingDirectory)
     Contents: |
-      $(Build.SourcesDirectory)\config\${{parameters.environmentName}}\oidc-standalone-v2.json
+      $(Build.SourcesDirectory)\config\login.dfe.${{parameters.applicationName}}.${{parameters.environmentName}}.json
     TargetFolder: $(System.DefaultWorkingDirectory)\${{parameters.artifactName}}\Publish\config
     CleanTargetFolder: true
     flattenFolders: true
@@ -23,7 +23,7 @@ steps:
   inputs:
     SourceFolder: $(System.DefaultWorkingDirectory)
     Contents: |
-        $(Build.SourcesDirectory)\config\${{parameters.environmentName}}\${{parameters.pm2ProcessFileName}}
+        $(Build.SourcesDirectory)\config\${{parameters.pm2ProcessFileName}}
     TargetFolder: $(System.DefaultWorkingDirectory)\${{parameters.artifactName}}\Publish
     flattenFolders: true
     CleanTargetFolder: false
@@ -31,7 +31,7 @@ steps:
   displayName: Tokenise config file
   inputs:
     SourcePath: '$(System.DefaultWorkingDirectory)\${{parameters.artifactName}}\Publish\config'
-    TargetFileNames: 'login.dfe.oidc-v2.${{parameters.environmentName}}.json'
+    TargetFileNames: 'login.dfe.${{parameters.applicationName}}.${{parameters.environmentName}}.json'
     RequireVariable: true
     TokenStart: '{{'
     TokenEnd: '}}'
