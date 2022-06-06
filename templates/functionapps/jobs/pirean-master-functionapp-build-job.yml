@@ -18,7 +18,7 @@ jobs:
            replaceExistingArchive: true
            verbose: true
 
-        - publish: $(Build.ArtifactStagingDirectory)
+        - publish: '$(Build.ArtifactStagingDirectory)'
           name: publishBuildArtifact
           displayName: Publish Build Artifact
           artifact: $(Build.BuildId)

@@ -19,10 +19,6 @@ jobs:
 - deployment: packageAndDeploy
   displayName: 'Package and Deploy : ${{parameters.environmentName}}'
   environment: '${{parameters.environmentName}}'
-  
-
-- job: Deploy
-  displayName: Deploy
   variables: 
   - name: applicationResourceGroupName
     value: '$(platformGlobalIdentifier)${{parameters.environmentId}}-${{parameters.applicationName}}'      
@@ -40,7 +36,7 @@ jobs:
         azureSubscription: ${{parameters.serviceConnection}}
         appType: functionApp
         WebAppName: 's141d-Pirean.azdo-deployment'                 
-        package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+        package: '$(System.DefaultWorkingDirectory)/$(Build.BuildId).zip'
         appSettings: '-FUNCTIONS_WORKER_RUNTIME "dotnet"' 
         enableCustomDeployment: true
         RemoveAdditionalFilesFlag: true
