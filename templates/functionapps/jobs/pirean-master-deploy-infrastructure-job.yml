@@ -23,9 +23,6 @@ jobs:
 
 - job: Deploy
   displayName: Deploy
-- deployment: packageAndDeploy
-  displayName: 'Package and Deploy : ${{parameters.environmentName}}'
-  environment: '${{parameters.environmentName}}'
   variables: 
   - name: applicationResourceGroupName
     value: '$(platformGlobalIdentifier)${{parameters.environmentId}}-${{parameters.applicationName}}'      
