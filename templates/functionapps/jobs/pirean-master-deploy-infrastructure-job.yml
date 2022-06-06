@@ -40,7 +40,7 @@ jobs:
         azureSubscription: ${{parameters.serviceConnection}}
         appType: functionApp
         WebAppName: 's141d-Pirean.azdo-deployment'                 
-        package: $(Pipeline.Workspace)/s/Function_$(Build.BuildId).zip
+        package: $(Pipeline.Workspace)/s/$(Build.BuildId).zip
         appSettings: '-FUNCTIONS_WORKER_RUNTIME "dotnet"' 
         enableCustomDeployment: true
         RemoveAdditionalFilesFlag: true
