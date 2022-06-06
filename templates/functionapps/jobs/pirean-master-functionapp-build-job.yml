@@ -1,0 +1,24 @@
+jobs:
+     - job: Build
+       displayName: Build
+       steps:
+        - task: DotNetCoreCLI@2
+          displayName: Build Function
+          inputs:
+           command: 'build'
+           projects: '**/*.csproj'
+           arguments: --output $(System.DefaultWorkingDirectory)/publish_output --configuration Release  
+        - task: ArchiveFiles@2
+          displayName: Create Archive File
+          inputs:
+           rootFolderOrFile: '$(System.DefaultWorkingDirectory)/publish_output'
+           includeRootFolder: false
+           archiveType: zip
+           archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+           replaceExistingArchive: true
+           verbose: true
+
+        - publish: $(Build.ArtifactStagingDirectory)
+          name: publishBuildArtifact
+          displayName: Publish Build Artifact
+          artifact: $(Build.BuildId)
