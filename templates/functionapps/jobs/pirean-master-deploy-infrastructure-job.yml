@@ -22,7 +22,7 @@ jobs:
   variables: 
   - name: applicationResourceGroupName
     value: '$(platformGlobalIdentifier)${{parameters.environmentId}}-${{parameters.applicationName}}'      
-  steps:
+steps:
    - task: AzurePowerShell@5
      displayName: Create ResourceGroup with tags
      inputs:
