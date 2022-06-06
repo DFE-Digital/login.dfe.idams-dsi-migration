@@ -19,10 +19,17 @@ jobs:
 - deployment: packageAndDeploy
   displayName: 'Package and Deploy : ${{parameters.environmentName}}'
   environment: '${{parameters.environmentName}}'
+  
+
+- job: Deploy
+  displayName: Deploy
+- deployment: packageAndDeploy
+  displayName: 'Package and Deploy : ${{parameters.environmentName}}'
+  environment: '${{parameters.environmentName}}'
   variables: 
   - name: applicationResourceGroupName
     value: '$(platformGlobalIdentifier)${{parameters.environmentId}}-${{parameters.applicationName}}'      
-steps:
+  steps:
    - task: AzurePowerShell@5
      displayName: Create ResourceGroup with tags
      inputs:
