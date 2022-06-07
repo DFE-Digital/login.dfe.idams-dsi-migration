@@ -32,6 +32,9 @@
       "dirDBPassword": {
         "type": "string"
       },
+      "idamsblobstorageconnectionstring": {
+          "type": "string"
+      },
       "projectId": {
           "type": "string",
           "defaultValue": "s141",
@@ -81,7 +84,7 @@
     "variables": {
       "baseName": "[tolower(concat(parameters('projectId'), parameters('environmentId'), '-', parameters('serviceName'), '-', parameters('applicationName')))]",
       "resourceNames": {
-        "storageAccountName": "[tolower(concat(parameters('projectId'), parameters('environmentId'), parameters('serviceName'),'adtdtclup'))]",
+        "storageAccountName": "[tolower(concat(parameters('projectId'), parameters('environmentId'), parameters('serviceName'),'dataimport'))]",
         "functionName": "[variables('baseName')]",
         "functionAppServicePlanName": "[concat(variables('baseName'), '-asp')]",
         "appInsightsName": "[concat(variables('baseName'), '-ai')]"
@@ -212,7 +215,7 @@
                             },
                             {
                               "name": "StorageAccountConnectionString",
-                              "value": "[reference(variables('resourceNames').storageAccountName).outputs.storageAccountConnectionString.value]"
+                              "value": "[parameters('idamsblobstorageconnectionstring')]"
                             }
                         ]
                     }
