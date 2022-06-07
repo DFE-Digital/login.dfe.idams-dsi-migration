@@ -44,7 +44,7 @@ jobs:
         - download: current
           artifact: $(Build.BuildId)
 
-        - template: /Infrastructure/steps/deploy-template.yml@devopsTemplates
+        - template: ././Infrastructure/steps/deploy-template.yml@devopsTemplates
           parameters:
             serviceConnection: '${{parameters.serviceConnection}}'
             subscriptionId: '${{parameters.subscriptionId}}'
