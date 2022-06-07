@@ -51,7 +51,7 @@ jobs:
             resourceGroupName: '$(resourceGroupName)'
             location: '${{parameters.deploymentLocation}}'
             tags: $(Tags)
-            templateFilePath: $(Build.SourcesDirectory)/login.dfe.idams-dsi-migration/templates/functionapps/arm/template.json
+            templateFilePath: /templates/functionapps/arm/template.json@devopsTemplates
             armParameterOverrideString: '-templatesBaseUri "$(templatesBaseUri)" -applicationName "${{parameters.applicationName}}" -environmentName "${{parameters.environmentName}}" -auditDBName "$(auditSqlDbName)" -auditDBHostName "$(auditSqlHostName)" -auditDBUsername "$(auditSqlLogin)" -auditDBPassword "$(auditSqlPassword)" -environmentId "${{parameters.environmentId}}" -AppServicePlanSku "$(auditFunctionAppServicePlanSku)" -sharedResourceGroupName "$(sharedResourceGroupName)" -virtualNetworkName "$(sharedVirtualNetworkName)"'
             processOutputs: true
         
