@@ -19,20 +19,7 @@
               "description": "The sku of the app service plan"
           }
       },
-      "virtualNetworkName": {
-          "type": "string",
-          "defaultValue": "",
-          "metadata": {
-              "description": "Name of the virtual network"
-          }
-      },
-      "subnetName": {
-          "type": "string",
-          "defaultValue": "adtcln-sn",
-          "metadata": {
-              "description": "Prefix of the subnet to integrate the app service with in the virtual network"
-          }
-      },
+     
       "auditDBName": {
         "type": "string"
       },
@@ -105,37 +92,9 @@
         "storageAccountId": "[resourceId('Microsoft.Resources/deployments', variables('resourceNames').storageAccountName)]",
         "appInsightsId": "[resourceId('microsoft.insights/components', variables('resourceNames').appInsightsName)]"
       },
-      "sharedResourceIds": {
-        "auditSubnetResourceId": "[resourceId(parameters('sharedResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName'))]"
-      },
-      "ipSecurityRestrictions": [
-          {
-              "vnetSubnetResourceId": "[resourceId(parameters('sharedResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), 'sup-sn-1')]",
-              "action": "Allow",
-              "tag": "Default",
-              "priority": 10,
-              "name": "Support Console Subnet"
-          }
-      ],
-      "resourceAccessRules": [
-          {
-              "tenantId": "",
-              "resourceId": ""
-          }
-      ],
-      "ipRules": [
-          {
-              "value": "",
-              "action": ""
-          }
-      ],
-      "virtualNetworkRules": [
-          {
-              "id": "[variables('sharedResourceIds').auditSubnetResourceId]",
-              "action": "Allow",
-              "state": "Succeeded"
-          }
-      ],
+          
+     
+     
       "sbVersion": "2017-04-01"
     },
     "resources": [
@@ -154,13 +113,8 @@
                 },
                 "NetFirewall":{
                     "value": "[parameters('NetFirewall')]"
-                },
-                "virtualNetworksSubNet": {
-                    "value": "[variables('virtualNetworkRules')]"
-                },
-                "bypass":{
-                    "value": "[parameters('bypass')]"
                 }
+               
             }
         }
       },
