@@ -52,7 +52,7 @@ jobs:
             location: '${{parameters.deploymentLocation}}'
             tags: $(Tags)
             templateFilePath: $(Build.SourcesDirectory)/templates/functionapps/arm/template.json
-            armParameterOverrideString: '-templatesBaseUri "$(templatesBaseUri)" -applicationName "${{parameters.applicationName}}" -environmentName "${{parameters.environmentName}}" -auditDBName "$(auditSqlDbName)" -auditDBHostName "$(auditSqlHostName)" -auditDBUsername "$(auditSqlLogin)" -auditDBPassword "$(auditSqlPassword)" -environmentId "${{parameters.environmentId}}" -AppServicePlanSku "$(FunctionAppServicePlanSku)" -sharedResourceGroupName "$(sharedResourceGroupName)"'
+            armParameterOverrideString: '-templatesBaseUri "$(templatesBaseUri)" -applicationName "${{parameters.applicationName}}" -environmentName "${{parameters.environmentName}}" -dirDBName "$(dirSqlDbName)" -dirDBHostName "$(dirSqlHostName)" -dirDBUsername "$(dirSqlLogin)" -dirDBPassword "$(dirSqlPassword)" -environmentId "${{parameters.environmentId}}" -AppServicePlanSku "$(FunctionAppServicePlanSku)" -sharedResourceGroupName "$(sharedResourceGroupName)"'
             processOutputs: true
         
         - task: ExtractFiles@1

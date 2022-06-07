@@ -20,16 +20,16 @@
           }
       },
      
-      "auditDBName": {
+      "dirDBName": {
         "type": "string"
       },
-      "auditDBHostName": {
+      "dirDBHostName": {
         "type": "string"
       },
-      "auditDBUsername": {
+      "dirDBUsername": {
         "type": "string"
       },
-      "auditDBPassword": {
+      "dirDBPassword": {
         "type": "string"
       },
       "projectId": {
@@ -185,20 +185,20 @@
                               "value": "[reference(variables('resourceIds').appInsightsId, '2020-02-02').InstrumentationKey]"
                             },
                             {
-                              "name": "DATABASE_AUDIT_NAME",
-                              "value": "[parameters('auditDBName')]"
+                              "name": "DATABASE_DIRECTORIES_HOST_NAME",
+                              "value": "[parameters('dirdbHostName')]"
                             },
                             {
-                              "name": "DATABASE_AUDIT_NAME_HOST",
-                              "value": "[parameters('auditDBHostName')]"
+                              "name": "DATATBASE_DIRECTORIES_NAME",
+                              "value": "[parameters('dirdbName')]"
                             },
                             {
-                              "name": "DATABASE_AUDIT_USERNAME",
-                              "value": "[parameters('auditDBUsername')]"
+                              "name": "DATABASE_DIRECTORIES_USERNAME",
+                              "value": "[parameters('dirDBUsername')]"
                             },
                             {
-                              "name": "DATABASE_AUDIT_PASSWORD",
-                              "value": "[parameters('auditDBPassword')]"
+                              "name": "DATABASE_DIRECTORIES_PASSWORD",
+                              "value": "[parameters('dirDBPassword')]"
                             },
                             {
                               "name": "FUNCTIONS_WORKER_RUNTIME",
