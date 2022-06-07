@@ -218,13 +218,8 @@
                             }
                         ]
                     }
-                },
-                "ipSecurityRestrictions": {
-                    "value": "[variables('ipSecurityRestrictions')]"
-                },
-                "subnetResourceId": {
-                    "value": "[variables('sharedResourceIds').auditSubnetResourceId]"
                 }
+                
             }
         },
         "dependsOn": [
