@@ -35,7 +35,7 @@ jobs:
   variables:
   - group: '${{parameters.platformVariableGroupName}}'
   - name: resourceGroupName
-    value: '${{parameters.projectId}}${{parameters.environmentId}}-auditdata-cleanup'
+    value: '${{parameters.projectId}}${{parameters.environmentId}}-idamsdsi-dataimport'
   strategy:
     runOnce:
       deploy:
@@ -51,7 +51,7 @@ jobs:
             resourceGroupName: '$(resourceGroupName)'
             location: '${{parameters.deploymentLocation}}'
             tags: $(Tags)
-            templateFilePath: $(Build.SourcesDirectory)/login.dfe.auditdbcleanup/arm/template.json
+            templateFilePath: $(Build.SourcesDirectory)/login.dfe.idams-dsi-migration/arm/template.json
             armParameterOverrideString: '-templatesBaseUri "$(templatesBaseUri)" -applicationName "${{parameters.applicationName}}" -environmentName "${{parameters.environmentName}}" -auditDBName "$(auditSqlDbName)" -auditDBHostName "$(auditSqlHostName)" -auditDBUsername "$(auditSqlLogin)" -auditDBPassword "$(auditSqlPassword)" -environmentId "${{parameters.environmentId}}" -AppServicePlanSku "$(auditFunctionAppServicePlanSku)" -sharedResourceGroupName "$(sharedResourceGroupName)" -virtualNetworkName "$(sharedVirtualNetworkName)"'
             processOutputs: true
         
