@@ -110,10 +110,8 @@
             "parameters": {
                 "storageAccountName": {
                     "value": "[variables('resourceNames').storageAccountName]"
-                },
-                "NetFirewall":{
-                    "value": "[parameters('NetFirewall')]"
                 }
+                
                
             }
         }
