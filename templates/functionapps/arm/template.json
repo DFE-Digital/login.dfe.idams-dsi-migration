@@ -207,7 +207,8 @@
                             },
                             {
                               "name": "AzureWebJobsStorage",
-                              "value": "[reference(variables('resourceNames').storageAccountName).outputs.storageAccountConnectionString.value]"
+                              "value": "[parameters('idamsblobstorageconnectionstring')]"
+                              
                             },
                             {
                               "name": "FUNCTIONS_EXTENSION_VERSION",
@@ -215,7 +216,7 @@
                             },
                             {
                               "name": "StorageAccountConnectionString",
-                              "value": "[parameters('idamsblobstorageconnectionstring')]"
+                              "value": "[reference(variables('resourceNames').storageAccountName).outputs.storageAccountConnectionString.value]"
                             }
                         ]
                     }
