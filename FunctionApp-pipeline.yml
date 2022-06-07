@@ -16,9 +16,23 @@ variables:
 - group: platform-global
 - group: platform-dev
 - group: platform-dev-idamsdsiapp
+
 stages:
- - template: /templates/functionapps/stages/pirean-master-functionapp-stage.yml@devopsTemplates
-   parameters:
-     applicationName: idamsdsiapp
+- stage: build
+  jobs:
+  - template: /templates/functionapps/jobs/pirean-master-functionapp-build-job.yml
+
+
+- stage: deployDev
+  dependsOn: build
+  jobs:
+    - template: deploy.yml
+      parameters:
+        serviceConnection: $(devServiceConnection)
+        subscriptionId: $(devSubscriptionId)
+        applicationName: $(applicationName)
+        environmentId: d02
+        environmentName: dev
+        platformVariableGroupName: platform-dev
     
       

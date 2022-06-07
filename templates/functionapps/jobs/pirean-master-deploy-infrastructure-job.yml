@@ -1,47 +1,105 @@
 parameters:
- - name: applicationName
-   type: string
- - name: environmentId
-   type: string
- - name: environmentName
-   type: string
- - name: location
-   type: string
- - name: serviceConnection
-   type: string
- - name: subscriptionId
-   type: string
- - name: variableGroups
-   type: object
- 
-
+    - name: serviceConnection
+      type: string
+    - name: subscriptionId
+      type: string
+    - name: applicationName
+      type: string
+    - name: deploymentLocation
+      type: string
+      default: westeurope
+    - name: projectId
+      type: string
+      default: s141
+    - name: environmentId
+      type: string
+    - name: environmentName
+      type: string
+    - name: servicePlanSkuName
+      type: string
+      default: Y1
+    - name: sevicePlanSkuTier
+      type: string
+      default: Dynamic
+    - name: topicName
+      type: string
+      default: audit
+    - name: platformVariableGroupName
+      type: string
 jobs:
-- deployment: packageAndDeploy
-  displayName: 'Package and Deploy : ${{parameters.environmentName}}'
+- deployment: 'deploy_${{parameters.environmentName}}'
+  displayName: 'Deploy [${{parameters.environmentName}}]'
   environment: '${{parameters.environmentName}}'
-  
+  pool:
+    vmImage: ubuntu-latest
+  variables:
+  - group: '${{parameters.platformVariableGroupName}}'
+  - name: resourceGroupName
+    value: '${{parameters.projectId}}${{parameters.environmentId}}-auditdata-cleanup'
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - checkout: self
+        - download: current
+          artifact: $(Build.BuildId)
 
-- job: Deploy
-  displayName: Deploy
-  variables: 
-  - name: applicationResourceGroupName
-    value: '$(platformGlobalIdentifier)${{parameters.environmentId}}-${{parameters.applicationName}}'      
-  steps:
-   - task: AzurePowerShell@5
-     displayName: Create ResourceGroup with tags
-     inputs:
-        azureSubscription: ${{parameters.serviceConnection}}
-        ScriptType: 'InlineScript'
-        Inline: 'New-AzResourceGroup -Name $(applicationResourceGroupName) -Location "${{parameters.location}}" -Tag $(Tags) -Force'
-        azurePowerShellVersion: 'LatestVersion'
-   - task: AzureRmWebAppDeployment@4
-     displayName: 'Deploy Azure Function'
-     inputs:
-        azureSubscription: ${{parameters.serviceConnection}}
-        appType: functionApp
-        WebAppName: 's141d-Pirean.azdo-deployment'                 
-        package: $(Pipeline.Workspace)/s/$(Build.BuildId).zip
-        appSettings: '-FUNCTIONS_WORKER_RUNTIME "dotnet"' 
-        enableCustomDeployment: true
-        RemoveAdditionalFilesFlag: true
-  
+        - template: /Infrastructure/steps/deploy-template.yml@devopsTemplates
+          parameters:
+            serviceConnection: '${{parameters.serviceConnection}}'
+            subscriptionId: '${{parameters.subscriptionId}}'
+            resourceGroupName: '$(resourceGroupName)'
+            location: '${{parameters.deploymentLocation}}'
+            tags: $(Tags)
+            templateFilePath: $(Build.SourcesDirectory)/login.dfe.auditdbcleanup/arm/template.json
+            armParameterOverrideString: '-templatesBaseUri "$(templatesBaseUri)" -applicationName "${{parameters.applicationName}}" -environmentName "${{parameters.environmentName}}" -auditDBName "$(auditSqlDbName)" -auditDBHostName "$(auditSqlHostName)" -auditDBUsername "$(auditSqlLogin)" -auditDBPassword "$(auditSqlPassword)" -environmentId "${{parameters.environmentId}}" -AppServicePlanSku "$(auditFunctionAppServicePlanSku)" -sharedResourceGroupName "$(sharedResourceGroupName)" -virtualNetworkName "$(sharedVirtualNetworkName)"'
+            processOutputs: true
+        
+        - task: ExtractFiles@1
+          displayName: Extract Build Artifact
+          inputs:
+            archiveFilePatterns: ../**/$(Build.BuildId).zip
+            destinationFolder: artifactoutput
+            cleanDestinationFolder: true
+
+        - pwsh: |
+            Write-Host "functionName is: $env:ARMOUTPUTS_ARMOUTPUT_FUNCTIONNAME"
+            Write-Host "##vso[task.setvariable variable=functionName]$env:ARMOUTPUTS_ARMOUTPUT_FUNCTIONNAME"
+        
+        - task: replacetokens@3
+          displayName: Tokenise Function.json
+          inputs:
+            targetFiles: '**/artifactoutput/**/function.json'
+            encoding: auto
+            writeBOM: true
+            escapeType: json
+            verbosity: detailed
+            actionOnMissing: fail
+            keepToken: false
+            tokenPrefix: __
+            tokenSuffix: __
+            useLegacyPattern: false
+            enableTelemetry: false
+
+        - pwsh: |
+            Get-ChildItem -Path $(Pipeline.Workspace) –Recurse
+          displayName: Tidy up package in Pipeline workspace
+
+        - task: ArchiveFiles@2
+          displayName: Create package for Azure Function
+          inputs:
+            rootFolderOrFile: $(Pipeline.Workspace)/s/artifactoutput
+            includeRootFolder: false
+            archiveType: zip
+            archiveFile: $(Pipeline.Workspace)/s/Function_$(Build.BuildId).zip
+            replaceExistingArchive: true
+            verbose: true
+
+        - task: AzureFunctionApp@1
+          displayName: Deploy Azure Function App
+          inputs:
+            azureSubscription: '${{parameters.serviceConnection}}'
+            appType: functionApp
+            deploymentMethod: zipDeploy
+            appName: $(functionName)
+            package: $(Pipeline.Workspace)/s/Function_$(Build.BuildId).zip
