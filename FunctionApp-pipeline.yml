@@ -26,7 +26,7 @@ stages:
 - stage: deployDev
   dependsOn: build
   jobs:
-    - template: deploy.yml
+    - template: /templates/functionapps/jobs/pirean-master-deploy-infrastructure-job.yml
       parameters:
         serviceConnection: $(devServiceConnection)
         subscriptionId: $(devSubscriptionId)
