@@ -78,7 +78,7 @@
       },
       "serviceName": {
           "type": "string",
-          "defaultValue": "signin",
+          "defaultValue": "pirean",
           "metadata": {
               "description": "Service Identifier"
           }
