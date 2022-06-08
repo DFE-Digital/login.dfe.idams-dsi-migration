@@ -141,7 +141,7 @@
                       }
                     },
                     "method": "get",
-                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('AccountNameFromSettings'))}/foldersV2/@{encodeURIComponent(encodeURIComponent('/attachments'))}",
+                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('s141d02pireanstorage'))}/foldersV2/@{encodeURIComponent(encodeURIComponent('/attachments'))}",
                     "queries": {
                       "nextPageMarker": "",
                       "useFlatListing": false
@@ -210,7 +210,7 @@
                         "headers": {
                           "ReadFileMetadataFromServer": true
                         },
-                        "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('Use connection settings (s141d02pireanstorage)'))}/files",
+                        "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('s141d02pireanstorage'))}/files",
                         "queries": {
                           "folderPath": "/attachments",
                           "name": "@items('For_each')?['name']",
@@ -222,16 +222,6 @@
                         "contentTransfer": {
                           "transferMode": "Chunked"
                         }
-                      }
-                    },
-                    "For_each_3": {
-                      "type": "Foreach",
-                      "foreach": "@body('Lists_blobs_(V2)')?['value']",
-                      "actions": {},
-                      "runAfter": {
-                        "Create_blob_(V2)": [
-                          "Succeeded"
-                        ]
                       }
                     }
                   },
@@ -260,26 +250,6 @@
                 ]
               },
               "runAfter": {}
-            },
-            "Get_blob_content_(V2)": {
-              "type": "ApiConnection",
-              "inputs": {
-                "host": {
-                  "connection": {
-                    "name": "@parameters('$connections')['azureblob_1']['connectionId']"
-                  }
-                },
-                "method": "get",
-                "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('AccountNameFromSettings'))}/files/@{encodeURIComponent(encodeURIComponent(''))}/content",
-                "queries": {
-                  "inferContentType": true
-                }
-              },
-              "runAfter": {
-                "For_each": [
-                  "Succeeded"
-                ]
-              }
             }
           },
           "parameters": {
