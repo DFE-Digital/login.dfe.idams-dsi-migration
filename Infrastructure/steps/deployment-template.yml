@@ -40,7 +40,9 @@ steps:
     resourceGroupName: 's141d02-shd'
     location: ${{parameters.location}}
     csmFile: 'templates/functionapps/arm/storage-account.json'
-    overrideParameters: '-storageAccountName "s141d02perianblobstorage'
+    overrideParameters: '-storageAccountName "s141d02perianstorage'
+    deploymentMode: 'Incremental'
+    
 
 - task: AzureResourceManagerTemplateDeployment@3
   displayName: Create Infrastructure
