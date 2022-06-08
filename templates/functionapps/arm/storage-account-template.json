@@ -1,0 +1,83 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+     
+      "applicationName": {
+        "type": "string"
+      },
+          
+      "projectId": {
+          "type": "string",
+          "defaultValue": "s141",
+          "metadata": {
+              "description": "Project Identifier"
+          }
+      },
+      "environmentId": {
+          "type": "string",
+          "defaultValue": "d02",
+          "allowedValues": [
+              "d01",
+              "d02",
+              "t01",
+              "t02",
+              "t03",
+              "p01",
+              "p02"
+          ],
+          "metadata": {
+              "description": "Environment Identifier"
+          }
+      },
+     
+      "serviceName": {
+          "type": "string",
+          "defaultValue": "pirean",
+          "metadata": {
+              "description": "Service Identifier"
+          }
+      }
+    
+    },
+    "variables": {
+      "baseName": "[tolower(concat(parameters('projectId'), parameters('environmentId'), '-', parameters('serviceName'), '-', parameters('applicationName')))]",
+      "resourceNames": {
+        "storageAccountName": "[tolower(concat(parameters('projectId'), parameters('environmentId'), parameters('serviceName'),'storage'))]"
+        
+      },
+      
+          
+     
+     
+      "sbVersion": "2017-04-01"
+    },
+    "resources": [
+      {
+        "name": "[variables('resourceNames').storageAccountName]",
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2020-10-01",
+        "properties": {
+            "mode": "Incremental",
+            "templateLink": {
+                "uri": "https://raw.githubusercontent.com/DFE-Digital/login.dfe.idams-dsi-migration/master/templates/functionapps/arm/storage-account.json"
+            },
+            "parameters": {
+                "storageAccountName": {
+                    "value": "[variables('resourceNames').storageAccountName]"
+                }
+                
+               
+            }
+        }
+      },
+      
+    
+    ],
+    "outputs": {
+      "StorageAccountName": {
+        "type": "string",
+        "value": "[variables('resourceNames').storageAccountName]"
+    }
+    }
+  }

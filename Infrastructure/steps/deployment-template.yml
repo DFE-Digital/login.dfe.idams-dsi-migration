@@ -9,6 +9,8 @@ parameters:
   type: string
 - name: templateFilePath
   type: string
+- name: storageAccountTemplateFilePath
+  type: string
 - name: parametersFilePath
   type: string
   default: ''
@@ -39,13 +41,13 @@ steps:
     subscriptionId: ${{parameters.subscriptionId}}
     resourceGroupName: 's141d02-shd'
     location: ${{parameters.location}}
-    csmFile: ${{parameters.templateFilePath}}
+    csmFile: ${{parameters.storageAccountTemplateFilePath}}
     overrideParameters: ${{parameters.armParameterOverrideString}}
     deploymentMode: 'Incremental'
     
 
 - task: AzureResourceManagerTemplateDeployment@3
-  displayName: Create Infrastructure
+  displayName: Create Data Import Function App
   inputs:
     deploymentScope: 'Resource Group'
     azureResourceManagerConnection: ${{parameters.serviceConnection}}
