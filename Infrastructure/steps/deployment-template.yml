@@ -40,8 +40,7 @@ steps:
     resourceGroupName: 's141d02-shd'
     location: ${{parameters.location}}
     csmFile: 'templates/functionapps/arm/storage-account.json'
-    csmParametersFile: 'templates/functionapps/arm/storage-account.json'
-    overrideParameters: '-storageAccountName "s141d02-pirean-idamsblobstorage'
+    overrideParameters: '-storageAccountName "idamsblobstorage'
 
 - task: AzureResourceManagerTemplateDeployment@3
   displayName: Create Infrastructure
