@@ -11,6 +11,8 @@ parameters:
   type: string
 - name: storageAccountTemplateFilePath
   type: string
+- name: storageAccountParameterOverideString
+  type: string
 - name: parametersFilePath
   type: string
   default: ''
