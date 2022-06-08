@@ -42,7 +42,7 @@ steps:
     resourceGroupName: 's141d02-shd'
     location: ${{parameters.location}}
     csmFile: ${{parameters.storageAccountTemplateFilePath}}
-    overrideParameters: ${{parameters.armParameterOverrideString}}
+    overrideParameters: ${{parameters.storageAccountParameterOverideString}}
     deploymentMode: 'Incremental'
     
 
