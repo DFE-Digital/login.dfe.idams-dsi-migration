@@ -210,7 +210,7 @@
                         "headers": {
                           "ReadFileMetadataFromServer": true
                         },
-                        "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('AccountNameFromSettings'))}/files",
+                        "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('Use connection settings (s141d02pireanstorage)'))}/files",
                         "queries": {
                           "folderPath": "/attachments",
                           "name": "@items('For_each')?['name']",
