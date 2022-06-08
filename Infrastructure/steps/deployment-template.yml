@@ -33,6 +33,17 @@ steps:
     
 
 - task: AzureResourceManagerTemplateDeployment@3
+  displayName: 'Create Shared Blob Storage'
+  inputs:
+    azureResourceManagerConnection: ${{parameters.serviceConnection}}
+    subscriptionId: ${{parameters.subscriptionId}}
+    resourceGroupName: 's141d02-shd'
+    location: ${{parameters.location}}
+    csmFile: 'templates/functionapps/arm/storage-account.json'
+    csmParametersFile: 'templates/functionapps/arm/storage-account.json'
+    overrideParameters: '-storageAccountName "s141d02-pirean-idamsblobstorage'
+
+- task: AzureResourceManagerTemplateDeployment@3
   displayName: Create Infrastructure
   inputs:
     deploymentScope: 'Resource Group'
