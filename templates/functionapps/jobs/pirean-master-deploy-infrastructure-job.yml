@@ -68,7 +68,7 @@ jobs:
                     Write-Host "##vso[task.setvariable variable=ARM_CLIENT_ID]$env:servicePrincipalId"
                     Write-Host "##vso[task.setvariable variable=ARM_CLIENT_SECRET]$env:servicePrincipalKey"
                     Write-Host "##vso[task.setvariable variable=ARM_TENANT_ID]$env:tenantId"
-                  addSpnToEnvironment: true
+            addSpnToEnvironment: true
         - task: AzurePowerShell@5
           displayName: Connect with Az
           inputs:
@@ -81,7 +81,7 @@ jobs:
                    $tenantId = "$(ARM_TENANT_ID)"
                    az login --service-principal --username  $username --password $password --tenant $tenantId
 
-                  azurePowerShellVersion: 'LatestVersion'                
+            azurePowerShellVersion: 'LatestVersion'                
                   
              
         - task: AzurePowerShell@5
