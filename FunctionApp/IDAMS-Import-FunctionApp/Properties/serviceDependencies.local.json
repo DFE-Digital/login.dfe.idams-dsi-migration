@@ -3,10 +3,14 @@
     "appInsights1": {
       "type": "appInsights.sdk"
     },
+    "secrets1": {
+      "type": "secrets.user"
+    },
     "storage1": {
-      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Storage/storageAccounts/s141d02periandfstorage",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Storage/storageAccounts/s141d02pireanstorage",
       "type": "storage.azure",
-      "connectionId": "AzureWebJobsStorage"
+      "connectionId": "AzureWebJobsStorage",
+      "secretStore": "LocalSecretsFile"
     }
   }
 }
