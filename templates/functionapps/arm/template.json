@@ -58,14 +58,7 @@
               "description": "Environment Identifier"
           }
       },
-      "NetFirewall":{
-          "type": "bool",
-          "defaultValue": true
-      },
-      "bypass": {
-          "type": "string",
-          "defaultValue": "AzureServices"
-      },
+     
       "serviceName": {
           "type": "string",
           "defaultValue": "pirean",
@@ -213,6 +206,10 @@
                             {
                               "name": "FUNCTIONS_EXTENSION_VERSION",
                               "value": "~3"
+                            },
+                            {
+                              "name": "importcontainer",
+                              "value": "attachments"
                             },
                             {
                               "name": "StorageAccountConnectionString",
