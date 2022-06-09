@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "IDAMS-Import-App", "IDAMS-Import-App.deployproj", "{3BC4DFC2-525B-4C4F-A6FA-1D9F89B7E660}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDAMS-Import-FunctionApp", "..\..\FunctionApp\IDAMS-Import-FunctionApp\IDAMS-Import-FunctionApp.csproj", "{4998C855-33B0-4346-8AD9-8F18EA556D36}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IDAMS-Import-FunctionApp", "..\..\FunctionApp\IDAMS-Import-FunctionApp\IDAMS-Import-FunctionApp.csproj", "{4998C855-33B0-4346-8AD9-8F18EA556D36}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
