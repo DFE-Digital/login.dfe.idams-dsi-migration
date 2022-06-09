@@ -207,10 +207,7 @@
                               "name": "FUNCTIONS_EXTENSION_VERSION",
                               "value": "~3"
                             },
-                            {
-                              "name": "importcontainer",
-                              "value": "attachments"
-                            },
+                            
                             {
                               "name": "StorageAccountConnectionString",
                               "value": "[reference(variables('resourceNames').storageAccountName).outputs.storageAccountConnectionString.value]"
