@@ -1,0 +1,25 @@
+CREATE TABLE [dbo].[idams_user](
+	[Id] [uniqueidentifier] NOT NULL,
+	[uid] [nvarchar](50) NULL,
+	[name] [nvarchar](200) NULL,
+	[upin] [nvarchar](50) NULL,
+	[ukprn] [nvarchar](50) NULL,
+	[superuser] [nvarchar](10) NULL,
+	[mobile] [nvarchar](100) NULL,
+	[modifytimestamp] [nvarchar](50) NULL,
+	[mail] [nvarchar](200) NULL,
+	[hasInvitationSent] [int] NOT NULL,
+ CONSTRAINT [PK_idams_user] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[idams_user] ADD  CONSTRAINT [DF_idams_user_Id]  DEFAULT (newid()) FOR [Id]
+GO
+
+ALTER TABLE [dbo].[idams_user] ADD  CONSTRAINT [DF__idams_use__hasIn__2B0A656D]  DEFAULT ((0)) FOR [hasInvitationSent]
+GO
+
+

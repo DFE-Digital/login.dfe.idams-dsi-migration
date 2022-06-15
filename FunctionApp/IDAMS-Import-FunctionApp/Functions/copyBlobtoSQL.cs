@@ -58,21 +58,15 @@ namespace IDAMS_Import_FunctionApp
                 DataTable dtResult = new DataTable("idamsusers");
                 dtResult.Columns.Add("uid", typeof(string));
                 dtResult.Columns.Add("name", typeof(string));
-                dtResult.Columns.Add("givenname", typeof(string));
-                dtResult.Columns.Add("surname", typeof(string));
-                dtResult.Columns.Add("sfaproviderusertype", typeof(string));
-                dtResult.Columns.Add("a1lifecyclestate", typeof(string));
                 dtResult.Columns.Add("upin", typeof(string));
                 dtResult.Columns.Add("ukprn", typeof(string));
                 dtResult.Columns.Add("superuser", typeof(string));
-                dtResult.Columns.Add("mobile", typeof(string));
-                dtResult.Columns.Add("createtimestamp", typeof(string));
+                dtResult.Columns.Add("modifytimestamp", typeof(string));
                 dtResult.Columns.Add("mail", typeof(string));
 
                 foreach (idamsUserCSVItem item in items)
                 {
-                    dtResult.Rows.Add(item.uid, item.name, item.givenname, item.surname, item.sfaproviderusertype,
-                    item.a1lifecyclestate, item.upin, item.ukprn, item.superuser, item.mobile, item.createtimestamp,
+                    dtResult.Rows.Add(item.uid, item.name,  item.upin, item.ukprn, item.superuser, item.modifytimestamp,
                     item.mail);
                 }
 
