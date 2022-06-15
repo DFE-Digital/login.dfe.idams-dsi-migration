@@ -5,7 +5,6 @@ CREATE TABLE [dbo].[idams_user](
 	[upin] [nvarchar](50) NULL,
 	[ukprn] [nvarchar](50) NULL,
 	[superuser] [nvarchar](10) NULL,
-	[mobile] [nvarchar](100) NULL,
 	[modifytimestamp] [nvarchar](50) NULL,
 	[mail] [nvarchar](200) NULL,
 	[hasInvitationSent] [int] NOT NULL,
