@@ -7,6 +7,9 @@ namespace IDAMS_Import_FunctionApp.HelperClasses
 {
    public class idamsUserCSVItem
     {
+        
+            [CsvColumn(Name = "roleName")]
+            public string roleName { get; set; }
             [CsvColumn(Name = "uid")]
             public string uid { get; set; }
 
