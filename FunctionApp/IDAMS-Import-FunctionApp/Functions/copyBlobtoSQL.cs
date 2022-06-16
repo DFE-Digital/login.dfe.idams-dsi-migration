@@ -56,6 +56,8 @@ namespace IDAMS_Import_FunctionApp
                 log.LogInformation($"Number of items found: '{items.Count}'");
 
                 DataTable dtResult = new DataTable("idamsusers");
+                dtResult.Columns.Add("serviceId", typeof(string));
+                dtResult.Columns.Add("roleName", typeof(string));
                 dtResult.Columns.Add("uid", typeof(string));
                 dtResult.Columns.Add("name", typeof(string));
                 dtResult.Columns.Add("upin", typeof(string));
@@ -66,7 +68,7 @@ namespace IDAMS_Import_FunctionApp
 
                 foreach (idamsUserCSVItem item in items)
                 {
-                    dtResult.Rows.Add(item.uid, item.name,  item.upin, item.ukprn, item.superuser, item.modifytimestamp,
+                    dtResult.Rows.Add(item.serviceId,item.roleName,item.uid, item.name,  item.upin, item.ukprn, item.superuser, item.modifytimestamp,
                     item.mail);
                 }
 
