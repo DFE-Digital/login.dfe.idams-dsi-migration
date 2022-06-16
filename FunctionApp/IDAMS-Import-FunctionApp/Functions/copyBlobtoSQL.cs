@@ -68,8 +68,8 @@ namespace IDAMS_Import_FunctionApp
 
                 foreach (idamsUserCSVItem item in items)
                 {
-                    dtResult.Rows.Add(item.serviceId,item.roleName,item.uid, item.name,  item.upin, item.ukprn, item.superuser, item.modifytimestamp,
-                    item.mail);
+                    dtResult.Rows.Add(item.uid, item.name,  item.upin, item.ukprn, item.superuser, item.modifytimestamp,
+                    item.mail, item.serviceId, item.roleName);
                 }
 
                 ImportDataToSQL(name, log, dtResult);
