@@ -25,4 +25,5 @@
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>
   </ItemGroup>
+  <ProjectExtensions><VisualStudio><UserProperties properties_4servicedependencies_4idams-import-functionapp_x0020_-_x0020_zip_x0020_deploy_4profile_1arm_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 </Project>

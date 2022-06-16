@@ -26,7 +26,7 @@ namespace IDAMS_Import_FunctionApp.HelperClasses
             [CsvColumn(Name = "ukprn")]
             public string ukprn { get; set; }
 
-            [CsvColumn(Name = "Superuser")]
+            [CsvColumn(Name = "superUser")]
             public string superuser { get; set; }
 
             [CsvColumn(Name = "modifytimestamp")]
