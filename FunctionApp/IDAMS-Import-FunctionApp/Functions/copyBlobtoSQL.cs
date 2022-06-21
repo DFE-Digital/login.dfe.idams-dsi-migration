@@ -35,7 +35,11 @@ namespace IDAMS_Import_FunctionApp
         private static void ProcessCSVFile(Stream myBlob, string name, ILogger log)
         {
             List<idamsUserCSVItem> items;
-            string serviceId = name.Substring(name.IndexOf('_'), name.IndexOf('.'));
+            int pFrom = name.IndexOf("_") + "_".Length;
+            int pTo = name.LastIndexOf(".");
+
+            String result = name.Substring(pFrom, pTo - pFrom);
+            string serviceId = result;
             CsvFileDescription inputFileDescription = new CsvFileDescription
             {
                 SeparatorChar = ',',
