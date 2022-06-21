@@ -35,7 +35,7 @@ namespace IDAMS_Import_FunctionApp
         private static void ProcessCSVFile(Stream myBlob, string name, ILogger log)
         {
             List<idamsUserCSVItem> items;
-
+            string serviceId = name.Substring(name.IndexOf('_'), name.IndexOf('.'));
             CsvFileDescription inputFileDescription = new CsvFileDescription
             {
                 SeparatorChar = ',',
@@ -69,7 +69,7 @@ namespace IDAMS_Import_FunctionApp
                 foreach (idamsUserCSVItem item in items)
                 {
                     dtResult.Rows.Add(item.uid, item.name,  item.upin, item.ukprn, item.superuser, item.modifytimestamp,
-                    item.mail, item.serviceId, item.roleName);
+                    item.mail, serviceId, item.roleName);
                 }
 
                 ImportDataToSQL(name, log, dtResult);
