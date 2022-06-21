@@ -6,8 +6,9 @@ CREATE TYPE [dbo].[idams_user_type] AS TABLE(
 	[superuser] [nvarchar](10) NULL,
 	[modifytimestamp] [nvarchar](50) NULL,
 	[mail] [nvarchar](200) NULL,
-	[roleName] [nvarchar](500) NULL,
-	[serviceId] [nvarchar](200) NULL
+	[serviceId] [nvarchar](200) NULL,
+	[roleName] [nvarchar](500) NULL
+	
 )
 GO
 

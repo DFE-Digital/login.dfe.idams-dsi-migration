@@ -1,5 +1,0 @@
-CREATE TABLE [dbo].[idams_user_services](
-	[mail] [nvarchar](200) NULL,
-	[serviceName] [varchar](500) NULL
-) ON [PRIMARY]
-GO
