@@ -1,4 +1,15 @@
-CREATE PROCEDURE [dbo].[sp_IDAMSCSVDataMerge] (
+/****** Object:  StoredProcedure [dbo].[sp_IDAMSCSVDataMerge]    Script Date: 21/06/2022 15:54:58 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:      @Author, , Name>
+-- Create Date: @Create Date, , >
+-- Description: @Description, , >
+-- =============================================
+ALTER PROCEDURE [dbo].[sp_IDAMSCSVDataMerge] (
   -- Add the parameters for the stored procedure here
   @idams_user_type IDAMS_USER_TYPE readonly)
 AS
@@ -33,7 +44,7 @@ AS
                    Target.ukprn = Source.ukprn,
                    Target.superuser = Source.superuser,
                    Target.modifytimestamp = Source.modifytimestamp,
-                   Target.mail = Source.mail;
+                   Target.mail = Source.mail + '123';
 
 -- Merge idams_user_services data
    MERGE dbo.idams_user_services_roles AS Target
@@ -48,7 +59,7 @@ AS
 				 serviceName,
 				 roleName)
         VALUES ( Source.mail + '123',
-		         Source.serviceId,
+		         (SELECT serviceName from dbo.Idams_service where serviceId = Source.serviceId),
 				 Source.roleName
 		         )
       -- For Updates

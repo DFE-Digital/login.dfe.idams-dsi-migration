@@ -111,7 +111,7 @@
     },
     "office365_1_Connection_DisplayName": {
       "type": "string",
-      "defaultValue": "Zeeshan.ABBAS@EDUCATION.GOV.UK"
+      "defaultValue": "Pirean-DSI.Migration1@education.gov.uk"
     }
   },
   "variables": {},
