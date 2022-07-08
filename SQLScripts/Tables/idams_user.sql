@@ -5,10 +5,8 @@ CREATE TABLE [dbo].[idams_user](
 	[ukprn] [nvarchar](50) NULL,
 	[superuser] [nvarchar](10) NULL,
 	[modifytimestamp] [nvarchar](50) NULL,
-	[mail] [nvarchar](200) NULL,
-	[hasInvitationSent] [int] NOT NULL
+	[mail] [nvarchar](200) NULL
 ) ON [PRIMARY]
 GO
 
-ALTER TABLE [dbo].[idams_user] ADD  CONSTRAINT [DF__idams_use__hasIn__2B0A656D]  DEFAULT ((0)) FOR [hasInvitationSent]
-GO
+

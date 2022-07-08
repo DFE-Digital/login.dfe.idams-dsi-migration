@@ -1,9 +1,4 @@
-/****** Object:  StoredProcedure [dbo].[sp_AddUpdateIDAMSUserServices]    Script Date: 24/06/2022 11:19:31 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-ALTER PROCEDURE [dbo].[sp_AddUpdateIDAMSUserServices] (
+CREATE PROCEDURE [dbo].[sp_AddUpdateIDAMSUserServices] (
 	-- Add the parameters for the stored procedure here
 	@idams_user_type IDAMS_USER_TYPE readonly
 	)
@@ -19,9 +14,9 @@ BEGIN
 	USING @idams_user_type AS Source
 		ON source.mail + '123' = Target.mail
 			AND (
-				SELECT serviceName
+				SELECT perian_serviceName
 				FROM dbo.Idams_service
-				WHERE serviceId = Source.serviceId
+				WHERE perian_serviceId = Source.serviceId
 				) = Target.serviceName
 			-- For Inserts
 	WHEN NOT MATCHED BY target
@@ -34,9 +29,9 @@ BEGIN
 			VALUES (
 				Source.mail + '123'
 				,(
-					SELECT serviceName
+					SELECT perian_serviceName
 					FROM dbo.Idams_service
-					WHERE serviceId = Source.serviceId
+					WHERE perian_serviceId = Source.serviceId
 					)
 				)
 				-- For Updates
@@ -44,9 +39,9 @@ BEGIN
 		THEN
 			UPDATE
 			SET serviceName = (
-					SELECT serviceName
+					SELECT perian_serviceName
 					FROM dbo.Idams_service
-					WHERE serviceId = Source.serviceId
+					WHERE perian_serviceId = Source.serviceId
 					);
 
 -- Delete duplicates for the first insert

@@ -1,4 +1,4 @@
-CREATE PROCEDURE sp_AddUpdateIDAMSUserServicesRoles (
+CREATE PROCEDURE [dbo].[sp_AddUpdateIDAMSUserServicesRoles] (
 	-- Add the parameters for the stored procedure here
 	@idams_user_type IDAMS_USER_TYPE readonly
 	)
@@ -13,9 +13,9 @@ BEGIN
 	USING @idams_user_type AS Source
 		ON source.mail + '123' = Target.mail
 			AND (
-				SELECT serviceName
+				SELECT perian_serviceName
 				FROM dbo.Idams_service
-				WHERE serviceId = Source.serviceId
+				WHERE perian_serviceId = Source.serviceId
 				) = Target.serviceName
 			AND source.roleName = Target.roleName
 			-- For Inserts
@@ -30,9 +30,9 @@ BEGIN
 			VALUES (
 				Source.mail + '123'
 				,(
-					SELECT serviceName
+					SELECT perian_serviceName
 					FROM dbo.Idams_service
-					WHERE serviceId = Source.serviceId
+					WHERE perian_serviceId = Source.serviceId
 					)
 				,Source.roleName
 				)
@@ -41,11 +41,9 @@ BEGIN
 		THEN
 			UPDATE
 			SET serviceName = (
-					SELECT serviceName
+					SELECT perian_serviceName
 					FROM dbo.Idams_service
-					WHERE serviceId = Source.serviceId
+					WHERE perian_serviceId = Source.serviceId
 					)
 				,roleName = Source.roleName;
 END
-GO
-
