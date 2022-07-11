@@ -113,8 +113,7 @@ namespace IDAMS_Import_FunctionApp.Functions
 
                         dtResult.Rows.Add(upin,
                                           pimsProviderType,
-                                          pimsProviderType,
-                                          districtAdministrativeName,
+                                          pimsStatus,
                                           districtAdministrativeName,
                                           masterDateOpened,
                                           sourceSystem,
