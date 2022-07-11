@@ -32,6 +32,12 @@
       "dirDBPassword": {
         "type": "string"
       },
+      "ppapiendpointurl": {
+        "type": "string"
+      },
+      "ppapifunctionkey": {
+        "type": "string"
+      },
       "idamsblobstorageconnectionstring": {
           "type": "string"
       },
@@ -193,6 +199,14 @@
                             {
                               "name": "DATABASE_DIRECTORIES_PASSWORD",
                               "value": "[parameters('dirDBPassword')]"
+                            },
+                             {
+                              "name": "PP_API_ENDPOINT_URL",
+                              "value": "[parameters('ppapiendpointurl')]"
+                            },
+                             {
+                              "name": "PP_API_FUNCTION_KEY",
+                              "value": "[parameters('ppapifunctionkey')]"
                             },
                             {
                               "name": "FUNCTIONS_WORKER_RUNTIME",
