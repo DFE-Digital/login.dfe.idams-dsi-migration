@@ -22,18 +22,13 @@ namespace IDAMS_Import_FunctionApp.Functions
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            string name = req.Query["name"];
-
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            dynamic data = JsonConvert.DeserializeObject(requestBody);
-            name = name ?? data?.name;
+                       
             var limit = 1000;
             var offset = 0;
             string masterProviderCode = "";
             while (true)
             {
                 string uri = Environment.GetEnvironmentVariable("PP_API_ENDPOINT_URL") + "?limit=" +limit + "&offset=" + offset;
-                
                 var webRequest = (HttpWebRequest)WebRequest.Create(uri);
                 webRequest.Method = "GET";
                 webRequest.ContentType = "application/json";
