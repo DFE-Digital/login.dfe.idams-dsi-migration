@@ -22,7 +22,7 @@ namespace IDAMS_Import_FunctionApp.Functions
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-                       
+            string name = "copyPPtoSQL";        
             var limit = 1000;
             var offset = 0;
             string masterProviderCode = "";
