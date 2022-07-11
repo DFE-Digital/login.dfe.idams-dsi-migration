@@ -32,6 +32,18 @@
       "dirDBPassword": {
         "type": "string"
       },
+       "orgDBName": {
+        "type": "string"
+      },
+      "orgDBHostName": {
+        "type": "string"
+      },
+      "orgDBUsername": {
+        "type": "string"
+      },
+      "orgDBPassword": {
+        "type": "string"
+      },
       "ppapiendpointurl": {
         "type": "string"
       },
@@ -199,6 +211,22 @@
                             {
                               "name": "DATABASE_DIRECTORIES_PASSWORD",
                               "value": "[parameters('dirDBPassword')]"
+                            },
+                            {
+                              "name": "DATABASE_ORGANISATIONS_HOST_NAME",
+                              "value": "[parameters('orgdbHostName')]"
+                            },
+                            {
+                              "name": "DATATBASE_ORGANISATIONS_NAME",
+                              "value": "[parameters('orgdbName')]"
+                            },
+                            {
+                              "name": "DATABASE_ORGANISATIONS_USERNAME",
+                              "value": "[parameters('orgDBUsername')]"
+                            },
+                            {
+                              "name": "DATABASE_ORGANISATIONS_PASSWORD",
+                              "value": "[parameters('orgDBPassword')]"
                             },
                              {
                               "name": "PP_API_ENDPOINT_URL",
