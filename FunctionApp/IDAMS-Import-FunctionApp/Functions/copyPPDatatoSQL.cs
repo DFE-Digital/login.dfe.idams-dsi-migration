@@ -160,15 +160,15 @@ namespace IDAMS_Import_FunctionApp.Functions
             try
             {
                 log.LogInformation($"SQL Connection is Open");
-                SqlCommand idamsuserimportCommand = new SqlCommand
+                SqlCommand ppimportCommand = new SqlCommand
                 {
-                    CommandText = "dbo.sp_PPCSVDataMerge",
+                    CommandText = "dbo.sp_PPJSONDataMerge",
                     CommandType = CommandType.StoredProcedure
                 };
-                SqlParameter sqlParameter = idamsuserimportCommand.Parameters.AddWithValue("@pp_org_type", dtResult);
-                idamsuserimportCommand.Connection = sqlConn;
+                SqlParameter sqlParameter = ppimportCommand.Parameters.AddWithValue("@pp_org_type", dtResult);
+                    ppimportCommand.Connection = sqlConn;
                 sqlConn.Open();
-                var rows = idamsuserimportCommand.ExecuteNonQuery();
+                var rows = ppimportCommand.ExecuteNonQuery();
                 log.LogInformation($"{rows} rows were updated");
 
             }
