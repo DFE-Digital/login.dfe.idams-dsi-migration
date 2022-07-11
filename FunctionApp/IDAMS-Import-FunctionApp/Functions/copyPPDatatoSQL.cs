@@ -106,8 +106,11 @@ namespace IDAMS_Import_FunctionApp.Functions
                         dtResult.Columns.Add("masterProviderTypeName", typeof(string));
                         dtResult.Columns.Add("giasProviderType", typeof(string));
                         dtResult.Columns.Add("masterprovidercode", typeof(string));
+                        dtResult.Columns.Add("masterUkprn", typeof(string));
+                        dtResult.Columns.Add("giasUrn", typeof(string));
+                        dtResult.Columns.Add("masterEdubaseUid", typeof(string));
 
-                          
+
                         dtResult.Rows.Add(upin,
                                           pimsProviderType,
                                           pimsProviderType,
@@ -117,7 +120,10 @@ namespace IDAMS_Import_FunctionApp.Functions
                                           sourceSystem,
                                           masterProviderTypeName,
                                           giasProviderType,
-                                          masterProviderCode);
+                                          masterProviderCode,
+                                          masterUkprn,
+                                          giasUrn,
+                                          masterEdubaseUid);
                             
 
                         ImportDataToSQL(name, log, dtResult);
