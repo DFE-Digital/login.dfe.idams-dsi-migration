@@ -64,18 +64,18 @@ namespace IDAMS_Import_FunctionApp.Functions
                     foreach (JObject obj in arr)
                     {
                         recordNumber++;
-                        masterProviderCode = obj.Value<string>("masterProviderCode") ?? "";
-                        upin = obj.Value<string>("upin") ?? "";
-                        pimsProviderType = obj.Value<string>("pimsProviderType") ?? "";
-                        pimsStatus = obj.Value<string>("pimsStatus") ?? "";
-                        districtAdministrativeName = obj.Value<string>("districtAdministrativeName") ?? "";
-                        masterDateOpened = obj.Value<string>("masterDateOpened") ?? "";
-                        sourceSystem = obj.Value<string>("sourceSystem") ?? "";
-                        masterProviderTypeName = obj.Value<string>("masterProviderTypeName") ?? "";
-                        giasProviderType = obj.Value<string>("giasProviderType") ?? "";
-                        masterUkprn = obj.Value<string>("masterUkprn") ?? "";
-                        giasUrn = obj.Value<string>("giasUrn") ?? "";
-                        masterEdubaseUid = obj.Value<string>("masterEdubaseUid") ?? "";
+                        masterProviderCode = obj.Value<string>("masterProviderCode") ?? null;
+                        upin = obj.Value<string>("upin") ?? null;
+                        pimsProviderType = obj.Value<string>("pimsProviderType") ?? null;
+                        pimsStatus = obj.Value<string>("pimsStatus") ?? null;
+                        districtAdministrativeName = obj.Value<string>("districtAdministrativeName") ?? null;
+                        masterDateOpened = obj.Value<string>("masterDateOpened") ?? null;
+                        sourceSystem = obj.Value<string>("sourceSystem") ?? null;
+                        masterProviderTypeName = obj.Value<string>("masterProviderTypeName") ?? null;
+                        giasProviderType = obj.Value<string>("giasProviderType") ?? null;
+                        masterUkprn = obj.Value<string>("masterUkprn") ?? null;
+                        giasUrn = obj.Value<string>("giasUrn") ?? null;
+                        masterEdubaseUid = obj.Value<string>("masterEdubaseUid") ?? null;
 
                         log.LogInformation($"------Record Start-----");
                         log.LogInformation($"Page Number : {pageNumber}");
@@ -128,7 +128,7 @@ namespace IDAMS_Import_FunctionApp.Functions
                         ImportDataToSQL(name, log, dtResult);
                         }
                     }
-                //offset += limit;
+                offset += limit;
                 pageNumber += 1;
             }
                
@@ -144,7 +144,7 @@ namespace IDAMS_Import_FunctionApp.Functions
             
     private static void ImportDataToSQL(string name, ILogger log, DataTable dtResult)
     {
-        log.LogInformation($"Blob '{name}' found. Uploading to Azure SQL");
+        log.LogInformation($"JSON Data found. Uploading to Azure SQL");
 
         var hostName = Environment.GetEnvironmentVariable("DATABASE_ORGANISATIONS_HOST_NAME");
         var organisationsdbName = Environment.GetEnvironmentVariable("DATATBASE_ORGANISATIONS_NAME");
