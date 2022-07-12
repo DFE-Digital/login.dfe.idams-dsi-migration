@@ -130,7 +130,7 @@ namespace IDAMS_Import_FunctionApp.Functions
                 }
                 //    offset += limit;
                 //   pageNumber += 1;
-            } while (arr != null);
+            } while (recordNumber < arr.Count);
             log.LogInformation($"------SQL Update Start------");
             ImportDataToSQL(name, log, dtResult);
 
