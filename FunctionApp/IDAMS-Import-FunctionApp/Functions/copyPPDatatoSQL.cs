@@ -43,6 +43,18 @@ namespace IDAMS_Import_FunctionApp.Functions
             string giasUrn = "";
             string masterEdubaseUid = "";
             DataTable dtResult = new DataTable("pporgs");
+            dtResult.Columns.Add("upin", typeof(string));
+            dtResult.Columns.Add("pimsProviderType", typeof(string));
+            dtResult.Columns.Add("pimsStatus", typeof(string));
+            dtResult.Columns.Add("districtAdministrativeName", typeof(string));
+            dtResult.Columns.Add("masterDateOpened", typeof(string));
+            dtResult.Columns.Add("sourceSystem", typeof(string));
+            dtResult.Columns.Add("masterProviderTypeName", typeof(string));
+            dtResult.Columns.Add("giasProviderType", typeof(string));
+            dtResult.Columns.Add("masterprovidercode", typeof(string));
+            dtResult.Columns.Add("masterUkprn", typeof(string));
+            dtResult.Columns.Add("giasUrn", typeof(string));
+            dtResult.Columns.Add("masterEdubaseUid", typeof(string));
 
             while (true)
             {
@@ -95,23 +107,8 @@ namespace IDAMS_Import_FunctionApp.Functions
                         log.LogInformation($"masterEdubaseUid: {masterEdubaseUid}");
                         log.LogInformation($"------Record End-----");
 
-                        log.LogInformation($"------SQL Update Start------");
-
+                       
                         
-                        dtResult.Columns.Add("upin", typeof(string));
-                        dtResult.Columns.Add("pimsProviderType", typeof(string));
-                        dtResult.Columns.Add("pimsStatus", typeof(string));
-                        dtResult.Columns.Add("districtAdministrativeName", typeof(string));
-                        dtResult.Columns.Add("masterDateOpened", typeof(string));
-                        dtResult.Columns.Add("sourceSystem", typeof(string));
-                        dtResult.Columns.Add("masterProviderTypeName", typeof(string));
-                        dtResult.Columns.Add("giasProviderType", typeof(string));
-                        dtResult.Columns.Add("masterprovidercode", typeof(string));
-                        dtResult.Columns.Add("masterUkprn", typeof(string));
-                        dtResult.Columns.Add("giasUrn", typeof(string));
-                        dtResult.Columns.Add("masterEdubaseUid", typeof(string));
-
-
                         dtResult.Rows.Add(upin,
                                           pimsProviderType,
                                           pimsStatus,
@@ -145,7 +142,8 @@ namespace IDAMS_Import_FunctionApp.Functions
             
     private static void ImportDataToSQL(string name, ILogger log, DataTable dtResult)
     {
-        log.LogInformation($"JSON Data found. Uploading to Azure SQL");
+            log.LogInformation($"------SQL Update Start------");
+            log.LogInformation($"JSON Data found. Uploading to Azure SQL");
 
         var hostName = Environment.GetEnvironmentVariable("DATABASE_ORGANISATIONS_HOST_NAME");
         var organisationsdbName = Environment.GetEnvironmentVariable("DATATBASE_ORGANISATIONS_NAME");
