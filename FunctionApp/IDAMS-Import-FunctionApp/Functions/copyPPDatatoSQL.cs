@@ -42,6 +42,7 @@ namespace IDAMS_Import_FunctionApp.Functions
             string masterUkprn = "";
             string giasUrn = "";
             string masterEdubaseUid = "";
+            DataTable dtResult = new DataTable("pporgs");
 
             while (true)
             {
@@ -96,7 +97,7 @@ namespace IDAMS_Import_FunctionApp.Functions
 
                         log.LogInformation($"------SQL Update Start------");
 
-                        DataTable dtResult = new DataTable("pporgs");
+                        
                         dtResult.Columns.Add("upin", typeof(string));
                         dtResult.Columns.Add("pimsProviderType", typeof(string));
                         dtResult.Columns.Add("pimsStatus", typeof(string));
@@ -125,15 +126,15 @@ namespace IDAMS_Import_FunctionApp.Functions
                                           masterEdubaseUid);
                             
 
-                        ImportDataToSQL(name, log, dtResult);
+                        
                         }
                     }
                 offset += limit;
                 pageNumber += 1;
             }
-               
 
-               
+            ImportDataToSQL(name, log, dtResult);
+
             string responseMessage = string.IsNullOrEmpty(name)
                     ? "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response."
                     : $"Hello, {name}. This HTTP triggered function executed successfully.";
