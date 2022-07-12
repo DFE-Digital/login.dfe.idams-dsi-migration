@@ -27,7 +27,7 @@ namespace IDAMS_Import_FunctionApp.Functions
 
             string name = "copyPPtoSQL";
             int recordNumber = 0;
-            var limit = 10;
+            var limit = 1000;
             var offset = 0;
             int pageNumber = 1;
             string masterProviderCode = "";
@@ -128,8 +128,8 @@ namespace IDAMS_Import_FunctionApp.Functions
 
                     }
                 }
-                //    offset += limit;
-                //   pageNumber += 1;
+                offset += limit;
+                pageNumber += 1;
             } while (recordNumber < arr.Count);
             log.LogInformation($"------SQL Update Start------");
             ImportDataToSQL(name, log, dtResult);
