@@ -73,6 +73,7 @@ namespace IDAMS_Import_FunctionApp.Functions
                     var reader = new StreamReader(webResponse.GetResponseStream());
                     string s = reader.ReadToEnd();
                     arr = JsonConvert.DeserializeObject<JArray>(s);
+                    log.LogInformation($"Array Size : " + arr.Count);
                     //if (arr == null) break;
 
                     foreach (JObject obj in arr)
