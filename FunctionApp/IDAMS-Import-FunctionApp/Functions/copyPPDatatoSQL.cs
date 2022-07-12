@@ -57,10 +57,8 @@ namespace IDAMS_Import_FunctionApp.Functions
             dtResult.Columns.Add("giasUrn", typeof(string));
             dtResult.Columns.Add("masterEdubaseUid", typeof(string));
 
-            do
-            {
-
-                string uri = Environment.GetEnvironmentVariable("PP_API_ENDPOINT_URL") + "?limit=" + limit + "&offset=" + offset;
+        
+                string uri = Environment.GetEnvironmentVariable("PP_API_ENDPOINT_URL") ;
                 var webRequest = (HttpWebRequest)WebRequest.Create(uri);
                 webRequest.Method = "GET";
                 webRequest.ContentType = "application/json";
@@ -127,12 +125,15 @@ namespace IDAMS_Import_FunctionApp.Functions
 
 
                     }
+                    log.LogInformation($"------SQL Update Start------");
+                    ImportDataToSQL(name, log, dtResult);
+                    log.LogInformation($"------Empty Data Table------");
+                    dtResult.Clear();
                 }
                 offset += limit;
                 pageNumber += 1;
-            } while (recordNumber < arr.Count);
-            log.LogInformation($"------SQL Update Start------");
-            ImportDataToSQL(name, log, dtResult);
+          
+            
 
             string responseMessage = string.IsNullOrEmpty(name)
                     ? "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response."
