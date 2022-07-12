@@ -27,7 +27,7 @@ namespace IDAMS_Import_FunctionApp.Functions
 
             string name = "copyPPtoSQL";
             int recordNumber = 0;
-            var limit = 1000;
+            var limit = 10;
             var offset = 0;
             int pageNumber = 1;
             string masterProviderCode = "";
@@ -126,10 +126,10 @@ namespace IDAMS_Import_FunctionApp.Functions
                         
                         }
                     }
-                offset += limit;
-                pageNumber += 1;
+            //    offset += limit;
+             //   pageNumber += 1;
             }
-
+            log.LogInformation($"------SQL Update Start------");
             ImportDataToSQL(name, log, dtResult);
 
             string responseMessage = string.IsNullOrEmpty(name)
@@ -142,7 +142,7 @@ namespace IDAMS_Import_FunctionApp.Functions
             
     private static void ImportDataToSQL(string name, ILogger log, DataTable dtResult)
     {
-            log.LogInformation($"------SQL Update Start------");
+            
             log.LogInformation($"JSON Data found. Uploading to Azure SQL");
 
         var hostName = Environment.GetEnvironmentVariable("DATABASE_ORGANISATIONS_HOST_NAME");
