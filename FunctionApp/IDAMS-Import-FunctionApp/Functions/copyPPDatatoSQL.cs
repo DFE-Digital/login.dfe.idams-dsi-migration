@@ -57,8 +57,17 @@ namespace IDAMS_Import_FunctionApp.Functions
             dtResult.Columns.Add("giasUrn", typeof(string));
             dtResult.Columns.Add("masterEdubaseUid", typeof(string));
 
-        
-                string uri = Environment.GetEnvironmentVariable("PP_API_ENDPOINT_URL") ;
+            do
+            {
+                log.LogInformation($"------Empty Data Table------");
+                dtResult.Clear();
+                log.LogInformation($"Limit: " + limit);
+                log.LogInformation($"Offset: " + offset);
+
+                string uri = Environment.GetEnvironmentVariable("PP_API_ENDPOINT_URL") + "?limit=" + limit + "&offset=" + offset;
+
+                log.LogInformation($"API URL: " + uri);
+
                 var webRequest = (HttpWebRequest)WebRequest.Create(uri);
                 webRequest.Method = "GET";
                 webRequest.ContentType = "application/json";
@@ -127,12 +136,11 @@ namespace IDAMS_Import_FunctionApp.Functions
                     }
                     log.LogInformation($"------SQL Update Start------");
                     ImportDataToSQL(name, log, dtResult);
-                    log.LogInformation($"------Empty Data Table------");
-                    dtResult.Clear();
+                    
                 }
                 offset += limit;
                 pageNumber += 1;
-          
+            } while (arr != null & arr.Count > 0);
             
 
             string responseMessage = string.IsNullOrEmpty(name)
