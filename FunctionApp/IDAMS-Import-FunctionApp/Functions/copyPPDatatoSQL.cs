@@ -42,6 +42,7 @@ namespace IDAMS_Import_FunctionApp.Functions
             string masterUkprn = "";
             string giasUrn = "";
             string masterEdubaseUid = "";
+            JArray arr = null;
             DataTable dtResult = new DataTable("pporgs");
             dtResult.Columns.Add("upin", typeof(string));
             dtResult.Columns.Add("pimsProviderType", typeof(string));
@@ -56,23 +57,23 @@ namespace IDAMS_Import_FunctionApp.Functions
             dtResult.Columns.Add("giasUrn", typeof(string));
             dtResult.Columns.Add("masterEdubaseUid", typeof(string));
 
-            while (true)
+            do
             {
-                
-                string uri = Environment.GetEnvironmentVariable("PP_API_ENDPOINT_URL") + "?limit=" +limit + "&offset=" + offset;
+
+                string uri = Environment.GetEnvironmentVariable("PP_API_ENDPOINT_URL") + "?limit=" + limit + "&offset=" + offset;
                 var webRequest = (HttpWebRequest)WebRequest.Create(uri);
                 webRequest.Method = "GET";
                 webRequest.ContentType = "application/json";
                 webRequest.Headers["x-functions-key"] = Environment.GetEnvironmentVariable("PP_API_FUNCTION_KEY");
-                  
+
 
                 using var webResponse = (HttpWebResponse)webRequest.GetResponse();
                 if (webResponse.StatusCode == HttpStatusCode.OK)
                 {
                     var reader = new StreamReader(webResponse.GetResponseStream());
                     string s = reader.ReadToEnd();
-                    var arr = JsonConvert.DeserializeObject<JArray>(s);
-                    if (arr == null) break;
+                    arr = JsonConvert.DeserializeObject<JArray>(s);
+                    //if (arr == null) break;
 
                     foreach (JObject obj in arr)
                     {
@@ -107,8 +108,8 @@ namespace IDAMS_Import_FunctionApp.Functions
                         log.LogInformation($"masterEdubaseUid: {masterEdubaseUid}");
                         log.LogInformation($"------Record End-----");
 
-                       
-                        
+
+
                         dtResult.Rows.Add(upin,
                                           pimsProviderType,
                                           pimsStatus,
@@ -121,14 +122,14 @@ namespace IDAMS_Import_FunctionApp.Functions
                                           masterUkprn,
                                           giasUrn,
                                           masterEdubaseUid);
-                            
 
-                        
-                        }
+
+
                     }
-            //    offset += limit;
-             //   pageNumber += 1;
-            }
+                }
+                //    offset += limit;
+                //   pageNumber += 1;
+            } while (arr != null);
             log.LogInformation($"------SQL Update Start------");
             ImportDataToSQL(name, log, dtResult);
 
