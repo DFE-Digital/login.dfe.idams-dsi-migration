@@ -27,6 +27,7 @@ namespace IDAMS_Import_FunctionApp.Functions
 
             string name = "copyPPtoSQL";
             int recordNumber = 0;
+            int totalRecordNumber = 0;
             var limit = 1000;
             var offset = 1000;
             int pageNumber = 1;
@@ -77,6 +78,7 @@ namespace IDAMS_Import_FunctionApp.Functions
                     foreach (JObject obj in arr)
                     {
                         recordNumber++;
+                        totalRecordNumber++;
                         string masterProviderCode = obj.Value<string>("masterProviderCode") ?? null;
                         string upin = obj.Value<string>("upin") ?? null;
                         string pimsProviderType = obj.Value<string>("pimsProviderType") ?? null;
@@ -92,7 +94,7 @@ namespace IDAMS_Import_FunctionApp.Functions
 
                         log.LogInformation($"------Record Start-----");
                         log.LogInformation($"Page Number : {pageNumber}");
-                        log.LogInformation($"Record Number: {recordNumber}");
+                        log.LogInformation($"Total Record Number: {totalRecordNumber}");
                         log.LogInformation($"upin: {upin}");
                         log.LogInformation($"masterUkprn: {masterUkprn}");
                         log.LogInformation($"giasUrn: {giasUrn}");
@@ -112,7 +114,7 @@ namespace IDAMS_Import_FunctionApp.Functions
                             giasUrn,
                             masterEdubaseUid
                         );
-                    if(recordNumber == 1000)
+                    if(recordNumber == 2000)
                     {
                         log.LogInformation($"------SQL Update Start------");
                         ImportDataToSQL(name, log, dtResult);
