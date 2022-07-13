@@ -42,8 +42,8 @@ namespace IDAMS_Import_FunctionApp.Functions
             dtResult.Columns.Add("sourceSystem", typeof(string));
             dtResult.Columns.Add("masterProviderTypeName", typeof(string));
             dtResult.Columns.Add("giasProviderType", typeof(string));
-            dtResult.Columns.Add("masterprovidercode", typeof(string));
             dtResult.Columns.Add("masterUkprn", typeof(string));
+            dtResult.Columns.Add("masterprovidercode", typeof(string));
             dtResult.Columns.Add("giasUrn", typeof(string));
             dtResult.Columns.Add("masterEdubaseUid", typeof(string));
 
@@ -82,7 +82,6 @@ namespace IDAMS_Import_FunctionApp.Functions
                     foreach (JObject obj in arr)
                     {
                         recordNumber++;
-                        string masterProviderCode = obj.Value<string>("masterProviderCode");
                         string upin = obj.Value<string>("masterUpin");
                         string pimsProviderType = obj.Value<string>("pimsProviderType");
                         string pimsStatus = obj.Value<string>("pimsStatus");
@@ -92,6 +91,7 @@ namespace IDAMS_Import_FunctionApp.Functions
                         string masterProviderTypeName = obj.Value<string>("masterProviderTypeName");
                         string giasProviderType = obj.Value<string>("giasProviderType");
                         string masterUkprn = obj.Value<string>("masterUkprn");
+                        string masterProviderCode = obj.Value<string>("masterProviderCode");
                         string giasUrn = obj.Value<string>("giasUrn");
                         string masterEdubaseUid = obj.Value<string>("masterEdubaseUid");
 
@@ -100,9 +100,10 @@ namespace IDAMS_Import_FunctionApp.Functions
                         log.LogInformation($"Record Number: {recordNumber}");
                         log.LogInformation($"upin: {upin}");
                         log.LogInformation($"masterUkprn: {masterUkprn}");
+                        log.LogInformation($"masterProviderCode: {masterProviderCode}");
                         log.LogInformation($"giasUrn: {giasUrn}");
-                       log.LogInformation($"giasProviderType: {giasProviderType}");
-                      log.LogInformation($"------Record End-----");
+                        log.LogInformation($"giasProviderType: {giasProviderType}");
+                        log.LogInformation($"------Record End-----");
 
                         dtResult.Rows.Add(
                             upin,
