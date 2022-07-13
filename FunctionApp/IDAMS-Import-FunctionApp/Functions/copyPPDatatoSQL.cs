@@ -112,9 +112,15 @@ namespace IDAMS_Import_FunctionApp.Functions
                             giasUrn,
                             masterEdubaseUid
                         );
+                    if(recordNumber == 1000)
+                    {
+                        log.LogInformation($"------SQL Update Start------");
+                        ImportDataToSQL(name, log, dtResult);
+                        recordNumber = 0;
                     }
-                    log.LogInformation($"------SQL Update Start------");
-                    ImportDataToSQL(name, log, dtResult);
+
+                    }
+                    
                 }
                 //offset += limit;
                 //pageNumber += 1;
