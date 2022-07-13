@@ -120,9 +120,11 @@ namespace IDAMS_Import_FunctionApp.Functions
                         );
                     }
                     log.LogInformation($"------SQL Update Start------");
-                  //  log.LogInformation($"------Remove Duplicate Records from Datatable------");
-                  //  dtWithoutDuplicates = RemoveDuplicateRows(dtResult, "masterUkprn",log);
-                    ImportDataToSQL(name, log, dtResult);
+                    log.LogInformation($"DataTable Size: " + dtResult.Rows.Count);
+                
+                //  log.LogInformation($"------Remove Duplicate Records from Datatable------");
+                //  dtWithoutDuplicates = RemoveDuplicateRows(dtResult, "masterUkprn",log);
+                ImportDataToSQL(name, log, dtResult);
                 }
             //    offset += limit;
             //    pageNumber += 1;
