@@ -47,9 +47,9 @@ namespace IDAMS_Import_FunctionApp.Functions
             dtResult.Columns.Add("giasUrn", typeof(string));
             dtResult.Columns.Add("masterEdubaseUid", typeof(string));
 
-            //do
-            //{
-                //log.LogInformation($"------Empty Data Table------");
+            do
+            {
+                log.LogInformation($"------Empty Data Table------");
                 dtResult.Clear();
                 log.LogInformation($"Limit: " + limit);
                 log.LogInformation($"Offset: " + offset);
@@ -114,8 +114,8 @@ namespace IDAMS_Import_FunctionApp.Functions
                             sourceSystem,
                             masterProviderTypeName,
                             giasProviderType,
-                            masterProviderCode,
                             masterUkprn,
+                            masterProviderCode,
                             giasUrn,
                             masterEdubaseUid
                         );
@@ -127,9 +127,9 @@ namespace IDAMS_Import_FunctionApp.Functions
                 //  dtWithoutDuplicates = RemoveDuplicateRows(dtResult, "masterUkprn",log);
                 ImportDataToSQL(name, log, dtResult);
                 }
-            //    offset += limit;
-            //    pageNumber += 1;
-            //} while (arr != null & arr.Count > 0);
+                offset += limit;
+                pageNumber += 1;
+            } while (arr != null & arr.Count > 0);
 
             string responseMessage = string.IsNullOrEmpty(name)
                 ? "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response."
