@@ -27,7 +27,7 @@ namespace IDAMS_Import_FunctionApp.Functions
 
             string name = "copyPPtoSQL";
             int recordNumber = 0;
-            var limit = 5000;
+            var limit = 1000;
             var offset = 1000;
             int pageNumber = 1;
             JArray arr = null;
