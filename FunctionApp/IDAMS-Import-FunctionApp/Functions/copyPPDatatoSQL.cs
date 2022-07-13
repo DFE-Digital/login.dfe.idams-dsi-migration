@@ -47,10 +47,10 @@ namespace IDAMS_Import_FunctionApp.Functions
 
             //do
             //{
-                log.LogInformation($"------Empty Data Table------");
-                dtResult.Clear();
-                log.LogInformation($"Limit: " + limit);
-                log.LogInformation($"Offset: " + offset);
+                //log.LogInformation($"------Empty Data Table------");
+                //dtResult.Clear();
+                //log.LogInformation($"Limit: " + limit);
+                //log.LogInformation($"Offset: " + offset);
 
             string uri =
                 Environment.GetEnvironmentVariable("PP_API_ENDPOINT_URL");
@@ -117,6 +117,8 @@ namespace IDAMS_Import_FunctionApp.Functions
                         log.LogInformation($"------SQL Update Start------");
                         ImportDataToSQL(name, log, dtResult);
                         recordNumber = 0;
+                        log.LogInformation($"------Empty Data Table------");
+                        dtResult.Clear();
                     }
 
                     }
