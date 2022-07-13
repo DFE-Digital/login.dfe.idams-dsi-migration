@@ -96,12 +96,13 @@ namespace IDAMS_Import_FunctionApp.Functions
                         string masterEdubaseUid = obj.Value<string>("masterEdubaseUid") ?? null;
 
                         log.LogInformation($"------Record Start-----");
-                        //log.LogInformation($"Page Number : {pageNumber}");
+                      //  log.LogInformation($"Page Number : {pageNumber}");
                         log.LogInformation($"Record Number: {recordNumber}");
-                        //log.LogInformation($"upin: {upin}");
+                        log.LogInformation($"upin: {upin}");
                         log.LogInformation($"masterUkprn: {masterUkprn}");
-                        //log.LogInformation($"giasUrn: {giasUrn}");
-                        log.LogInformation($"------Record End-----");
+                        log.LogInformation($"giasUrn: {giasUrn}");
+                       log.LogInformation($"giasProviderType: {giasProviderType}");
+                      log.LogInformation($"------Record End-----");
 
                         dtResult.Rows.Add(
                             upin,
