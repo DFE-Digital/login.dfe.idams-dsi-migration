@@ -28,8 +28,8 @@ namespace IDAMS_Import_FunctionApp.Functions
 
             string name = "copyPPtoSQL";
             int recordNumber = 0;
-            var limit = Environment.GetEnvironmentVariable("PP_API_LIMIT");
-            var offset = Environment.GetEnvironmentVariable("PP_API_OFFSET");
+            var limit = Convert.ToInt32(Environment.GetEnvironmentVariable("PP_API_LIMIT"));
+            var offset = Convert.ToInt32(Environment.GetEnvironmentVariable("PP_API_OFFSET"));
             int pageNumber = 1;
             JArray arr = null;
             DataTable dtResult = new DataTable("pporgs");
@@ -123,9 +123,9 @@ namespace IDAMS_Import_FunctionApp.Functions
                     log.LogInformation($"------SQL Update Start------");
                     log.LogInformation($"DataTable Size: " + dtResult.Rows.Count);
                 
-                //  log.LogInformation($"------Remove Duplicate Records from Datatable------");
-                //  dtWithoutDuplicates = RemoveDuplicateRows(dtResult, "masterUkprn",log);
-                ImportDataToSQL(name, log, dtResult);
+                  log.LogInformation($"------Remove Duplicate Records from Datatable------");
+                  dtWithoutDuplicates = RemoveDuplicateRows(dtResult, "masterUkprn",log);
+                ImportDataToSQL(name, log, dtWithoutDuplicates);
                 }
                 offset += limit;
                 pageNumber += 1;
