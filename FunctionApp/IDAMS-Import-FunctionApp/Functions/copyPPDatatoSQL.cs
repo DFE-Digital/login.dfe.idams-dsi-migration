@@ -119,8 +119,8 @@ namespace IDAMS_Import_FunctionApp.Functions
                     log.LogInformation($"------SQL Update Start------");
                     ImportDataToSQL(name, log, dtResult);
                 }
-                offset += limit;
-                pageNumber += 1;
+                //offset += limit;
+                //pageNumber += 1;
             } while (arr != null & arr.Count > 0);
 
             string responseMessage = string.IsNullOrEmpty(name)
