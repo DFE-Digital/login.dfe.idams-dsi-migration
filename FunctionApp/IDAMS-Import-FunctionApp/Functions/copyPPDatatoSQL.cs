@@ -52,12 +52,9 @@ namespace IDAMS_Import_FunctionApp.Functions
                 log.LogInformation($"Limit: " + limit);
                 log.LogInformation($"Offset: " + offset);
 
-                string uri =
-                    Environment.GetEnvironmentVariable("PP_API_ENDPOINT_URL")
-                    + "?limit="
-                    + limit
-                    + "&offset="
-                    + offset;
+            string uri =
+                Environment.GetEnvironmentVariable("PP_API_ENDPOINT_URL");
+                    
 
                 log.LogInformation($"API URL: " + uri);
 
