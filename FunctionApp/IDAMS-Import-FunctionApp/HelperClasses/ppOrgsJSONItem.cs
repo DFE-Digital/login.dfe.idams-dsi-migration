@@ -10,7 +10,7 @@ namespace IDAMS_Import_FunctionApp.HelperClasses
 
       
         public string masterProviderCode { get; set; }
-        public string upin { get; set; }
+        public string masterUpin { get; set; }
         public string pimsProviderType { get; set; }
         public string pimsStatus { get; set; }
         public string districtAdministrativeName { get; set; }

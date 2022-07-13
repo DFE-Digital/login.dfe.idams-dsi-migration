@@ -83,7 +83,7 @@ namespace IDAMS_Import_FunctionApp.Functions
                     {
                         recordNumber++;
                         string masterProviderCode = obj.Value<string>("masterProviderCode") ?? null;
-                        string upin = obj.Value<string>("upin") ?? null;
+                        string upin = obj.Value<string>("masterUpin") ?? null;
                         string pimsProviderType = obj.Value<string>("pimsProviderType") ?? null;
                         string pimsStatus = obj.Value<string>("pimsStatus") ?? null;
                         string districtAdministrativeName = obj.Value<string>("districtAdministrativeName") ?? null;
