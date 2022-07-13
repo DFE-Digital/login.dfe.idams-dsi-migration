@@ -27,7 +27,7 @@ namespace IDAMS_Import_FunctionApp.Functions
 
             string name = "copyPPtoSQL";
             int recordNumber = 0;
-            var limit = 10000;
+            var limit = 2000;
             var offset = 0;
             int pageNumber = 1;
             JArray arr = null;
@@ -97,17 +97,8 @@ namespace IDAMS_Import_FunctionApp.Functions
                         log.LogInformation($"Page Number : {pageNumber}");
                         log.LogInformation($"Record Number: {recordNumber}");
                         log.LogInformation($"upin: {upin}");
-                        log.LogInformation($"pimsProviderType: {pimsProviderType}");
-                        log.LogInformation($"pimsStatus: {pimsStatus}");
-                        log.LogInformation( $"districtAdministrativeName: {districtAdministrativeName}");
-                        log.LogInformation($"masterDateOpened: {masterDateOpened}");
-                        log.LogInformation($"sourceSystem: {sourceSystem}");
-                        log.LogInformation($"masterProviderTypeName: {masterProviderTypeName}");
-                        log.LogInformation($"giasProviderType: {giasProviderType}");
                         log.LogInformation($"masterUkprn: {masterUkprn}");
-                        log.LogInformation($"masterProviderCode: {masterProviderCode}");
                         log.LogInformation($"giasUrn: {giasUrn}");
-                        log.LogInformation($"masterEdubaseUid: {masterEdubaseUid}");
                         log.LogInformation($"------Record End-----");
 
                         dtResult.Rows.Add(
@@ -141,8 +132,7 @@ namespace IDAMS_Import_FunctionApp.Functions
 
         private static void ImportDataToSQL(string name, ILogger log, DataTable dtResult)
         {
-            log.LogInformation($"JSON Data found. Uploading to Azure SQL");
-
+            
             var hostName = Environment.GetEnvironmentVariable("DATABASE_ORGANISATIONS_HOST_NAME");
             var organisationsdbName = Environment.GetEnvironmentVariable(
                 "DATATBASE_ORGANISATIONS_NAME"
