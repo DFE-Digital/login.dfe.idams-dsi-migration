@@ -120,7 +120,7 @@ namespace IDAMS_Import_FunctionApp.Functions
                     }
                     log.LogInformation($"------SQL Update Start------");
                     log.LogInformation($"------Remove Duplicate Records from Datatable------");
-                    dtWithoutDuplicates = RemoveDuplicateRows(dtResult, "masterUkprn");
+                    dtWithoutDuplicates = RemoveDuplicateRows(dtResult, "masterUkprn",log);
                     ImportDataToSQL(name, log, dtWithoutDuplicates);
                 }
                 offset += limit;
@@ -199,8 +199,9 @@ namespace IDAMS_Import_FunctionApp.Functions
                 p.Value = _dt;
             }
         }
-        public static DataTable RemoveDuplicateRows(DataTable dTable, string colName)
+        public static DataTable RemoveDuplicateRows(DataTable dTable, string colName, ILogger log)
         {
+            log.LogInformation("Size of Data Table - Before: " + dTable.Site);
             Hashtable hTable = new Hashtable();
             ArrayList duplicateList = new ArrayList();
 
@@ -219,6 +220,7 @@ namespace IDAMS_Import_FunctionApp.Functions
                 dTable.Rows.Remove(dRow);
 
             //Datatable which contains unique records will be return as output.
+            log.LogInformation("Size of Data Table - After: " + dTable.Site);
             return dTable;
         }
     }
