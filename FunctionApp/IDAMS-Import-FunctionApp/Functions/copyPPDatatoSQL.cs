@@ -28,12 +28,12 @@ namespace IDAMS_Import_FunctionApp.Functions
 
             string name = "copyPPtoSQL";
             int recordNumber = 0;
-            int totalRecordNumber = 0;
             var limit = 1000;
-            var offset = 1000;
+            var offset = 0;
             int pageNumber = 1;
             JArray arr = null;
             DataTable dtResult = new DataTable("pporgs");
+            DataTable dtWithoutDuplicates = new DataTable("pporgsnoduplicates");
             dtResult.Columns.Add("upin", typeof(string));
             dtResult.Columns.Add("pimsProviderType", typeof(string));
             dtResult.Columns.Add("pimsStatus", typeof(string));
@@ -47,16 +47,19 @@ namespace IDAMS_Import_FunctionApp.Functions
             dtResult.Columns.Add("giasUrn", typeof(string));
             dtResult.Columns.Add("masterEdubaseUid", typeof(string));
 
-            //do
-            //{
-                //log.LogInformation($"------Empty Data Table------");
-                //dtResult.Clear();
-                //log.LogInformation($"Limit: " + limit);
-                //log.LogInformation($"Offset: " + offset);
+            do
+            {
+                log.LogInformation($"------Empty Data Table------");
+                dtResult.Clear();
+                log.LogInformation($"Limit: " + limit);
+                log.LogInformation($"Offset: " + offset);
 
-            string uri =
-                Environment.GetEnvironmentVariable("PP_API_ENDPOINT_URL");
-                    
+                string uri =
+                    Environment.GetEnvironmentVariable("PP_API_ENDPOINT_URL")
+                    + "?limit="
+                    + limit
+                    + "&offset="
+                    + offset;
 
                 log.LogInformation($"API URL: " + uri);
 
@@ -79,7 +82,6 @@ namespace IDAMS_Import_FunctionApp.Functions
                     foreach (JObject obj in arr)
                     {
                         recordNumber++;
-                        totalRecordNumber++;
                         string masterProviderCode = obj.Value<string>("masterProviderCode") ?? null;
                         string upin = obj.Value<string>("upin") ?? null;
                         string pimsProviderType = obj.Value<string>("pimsProviderType") ?? null;
@@ -95,7 +97,7 @@ namespace IDAMS_Import_FunctionApp.Functions
 
                         log.LogInformation($"------Record Start-----");
                         log.LogInformation($"Page Number : {pageNumber}");
-                        log.LogInformation($"Total Record Number: {totalRecordNumber}");
+                        log.LogInformation($"Record Number: {recordNumber}");
                         log.LogInformation($"upin: {upin}");
                         log.LogInformation($"masterUkprn: {masterUkprn}");
                         log.LogInformation($"giasUrn: {giasUrn}");
@@ -115,23 +117,15 @@ namespace IDAMS_Import_FunctionApp.Functions
                             giasUrn,
                             masterEdubaseUid
                         );
-                    if(recordNumber == 2000)
-                    {
-                        DataTable dtwithoutDuplicates = RemoveDuplicateRows(dtResult, "masterUkprn");
-                        log.LogInformation($"------SQL Update Start------");
-                        ImportDataToSQL(name, log, dtwithoutDuplicates);
-                        recordNumber = 0;
-                        log.LogInformation($"------Empty Data Table------");
-                        dtResult.Clear();
-                        dtwithoutDuplicates.Clear();
                     }
-
-                    }
-                    
+                    log.LogInformation($"------SQL Update Start------");
+                    log.LogInformation($"------Remove Duplicate Records from Datatable------");
+                    dtWithoutDuplicates = RemoveDuplicateRows(dtResult, "masterUkprn");
+                    ImportDataToSQL(name, log, dtWithoutDuplicates);
                 }
-                //offset += limit;
-                //pageNumber += 1;
-            //} while (arr != null & arr.Count > 0);
+                offset += limit;
+                pageNumber += 1;
+            } while (arr != null & arr.Count > 0);
 
             string responseMessage = string.IsNullOrEmpty(name)
                 ? "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response."
