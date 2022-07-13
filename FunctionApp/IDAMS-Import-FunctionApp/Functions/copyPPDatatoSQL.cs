@@ -82,18 +82,18 @@ namespace IDAMS_Import_FunctionApp.Functions
                     foreach (JObject obj in arr)
                     {
                         recordNumber++;
-                        string masterProviderCode = obj.Value<string>("masterProviderCode") ?? null;
-                        string upin = obj.Value<string>("masterUpin") ?? null;
-                        string pimsProviderType = obj.Value<string>("pimsProviderType") ?? null;
-                        string pimsStatus = obj.Value<string>("pimsStatus") ?? null;
-                        string districtAdministrativeName = obj.Value<string>("districtAdministrativeName") ?? null;
-                        string masterDateOpened = obj.Value<string>("masterDateOpened") ?? null;
-                        string sourceSystem = obj.Value<string>("sourceSystem") ?? null;
-                        string masterProviderTypeName =  obj.Value<string>("masterProviderTypeName") ?? null;
-                        string giasProviderType = obj.Value<string>("giasProviderType") ?? null;
-                        string masterUkprn = obj.Value<string>("masterUkprn") ?? null;
-                        string giasUrn = obj.Value<string>("giasUrn") ?? null;
-                        string masterEdubaseUid = obj.Value<string>("masterEdubaseUid") ?? null;
+                        string masterProviderCode = obj.Value<string>("masterProviderCode");
+                        string upin = obj.Value<string>("masterUpin");
+                        string pimsProviderType = obj.Value<string>("pimsProviderType");
+                        string pimsStatus = obj.Value<string>("pimsStatus");
+                        string districtAdministrativeName = obj.Value<string>("districtAdministrativeName");
+                        string masterDateOpened = obj.Value<string>("masterDateOpened");
+                        string sourceSystem = obj.Value<string>("sourceSystem");
+                        string masterProviderTypeName = obj.Value<string>("masterProviderTypeName");
+                        string giasProviderType = obj.Value<string>("giasProviderType");
+                        string masterUkprn = obj.Value<string>("masterUkprn");
+                        string giasUrn = obj.Value<string>("giasUrn");
+                        string masterEdubaseUid = obj.Value<string>("masterEdubaseUid");
 
                         log.LogInformation($"------Record Start-----");
                       //  log.LogInformation($"Page Number : {pageNumber}");
