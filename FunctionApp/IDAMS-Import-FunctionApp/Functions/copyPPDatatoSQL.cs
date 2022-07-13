@@ -49,10 +49,10 @@ namespace IDAMS_Import_FunctionApp.Functions
 
             do
             {
-                log.LogInformation($"------Empty Data Table------");
+                //log.LogInformation($"------Empty Data Table------");
                 dtResult.Clear();
-                log.LogInformation($"Limit: " + limit);
-                log.LogInformation($"Offset: " + offset);
+                //log.LogInformation($"Limit: " + limit);
+                //log.LogInformation($"Offset: " + offset);
 
                 string uri =
                     Environment.GetEnvironmentVariable("PP_API_ENDPOINT_URL")
@@ -76,7 +76,7 @@ namespace IDAMS_Import_FunctionApp.Functions
                     var reader = new StreamReader(webResponse.GetResponseStream());
                     string s = reader.ReadToEnd();
                     arr = JsonConvert.DeserializeObject<JArray>(s);
-                    log.LogInformation($"Array Size : " + arr.Count);
+                    //log.LogInformation($"Array Size : " + arr.Count);
                     //if (arr == null) break;
 
                     foreach (JObject obj in arr)
@@ -96,11 +96,11 @@ namespace IDAMS_Import_FunctionApp.Functions
                         string masterEdubaseUid = obj.Value<string>("masterEdubaseUid") ?? null;
 
                         log.LogInformation($"------Record Start-----");
-                        log.LogInformation($"Page Number : {pageNumber}");
+                        //log.LogInformation($"Page Number : {pageNumber}");
                         log.LogInformation($"Record Number: {recordNumber}");
-                        log.LogInformation($"upin: {upin}");
+                        //log.LogInformation($"upin: {upin}");
                         log.LogInformation($"masterUkprn: {masterUkprn}");
-                        log.LogInformation($"giasUrn: {giasUrn}");
+                        //log.LogInformation($"giasUrn: {giasUrn}");
                         log.LogInformation($"------Record End-----");
 
                         dtResult.Rows.Add(
@@ -201,7 +201,7 @@ namespace IDAMS_Import_FunctionApp.Functions
         }
         public static DataTable RemoveDuplicateRows(DataTable dTable, string colName, ILogger log)
         {
-            log.LogInformation("Size of Data Table - Before: " + dTable.Site);
+            log.LogInformation("Size of Data Table - Before: " + dTable.Rows.Count);
             Hashtable hTable = new Hashtable();
             ArrayList duplicateList = new ArrayList();
 
@@ -220,7 +220,7 @@ namespace IDAMS_Import_FunctionApp.Functions
                 dTable.Rows.Remove(dRow);
 
             //Datatable which contains unique records will be return as output.
-            log.LogInformation("Size of Data Table - After: " + dTable.Site);
+            log.LogInformation("Size of Data Table - After: " + dTable.Rows.Count);
             return dTable;
         }
     }
