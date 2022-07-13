@@ -28,8 +28,8 @@ namespace IDAMS_Import_FunctionApp.Functions
 
             string name = "copyPPtoSQL";
             int recordNumber = 0;
-            var limit = 1000;
-            var offset = 65000;
+            var limit = Environment.GetEnvironmentVariable("PP_API_LIMIT");
+            var offset = Environment.GetEnvironmentVariable("PP_API_OFFSET");
             int pageNumber = 1;
             JArray arr = null;
             DataTable dtResult = new DataTable("pporgs");

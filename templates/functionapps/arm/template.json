@@ -236,6 +236,14 @@
                               "name": "PP_API_FUNCTION_KEY",
                               "value": "[parameters('ppapifunctionkey')]"
                             },
+                             {
+                              "name": "PP_API_LIMIT",
+                              "value": "1000"
+                            },
+                             {
+                              "name": "PP_API_OFFSET",
+                              "value": "65000"
+                            },
                             {
                               "name": "FUNCTIONS_WORKER_RUNTIME",
                               "value": "dotnet"
