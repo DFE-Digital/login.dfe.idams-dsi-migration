@@ -45,8 +45,8 @@ namespace IDAMS_Import_FunctionApp.Functions
             dtResult.Columns.Add("giasUrn", typeof(string));
             dtResult.Columns.Add("masterEdubaseUid", typeof(string));
 
-            do
-            {
+            //do
+            //{
                 log.LogInformation($"------Empty Data Table------");
                 dtResult.Clear();
                 log.LogInformation($"Limit: " + limit);
@@ -121,7 +121,7 @@ namespace IDAMS_Import_FunctionApp.Functions
                 }
                 //offset += limit;
                 //pageNumber += 1;
-            } while (arr != null & arr.Count > 0);
+            //} while (arr != null & arr.Count > 0);
 
             string responseMessage = string.IsNullOrEmpty(name)
                 ? "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response."
