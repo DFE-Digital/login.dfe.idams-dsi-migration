@@ -29,7 +29,7 @@ namespace IDAMS_Import_FunctionApp.Functions
             string name = "copyPPtoSQL";
             int recordNumber = 0;
             var limit = 1000;
-            var offset = 0;
+            var offset = 65000;
             int pageNumber = 1;
             JArray arr = null;
             DataTable dtResult = new DataTable("pporgs");
@@ -120,8 +120,8 @@ namespace IDAMS_Import_FunctionApp.Functions
                     }
                     log.LogInformation($"------SQL Update Start------");
                     log.LogInformation($"------Remove Duplicate Records from Datatable------");
-                    dtWithoutDuplicates = RemoveDuplicateRows(dtResult, "masterUkprn",log);
-                    ImportDataToSQL(name, log, dtWithoutDuplicates);
+                  //  dtWithoutDuplicates = RemoveDuplicateRows(dtResult, "masterUkprn",log);
+                    ImportDataToSQL(name, log, dtResult);
                 }
                 offset += limit;
                 pageNumber += 1;
