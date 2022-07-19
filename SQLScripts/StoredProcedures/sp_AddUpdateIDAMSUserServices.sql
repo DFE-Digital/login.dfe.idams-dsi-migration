@@ -25,6 +25,7 @@ BEGIN
 			INSERT (
 				mail
 				,serviceName
+				,superuser
 				)
 			VALUES (
 				Source.mail + '123'
@@ -32,7 +33,8 @@ BEGIN
 					SELECT perian_serviceName
 					FROM dbo.Idams_service
 					WHERE perian_serviceId = Source.serviceId
-					)
+					),
+				Source.superuser
 				)
 				-- For Updates
 	WHEN MATCHED
@@ -42,7 +44,8 @@ BEGIN
 					SELECT perian_serviceName
 					FROM dbo.Idams_service
 					WHERE perian_serviceId = Source.serviceId
-					);
+					),
+					superuser = Source.superuser;
 
 -- Delete duplicates for the first insert
 	WITH cte

@@ -18,7 +18,7 @@ BEGIN
 				,NAME
 				,upin
 				,ukprn
-				,superuser
+				
 				,modifytimestamp
 				,mail
 				)
@@ -27,7 +27,7 @@ BEGIN
 				,Source.NAME
 				,Source.upin
 				,Source.ukprn
-				,Source.superuser
+				
 				,Source.modifytimestamp
 				,Source.mail + '123'
 				)
@@ -39,7 +39,7 @@ BEGIN
 				,Target.NAME = Source.NAME
 				,Target.upin = Source.upin
 				,Target.ukprn = Source.ukprn
-				,Target.superuser = Source.superuser
+				
 				,Target.modifytimestamp = Source.modifytimestamp
 				,Target.mail = Source.mail + '123';
 
