@@ -23,10 +23,10 @@ param (
     $adminSqlLogin,
     [Parameter(Mandatory = $true)]
     [string]
-    $password
+    $adminpwd
      
 )
-
+$secureString = convertto-securestring $adminpwd -asplaintext -force
 # Import bacpac to database with an S3 performance level
 $importRequest = New-AzSqlDatabaseImport -ResourceGroupName $resourceGroupName `
     -ServerName $serverName `
@@ -38,7 +38,7 @@ $importRequest = New-AzSqlDatabaseImport -ResourceGroupName $resourceGroupName `
     -Edition "Standard" `
     -ServiceObjectiveName "S3" `
     -AdministratorLogin "$adminSqlLogin" `
-    -AdministratorLoginPassword $(ConvertTo-SecureString -String $password -AsPlainText -Force)
+    -AdministratorLoginPassword $(ConvertTo-SecureString -String $secureString -AsPlainText -Force)
 
 # Check import status and wait for the import to complete
 $importStatus = Get-AzSqlDatabaseImportExportStatus -OperationStatusLink $importRequest.OperationStatusLink
