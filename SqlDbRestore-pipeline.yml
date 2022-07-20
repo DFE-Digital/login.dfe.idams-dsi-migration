@@ -1,6 +1,9 @@
 name: $(BuildDefinitionName)_tag-$(BuildID)_at-$(Date:yyyyMMdd)$(Rev:.r)
 resources:
   repositories:
+    - repository: self
+      persistCredentials: true
+      clean: true
     - repository: devopsTemplates
       type: github
       endpoint: DfE-Digital
@@ -13,8 +16,28 @@ variables:
 - group: platform-dev-idamsdsiapp
 
 stages:
-- stage: ImportDB
+- stage: importorgsdb
+  displayName: Import Organisations Database
   jobs:
-  - template: /templates/sqldb/pirean-master-restore-azure-sql-db.yml@devopsTemplates
- 
+    - deployment: importorgsdb
+      displayName: Import Organisations Database
+      pool:
+        vmImage: ubuntu-latest
+      environment: 'dev'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - checkout: self
+              - checkout: devopsTemplates
+            
+              - task: AzurePowerShell@5
+                displayName: Import Organisations Database
+                inputs:
+                  azureSubscription: 's141d-Pirean.azdo-deployment'
+                  ScriptType: 'FilePath'
+                  ScriptPath: ./login.dfe.idams-dsi-migration/powershell/Import-from-bacpac-to-sql-db.ps1
+                  ScriptArguments: '-resourceGroupName $(resourceGroupName) -serverName $(organisationsSqlHostName) -databaseName $(organisationsdbName) -storageAccountName $(azureblobaccountname) -storageContainerName $(blobsqlcontainername) -bacpacFilename $(azureblobbacpacfilename) -adminSqlLogin $(organisationsdbUserName) -password $(organisationsdbPassword)'
+                  azurePowerShellVersion: 'LatestVersion'
+                  pwsh: true
      
