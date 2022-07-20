@@ -15,4 +15,4 @@ variables:
 stages:
 - stage: ImportDB
   jobs:
-  - template: /templates/sqldb/jobs/pirean-master-restore-azure-sql-db.yml
+  - template: /templates/sqldb/pirean-master-restore-azure-sql-db.yml
