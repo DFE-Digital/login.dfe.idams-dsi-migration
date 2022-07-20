@@ -38,7 +38,7 @@ jobs:
               - task: AzurePowerShell@5
                 displayName: Restore Organisations Databasee
                 inputs:
-                 azureSubscription: $(serviceConnection)
+                 azureSubscription: 's141d-Pirean.azdo-deployment'
                  ScriptType: 'FilePath'
                  scriptPath: './powershell/Import-from-bacpac-to-sql-db.ps1'
                  ScriptArguments: '-resourceGroupName $(resourceGroupName) -serverName $(organisationsSqlHostName) -databaseName $(organisationsdbName) -storageAccountName $(azureblobaccountname) -storageContainerName $(blobsqlcontainername) -bacpacFilename $(azureblobbacpacfilename) -adminSqlLogin $(organisationsdbUserName) -password $(organisationsdbPassword)'
