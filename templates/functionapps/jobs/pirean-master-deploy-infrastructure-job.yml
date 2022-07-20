@@ -56,7 +56,10 @@ jobs:
             armParameterOverrideString: '-templatesBaseUri "$(templatesBaseUri)" -applicationName "${{parameters.applicationName}}" -environmentName "${{parameters.environmentName}}" -dirDBName "$(dirSqlDbName)" -dirDBHostName "$(dirSqlHostName)" -dirDBUsername "$(dirSqlLogin)" -dirDBPassword "$(dirSqlPassword)" -orgDBName "$(organisationsdbName)" -orgDBHostName "$(organisationsSqlHostName)" -orgDBUsername "$(organisationsdbUserName)" -orgDBPassword "$(organisationsdbPassword)" -idamsblobstorageconnectionstring "$(idamsblobstorageconnectionstring)" -environmentId "${{parameters.environmentId}}" -AppServicePlanSku "$(FunctionAppServicePlanSku)" -sharedResourceGroupName "$(sharedResourceGroupName)" -ppapiendpointurl "$(ppapiendpointurl)" -ppapifunctionkey "$(ppapifunctionkey)" '
             storageAccountParameterOverideString: '-applicationName "${{parameters.applicationName}}" -environmentId "${{parameters.environmentId}}"'
             processOutputs: true
-
+        - pwsh: |
+          Copy-Item -Path $(System.DefaultWorkingDirectory)/*.ps1 -Destination $(System.DefaultWorkingDirectory)/Publish/ -Recurse
+          
+         displayName: Copy PowerShell Files to Publish
         - task: AzureCLI@2
           displayName: 'Azure CLI - Promote Service Principal'
           inputs:
