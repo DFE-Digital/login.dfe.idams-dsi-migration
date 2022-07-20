@@ -16,6 +16,5 @@ stages:
 - stage: ImportDB
   jobs:
   - template: /templates/sqldb/pirean-master-restore-azure-sql-db.yml
-  additionalFoldersForBuild: 
-      - 'powershell//**'
+ 
      
