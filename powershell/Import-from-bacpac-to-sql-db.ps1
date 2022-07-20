@@ -22,7 +22,7 @@ param (
     [string]
     $adminSqlLogin,
     [Parameter(Mandatory = $true)]
-    [securestring]
+    [string]
     $password
      
 )
