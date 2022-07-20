@@ -37,7 +37,7 @@ stages:
                   azureSubscription: 's141d-Pirean.azdo-deployment'
                   ScriptType: 'FilePath'
                   ScriptPath: ./login.dfe.idams-dsi-migration/powershell/Import-from-bacpac-to-sql-db.ps1
-                  ScriptArguments: '-resourceGroupName $(resourceGroupName) -serverName $(organisationsSqlHostName) -databaseName $(organisationsdbName) -storageAccountName $(azureblobaccountname) -storageContainerName $(blobsqlcontainername) -bacpacFilename $(azureblobbacpacfilename) -adminSqlLogin $(organisationsdbUserName) -password $(organisationsdbPassword)'
+                  ScriptArguments: '-resourceGroupName s141d02-shd -serverName $(organisationsSqlHostName) -databaseName $(organisationsdbName) -storageAccountName $(azureblobaccountname) -storageContainerName $(blobsqlcontainername) -bacpacFilename $(azureblobbacpacfilename) -adminSqlLogin $(organisationsdbUserName) -password $(organisationsdbPassword)'
                   azurePowerShellVersion: 'LatestVersion'
                   pwsh: true
      
