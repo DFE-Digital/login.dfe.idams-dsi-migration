@@ -35,7 +35,8 @@ jobs:
                   azurePowerShellVersion: 'LatestVersion'                
                   
               - pwsh: |
-                  Copy-Item -Path $(System.DefaultWorkingDirectory)/powershell/*.ps1 -Destination $(System.DefaultWorkingDirectory)/Publish/powershell/ -Recurse
+                  Copy-Item -Path $(System.DefaultWorkingDirectory)/powershell/ -Destination $(System.DefaultWorkingDirectory)/Publish/powershell/ -Recurse
+                  Copy-Item -Path $(System.DefaultWorkingDirectory)/powershell/*.ps1 -Destination $(System.DefaultWorkingDirectory)/Publish/powershell/
                 displayName: Copy Powershell Files to Publish
 
               - task: AzurePowerShell@5
