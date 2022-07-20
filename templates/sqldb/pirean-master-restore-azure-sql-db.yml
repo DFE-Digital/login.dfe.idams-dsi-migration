@@ -1,18 +1,3 @@
-name: $(BuildDefinitionName)_tag-$(BuildID)_at-$(Date:yyyyMMdd)$(Rev:.r)
-resources:
-  repositories:
-    - repository: devopsTemplates
-      type: github
-      endpoint: DfE-Digital
-      name: DFE-Digital/login.dfe.idams-dsi-migration
-      ref: master
-
-variables:
-- group: platform-global
-- group: platform-Dev
-- group: platform-dev-idamsdsiapp
-
-
 jobs:
     - deployment: restoreorgsdatabase
       displayName: Restore Organisations Database
