@@ -37,7 +37,8 @@ jobs:
               - pwsh: |
                   Copy-Item -Path $(System.DefaultWorkingDirectory)/*.ps1 -Destination $(System.DefaultWorkingDirectory)/Publish/ -Recurse
                 displayName: Copy Powershell Files to Publish
-
+                
+              - task: AzurePowerShell@5
                 displayName: Restore Organisations Databasee
                 inputs:
                  azureSubscription: 's141d-Pirean.azdo-deployment'
