@@ -1,0 +1,18 @@
+name: $(BuildDefinitionName)_tag-$(BuildID)_at-$(Date:yyyyMMdd)$(Rev:.r)
+resources:
+  repositories:
+    - repository: devopsTemplates
+      type: github
+      endpoint: DfE-Digital
+      name: DFE-Digital/login.dfe.idams-dsi-migration
+      ref: master
+
+variables:
+- group: platform-global
+- group: platform-Dev
+- group: platform-dev-idamsdsiapp
+
+stages:
+- stage: ImportDB
+  jobs:
+  - template: /templates/sqldb/jobs/pirean-master-restore-azure-sql-db.yml
