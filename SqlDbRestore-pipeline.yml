@@ -15,50 +15,6 @@ variables:
 stages:
 - stage: ImportDB
   jobs:
-    - deployment: restoreorgsdatabase
-      displayName: Restore Organisations Database
-      pool:
-        vmImage: ubuntu-latest
-      environment: 'dev'
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-              - task: AzureCLI@2
-                displayName: 'Azure CLI - Promote Service Principal'
-                inputs:
-                  azureSubscription: 's141d-Pirean.azdo-deployment'
-                  scriptType: pscore
-                  scriptLocation: inlineScript
-                  inlineScript: |
-                  
-                    Write-Host "##vso[task.setvariable variable=ARM_CLIENT_ID]$env:servicePrincipalId"
-                    Write-Host "##vso[task.setvariable variable=ARM_CLIENT_SECRET]$env:servicePrincipalKey"
-                    Write-Host "##vso[task.setvariable variable=ARM_TENANT_ID]$env:tenantId"
-                  addSpnToEnvironment: true
-              - task: AzurePowerShell@5
-                displayName: Connect with Az
-                inputs:
-                  azureSubscription: 's141d-Pirean.azdo-deployment'
-                  ScriptType: InlineScript
-                  Inline: |
-                 
-                   $username = "$(ARM_CLIENT_ID)"
-                   $password = "$(ARM_CLIENT_SECRET)"
-                   $tenantId = "$(ARM_TENANT_ID)"
-                   az login --service-principal --username  $username --password $password --tenant $tenantId
-
-                  azurePowerShellVersion: 'LatestVersion'                
-                  
-            
-              - task: AzurePowerShell@5
-                displayName: Restore Organisations Databasee
-                inputs:
-                 azureSubscription: 's141d-Pirean.azdo-deployment'
-                 ScriptType: 'FilePath'
-                 scriptPath: './powershell/Import-from-bacpac-to-sql-db.ps1'
-                 ScriptArguments: '-resourceGroupName $(resourceGroupName) -serverName $(organisationsSqlHostName) -databaseName $(organisationsdbName) -storageAccountName $(azureblobaccountname) -storageContainerName $(blobsqlcontainername) -bacpacFilename $(azureblobbacpacfilename) -adminSqlLogin $(organisationsdbUserName) -password $(organisationsdbPassword)'
-                 azurePowerShellVersion: 'LatestVersion'
-                 pwsh: true
+  - template: /templates/sqldb/pirean-master-restore-azure-sql-db.yml
  
      
