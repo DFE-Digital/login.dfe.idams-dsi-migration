@@ -3,13 +3,11 @@ jobs:
       displayName: Restore Organisations Database
       pool:
         vmImage: ubuntu-latest
-      environment: $(environment)
+      environment: 's141d-Pirean.azdo-deployment'
       strategy:
         runOnce:
           deploy:
             steps:
-              - checkout: self
-              - checkout: devopsTools
               - task: AzureCLI@2
                 displayName: 'Azure CLI - Promote Service Principal'
                 inputs:
