@@ -4,7 +4,7 @@ resources:
     - repository: devopsTemplates
       type: github
       endpoint: DfE-Digital
-      name: DFE-Digital/login.dfe.idams-dsi-migration/
+      name: DFE-Digital/login.dfe.idams-dsi-migration
       ref: master
 
 variables:
@@ -15,6 +15,6 @@ variables:
 stages:
 - stage: ImportDB
   jobs:
-  - template: /templates/sqldb/pirean-master-restore-azure-sql-db.yml
+  - template: /templates/sqldb/pirean-master-restore-azure-sql-db.yml@devopsTemplates
  
      
