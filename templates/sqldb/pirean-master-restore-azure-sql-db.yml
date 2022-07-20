@@ -35,9 +35,9 @@ jobs:
                   azurePowerShellVersion: 'LatestVersion'                
                   
               - pwsh: |
-                  Copy-Item -Path $(System.DefaultWorkingDirectory)/*.ps1 -Destination $(System.DefaultWorkingDirectory)/Publish/ -Recurse
+                  Copy-Item -Path $(System.DefaultWorkingDirectory)/powershell/*.ps1 -Destination $(System.DefaultWorkingDirectory)/Publish/powershell/ -Recurse
                 displayName: Copy Powershell Files to Publish
-                
+
               - task: AzurePowerShell@5
                 displayName: Restore Organisations Databasee
                 inputs:
