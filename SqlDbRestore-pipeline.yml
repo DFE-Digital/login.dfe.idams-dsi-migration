@@ -70,9 +70,11 @@ stages:
             #       azurePowerShellVersion: 'LatestVersion'
             #       pwsh: true
               - task: PowerShell@2
+                displayName: Install Module SQLServer
                 inputs:
                     targetType: 'inline'
                     script: 'Install-Module -Name SqlServer -AllowPrerelease -Force -Verbose -Scope CurrentUser'
+
               - task: AzurePowerShell@5
                 displayName: Update Organisations Table Schema
                 inputs:
