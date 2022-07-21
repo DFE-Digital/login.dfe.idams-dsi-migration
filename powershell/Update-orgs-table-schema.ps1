@@ -24,4 +24,4 @@ param (
 $secureString = convertto-securestring $adminpwd -asplaintext -force
 
 
-invoke-sqlcmd -inputfile $sqlscriptpath  -serverinstance $serverName -database $databaseName -UserName $adminpwd -Password $secureString
+invoke-sqlcmd -inputfile $sqlscriptpath  -serverinstance 's141d02-signin-shd-sql' -database 'd02-testorgs01' -UserName "$adminSqlLogin" -Password $secureString
