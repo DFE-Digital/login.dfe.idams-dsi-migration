@@ -40,7 +40,8 @@ stages:
                   
                     Write-Host "##vso[task.setvariable variable=SQL_User_Name]$env:organisationsdbUserName"
                     Write-Host "##vso[task.setvariable variable=SQL_Password]$env:organisationsdbPassword"
-                    
+                    $username = "$(SQL_User_Name)"
+                    $password = "$(SQL_Password)"
                   addSpnToEnvironment: true
               - task: AzurePowerShell@5
                 displayName: Import Organisations Database
@@ -48,7 +49,7 @@ stages:
                   azureSubscription: 's141d-Pirean.azdo-deployment'
                   ScriptType: 'FilePath'
                   ScriptPath: ./login.dfe.idams-dsi-migration/powershell/Import-from-bacpac-to-sql-db.ps1
-                  ScriptArguments: '-resourceGroupName s141d02-shd -serverName $(organisationsSqlHostName) -databaseName $(organisationsdbName) -storageAccountName $(azureblobaccountname) -storageContainerName $(blobsqlcontainername) -bacpacFilename $(azureblobbacpacfilename) -adminSqlLogin $(SQL_User_Name) -adminpwd $(SQL_Password)'
+                  ScriptArguments: '-resourceGroupName s141d02-shd -serverName $(organisationsSqlHostName) -databaseName $(organisationsdbName) -storageAccountName $(azureblobaccountname) -storageContainerName $(blobsqlcontainername) -bacpacFilename $(azureblobbacpacfilename) -adminSqlLogin $(username) -adminpwd $(password)'
                   azurePowerShellVersion: 'LatestVersion'
                   pwsh: true
      
