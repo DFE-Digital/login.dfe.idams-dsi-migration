@@ -22,7 +22,7 @@ param (
      
 )
 install-module sqlserver
-update-module sqlserver
+
 import-module sqlserver
 $secureString = convertto-securestring $adminpwd -asplaintext -force
 
