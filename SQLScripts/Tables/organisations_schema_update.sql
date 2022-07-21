@@ -1,6 +1,6 @@
 ALTER TABLE dbo.organisation
 ADD 
-	 
+	ProviderProfileID VARCHAR (100)  NULL,
 	 UPIN VARCHAR (100)  NULL,
 	 PIMSProviderType VARCHAR (100)  NULL,
 	 PIMSStatus VARCHAR (100)  NULL,

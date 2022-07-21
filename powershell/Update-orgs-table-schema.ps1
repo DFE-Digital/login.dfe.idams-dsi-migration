@@ -25,4 +25,11 @@ $secureString = convertto-securestring $adminpwd -asplaintext -force
 $creds = New-Object System.Management.Automation.PSCredential $adminSqlLogin,$secureString
 $Password = $creds.GetNetworkCredential().Password
 
+try
+{
 invoke-sqlcmd -inputfile $sqlscriptpath  -serverinstance $serverName -database 'd02-testorgs01' -UserName "$adminSqlLogin" -Password $Password
+}
+catch
+{
+    
+}
