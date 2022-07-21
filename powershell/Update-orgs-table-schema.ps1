@@ -21,7 +21,8 @@ param (
     $sqlscriptpath
      
 )
+$secureString = convertto-securestring $adminpwd -asplaintext -force
 Add-PSSnapin SqlServerCmdletSnapin100 # here lives Invoke-SqlCmd
 Add-PSSnapin SqlServerProviderSnapin100
 
-invoke-sqlcmd -inputfile $sqlscriptpath  -serverinstance $serverName -database $databaseName
+invoke-sqlcmd -inputfile $sqlscriptpath  -serverinstance $serverName -database $databaseName -UserName $adminpwd -Password $secureString
