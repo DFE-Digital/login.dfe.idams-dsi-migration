@@ -26,6 +26,10 @@ param (
     $adminpwd
      
 )
+[Console]::Write("SQL Login Details:")
+[Console]::Write($adminSqlLogin)
+[Console]::Write($adminpwd)
+
 function Cancel-AzSQLImportExportOperation
 {
     param
