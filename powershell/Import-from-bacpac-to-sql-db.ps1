@@ -60,5 +60,5 @@ function Cancel-AzSQLImportExportOperation
     }
 }
 
-Cancel-AzSQLImportExportOperation
+Cancel-AzSQLImportExportOperation -resourceGroupName $resourceGroupName -serverName $serverName -databaseName $databaseName
 
