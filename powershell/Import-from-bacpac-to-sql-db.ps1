@@ -71,7 +71,7 @@ $secureString = convertto-securestring $adminpwd -asplaintext -force
 $importRequest = New-AzSqlDatabaseImport -ResourceGroupName $resourceGroupName `
     -ServerName 's141d02-signin-shd-sql' `
     -DatabaseName 'd02-testorgs01' `
-    -DatabaseMaxSizeBytes 100GB `
+    -DatabaseMaxSizeBytes 10GB `
     -StorageKeyType "StorageAccessKey" `
     -StorageKey $(Get-AzStorageAccountKey -ResourceGroupName $resourceGroupName -StorageAccountName $storageAccountName).Value[0] `
     -StorageUri "https://$storageaccountname.blob.core.windows.net/$storageContainerName/$bacpacFilename" `
