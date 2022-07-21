@@ -54,7 +54,7 @@ stages:
                    $password = "$(ARM_CLIENT_SECRET)"
                    $tenantId = "$(ARM_TENANT_ID)"
                    $sqlusername = "$(SQL_USER_NAME)"
-                   Write-Host "SQL Login:$(sqlusername)"
+                   Write-Host "SQL Login:$sqlusername"
                    az login --service-principal --username  $username --password $password --tenant $tenantId
 
                   azurePowerShellVersion: 'LatestVersion'                
