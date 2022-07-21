@@ -78,7 +78,7 @@ $importRequest = New-AzSqlDatabaseImport -ResourceGroupName $resourceGroupName `
     -Edition "Standard" `
     -ServiceObjectiveName "S3" `
     -AdministratorLogin "$adminSqlLogin" `
-    -AdministratorLoginPassword "$adminpwd"
+    -AdministratorLoginPassword $adminpwd
 
 # Check import status and wait for the import to complete
 $importStatus = Get-AzSqlDatabaseImportExportStatus -OperationStatusLink $importRequest.OperationStatusLink
