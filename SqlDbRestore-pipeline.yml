@@ -28,6 +28,8 @@ stages:
         runOnce:
           deploy:
             steps:
+              - checkout: self
+              - checkout: devopsTemplates
               - task: AzurePowerShell@5
                 displayName: Remove existing Orgs Database (D02) 
                 inputs:
