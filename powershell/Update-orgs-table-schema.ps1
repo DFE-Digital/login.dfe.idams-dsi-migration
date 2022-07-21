@@ -21,6 +21,7 @@ param (
     $sqlscriptpath
      
 )
+Import-Module sqlserver
 $secureString = convertto-securestring $adminpwd -asplaintext -force
 
 
