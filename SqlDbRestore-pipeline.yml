@@ -19,8 +19,8 @@ stages:
 - stage: removeexistingorgsdb
   displayName: Remove existing Orgs Database (D02)
   jobs:
-    - deployment: importorgsdb
-      displayName: Import Organisations Database
+    - deployment: removeexistingorgsdb
+      displayName: Remove existing Orgs Database (D02)
       pool:
         vmImage: ubuntu-latest
       environment: 'dev'
@@ -93,4 +93,3 @@ stages:
                   ScriptArguments: '-resourceGroupName s141d02-shd -serverName $(organisationsSqlHostName) -databaseName $(organisationsdbName) -adminSqlLogin "$(organisationsdbUserName)" -adminpwd "$(organisationsdbPassword)" -sqlscriptpath "./login.dfe.idams-dsi-migration/SQLScripts/Tables/organisations_schema_update.sql"'
                   azurePowerShellVersion: 'LatestVersion'
                   pwsh: true
-                  
