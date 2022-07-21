@@ -22,8 +22,8 @@ param (
      
 )
 install-module sqlserver
+$env:PSModulePath=$env:PSModulePath+";"+"C:\Program Files (x86)\Microsoft SDKs\Windows Azure\PowerShell"
 
-import-module sqlserver
 $secureString = convertto-securestring $adminpwd -asplaintext -force
 
 
