@@ -66,7 +66,7 @@ function Cancel-AzSQLImportExportOperation
 }
 
 #Cancel-AzSQLImportExportOperation -resourceGroupName $resourceGroupName -serverName 's141d02-signin-shd-sql' -databaseName 'd02-testorgs01'
-#$secureString = convertto-securestring $adminpwd -asplaintext -force
+$secureString = convertto-securestring $adminpwd -asplaintext -force
 # Import bacpac to database with an S3 performance level
 $importRequest = New-AzSqlDatabaseImport -ResourceGroupName $resourceGroupName `
     -ServerName 's141d02-signin-shd-sql' `
@@ -78,7 +78,7 @@ $importRequest = New-AzSqlDatabaseImport -ResourceGroupName $resourceGroupName `
     -Edition "Standard" `
     -ServiceObjectiveName "S3" `
     -AdministratorLogin "$adminSqlLogin" `
-    -AdministratorLoginPassword $adminpwd
+    -AdministratorLoginPassword $secureString
 
 # Check import status and wait for the import to complete
 $importStatus = Get-AzSqlDatabaseImportExportStatus -OperationStatusLink $importRequest.OperationStatusLink
