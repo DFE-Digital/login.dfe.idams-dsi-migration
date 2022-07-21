@@ -30,14 +30,25 @@ stages:
             steps:
               - checkout: self
               - checkout: devopsTemplates
-            
+              - task: AzureCLI@2
+                displayName: 'Azure CLI - Promote SQL Server Credentials'
+                inputs:
+                  azureSubscription: 's141d-Pirean.azdo-deployment'
+                  scriptType: pscore
+                  scriptLocation: inlineScript
+                  inlineScript: |
+                  
+                    Write-Host "##vso[task.setvariable variable=SQL_User_Name]$env:organisationsdbUserName"
+                    Write-Host "##vso[task.setvariable variable=SQL_Password]$env:organisationsdbPassword"
+                    
+                  addSpnToEnvironment: true
               - task: AzurePowerShell@5
                 displayName: Import Organisations Database
                 inputs:
                   azureSubscription: 's141d-Pirean.azdo-deployment'
                   ScriptType: 'FilePath'
                   ScriptPath: ./login.dfe.idams-dsi-migration/powershell/Import-from-bacpac-to-sql-db.ps1
-                  ScriptArguments: '-resourceGroupName s141d02-shd -serverName $(organisationsSqlHostName) -databaseName $(organisationsdbName) -storageAccountName $(azureblobaccountname) -storageContainerName $(blobsqlcontainername) -bacpacFilename $(azureblobbacpacfilename) -adminSqlLogin $(organisationsdbUserName) -adminpwd $(organisationsdbPassword)'
+                  ScriptArguments: '-resourceGroupName s141d02-shd -serverName $(organisationsSqlHostName) -databaseName $(organisationsdbName) -storageAccountName $(azureblobaccountname) -storageContainerName $(blobsqlcontainername) -bacpacFilename $(azureblobbacpacfilename) -adminSqlLogin $(SQL_User_Name) -adminpwd $(SQL_Password)'
                   azurePowerShellVersion: 'LatestVersion'
                   pwsh: true
      
