@@ -13,5 +13,4 @@ param (
      
 )
 
-
-Remove-AzureRmSqlDatabase -ServerName $serverName -ResourceGroupName $resourceGroupName -DatabaseName 'd02-testorgs01'
+Remove-AzSqlDatabase -ResourceGroupName $resourceGroupName -ServerName $serverName -DatabaseName 'd02-testorgs01'
