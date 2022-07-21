@@ -28,6 +28,10 @@ param (
 )
 $secureString = convertto-securestring $adminpwd -asplaintext -force
 # Import bacpac to database with an S3 performance level
+try
+{
+
+
 $importRequest = New-AzSqlDatabaseImport -ResourceGroupName $resourceGroupName `
     -ServerName 's141d02-signin-shd-sql' `
     -DatabaseName 'd02-testorgs' `
@@ -51,3 +55,7 @@ while ($importStatus.Status -eq "InProgress")
 }
 [Console]::WriteLine("")
 $importStatus
+}
+catch {
+    throw "An error occurred: $($_.Exception.Message)"
+}
