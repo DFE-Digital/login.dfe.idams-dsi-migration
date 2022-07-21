@@ -107,6 +107,8 @@ stages:
         runOnce:
           deploy:
             steps:
+              - checkout: self
+              - checkout: devopsTemplates
               - task: PowerShell@2
                 displayName: Install Module SQLServer
                 inputs:
