@@ -69,7 +69,10 @@ stages:
             #       ScriptArguments: '-resourceGroupName s141d02-shd -serverName $(organisationsSqlHostName) -databaseName $(organisationsdbName) -storageAccountName $(azureblobaccountname) -storageContainerName $(blobsqlcontainername) -bacpacFilename $(azureblobbacpacfilename) -adminSqlLogin "$(organisationsdbUserName)" -adminpwd "$(organisationsdbPassword)"'
             #       azurePowerShellVersion: 'LatestVersion'
             #       pwsh: true
-
+              - task: PowerShell@2
+                inputs:
+                    targetType: 'inline'
+                    script: 'Install-Module -Name SqlServer -AllowPrerelease -Force -Verbose -Scope CurrentUser'
               - task: AzurePowerShell@5
                 displayName: Update Organisations Table Schema
                 inputs:

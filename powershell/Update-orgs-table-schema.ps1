@@ -21,9 +21,6 @@ param (
     $sqlscriptpath
      
 )
-install-module sqlserver
-Import-Module -Name SqlPs
-
 $secureString = convertto-securestring $adminpwd -asplaintext -force
 
 
