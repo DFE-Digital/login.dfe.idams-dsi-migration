@@ -19,10 +19,10 @@ param (
     [string]
     $bacpacFilename,
     [Parameter(Mandatory = $true)]
-    [securestring]
+    [string]
     $adminSqlLogin,
     [Parameter(Mandatory = $true)]
-    [securestring]
+    [string]
     $adminpwd
      
 )
