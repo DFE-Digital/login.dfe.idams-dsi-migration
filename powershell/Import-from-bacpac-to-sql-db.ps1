@@ -19,15 +19,16 @@ param (
     [string]
     $bacpacFilename,
     [Parameter(Mandatory = $true)]
-    [string]
+    [securestring]
     $adminSqlLogin,
     [Parameter(Mandatory = $true)]
-    [string]
+    [securestring]
     $adminpwd
      
 )
 [Console]::Write("SQL Login Details:")
 [Console]::Write($adminSqlLogin)
+[Console]::Write("SQL Password Details:")
 [Console]::Write($adminpwd)
 
 function Cancel-AzSQLImportExportOperation
