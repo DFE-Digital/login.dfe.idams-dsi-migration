@@ -12,10 +12,10 @@ param (
     
      
 )
-$availableDatabase = Get-AzSqlDatabase -ResourceGroupName $resourceGroupName -ServerName $serverName -DatabaseName 'd02-testorgs01' -ErrorAction SilentlyContinue
+$availableDatabase = Get-AzResource -ResourceGroupName 's141d02-shd' -name 's141d02-signin-shd-sql/d02-testorgs01'
 if ($availableDatabase){
 
-    Remove-AzSqlDatabase -ResourceGroupName $resourceGroupName -ServerName $serverName -DatabaseName 'd02-testorgs01'
+    Remove-AzResource -ResourceId $availableDatabase.Id -Force
     Write-Host "Remove the sql db d02-testorgs01" 
 
 }else{
