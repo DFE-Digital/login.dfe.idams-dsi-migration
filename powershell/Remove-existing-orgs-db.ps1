@@ -12,7 +12,7 @@ param (
     
      
 )
-$availableDatabase = Get-AzResource -ResourceGroupName $resourceGroupName -name 's141d02-signin-shd-sql/'$databaseName
+$availableDatabase = Get-AzResource -ResourceGroupName $resourceGroupName -name 's141d02-signin-shd-sql/s141d02-signin-organisations-db'
 if ($availableDatabase){
 
     Remove-AzResource -ResourceId $availableDatabase.Id -Force
