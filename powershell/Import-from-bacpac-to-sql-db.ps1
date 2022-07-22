@@ -70,7 +70,7 @@ $secureString = convertto-securestring $adminpwd -asplaintext -force
 # Import bacpac to database with an S3 performance level
 $importRequest = New-AzSqlDatabaseImport -ResourceGroupName $resourceGroupName `
     -ServerName 's141d02-signin-shd-sql' `
-    -DatabaseName 'd02-testorgs02' `
+    -DatabaseName $databaseName `
     -DatabaseMaxSizeBytes 10GB `
     -StorageKeyType "StorageAccessKey" `
     -StorageKey $(Get-AzStorageAccountKey -ResourceGroupName $resourceGroupName -StorageAccountName $storageAccountName).Value[0] `

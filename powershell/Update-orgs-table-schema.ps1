@@ -27,7 +27,7 @@ $Password = $creds.GetNetworkCredential().Password
 
 try
 {
-invoke-sqlcmd -inputfile $sqlscriptpath  -serverinstance $serverName -database 'd02-testorgs02' -UserName "$adminSqlLogin" -Password $Password
+invoke-sqlcmd -inputfile $sqlscriptpath  -serverinstance $serverName -database $databaseName -UserName "$adminSqlLogin" -Password $Password
 }
 catch
 {
