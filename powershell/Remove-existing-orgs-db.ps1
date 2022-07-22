@@ -16,10 +16,10 @@ $availableDatabase = Get-AzResource -ResourceGroupName $resourceGroupName -name 
 if ($availableDatabase){
 
     Remove-AzResource -ResourceId $availableDatabase.Id -Force
-    Write-Host "Remove the sql db d02-testorgs01" 
+    Write-Host "Remove the sql db $databaseName"
 
 }else{
-    Write-Host "The sql db d02-testorgs01 does not exist" 
+    Write-Host "The sql db $databaseName does not exist" 
 
     }
 

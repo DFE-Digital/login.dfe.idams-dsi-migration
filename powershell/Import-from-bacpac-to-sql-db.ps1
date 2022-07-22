@@ -40,7 +40,7 @@ function Cancel-AzSQLImportExportOperation
         ,[parameter(Mandatory=$true)][string]$databaseName
     )
 
-    $Operation = Get-AzSqlDatabaseActivity -ResourceGroupName $ResourceGroupName -ServerName $ServerName -DatabaseName $DatabaseName | Where-Object {($_.Operation -like "Export*" -or $_.Operation -like "Import*") -and $_.State -eq "InProgress"}
+    $Operation = Get-AzSqlDatabaseActivity -ResourceGroupName $ResourceGroupName -ServerName $ServerName -DatabaseName $databaseName | Where-Object {($_.Operation -like "Export*" -or $_.Operation -like "Import*") -and $_.State -eq "InProgress"}
     
     if(-not [string]::IsNullOrEmpty($Operation))
     {

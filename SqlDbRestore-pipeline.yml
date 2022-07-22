@@ -63,7 +63,7 @@ stages:
                   azureSubscription: 's141d-Pirean.azdo-deployment'
                   ScriptType: 'FilePath'
                   ScriptPath: ./login.dfe.idams-dsi-migration/powershell/Remove-existing-orgs-db.ps1
-                  ScriptArguments: '-resourceGroupName s141d02-shd -serverName $(organisationsSqlHostName) -databaseName $(organisationsdbName)'
+                  ScriptArguments: '-resourceGroupName s141d02-shd -serverName $(organisationsSqlHostName) -databaseName "$(organisationsdbName)"'
                   azurePowerShellVersion: 'LatestVersion'
                   pwsh: true
 - stage: importorgsdb
