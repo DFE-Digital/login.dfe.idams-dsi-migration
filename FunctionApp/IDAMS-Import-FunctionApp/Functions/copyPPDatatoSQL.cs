@@ -184,6 +184,7 @@ namespace IDAMS_Import_FunctionApp.Functions
                 }
                 finally
                 {
+                    log.LogInformation($"SQL Connection is Closed");
                     sqlConn?.Close();
                 }
             }
