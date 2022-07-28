@@ -250,6 +250,23 @@
                 ]
               },
               "runAfter": {}
+            },
+            "Delete_email_(V2)": {
+              "type": "ApiConnection",
+              "inputs": {
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['office365']['connectionId']"
+                  }
+                },
+                "method": "delete",
+                "path": "/codeless/v1.0/me/messages/@{encodeURIComponent(triggerBody()?['id'])}"
+              },
+              "runAfter": {
+                "For_each": [
+                  "Succeeded"
+                ]
+              }
             }
           },
           "parameters": {
