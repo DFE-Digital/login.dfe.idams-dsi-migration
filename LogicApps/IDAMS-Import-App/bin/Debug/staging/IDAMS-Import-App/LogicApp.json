@@ -197,32 +197,39 @@
                     ]
                   },
                   "actions": {
-                    "Create_blob_(V2)": {
-                      "type": "ApiConnection",
-                      "inputs": {
-                        "host": {
-                          "connection": {
-                            "name": "@parameters('$connections')['azureblob_1']['connectionId']"
+                    "For_each_3": {
+                      "type": "Foreach",
+                      "foreach": "@body('Lists_blobs_(V2)')?['value']",
+                      "actions": {
+                        "Create_blob_(V2)": {
+                          "type": "ApiConnection",
+                          "inputs": {
+                            "host": {
+                              "connection": {
+                                "name": "@parameters('$connections')['azureblob_1']['connectionId']"
+                              }
+                            },
+                            "method": "post",
+                            "body": "@base64ToBinary(items('For_each')?['contentBytes'])",
+                            "headers": {
+                              "ReadFileMetadataFromServer": true
+                            },
+                            "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('s141d02pireanstorage'))}/files",
+                            "queries": {
+                              "folderPath": "/attachments",
+                              "name": "@{items('For_each_3')?['Name']}-@{utcnow()}.csv",
+                              "queryParametersSingleEncoded": true
+                            }
+                          },
+                          "runAfter": {},
+                          "runtimeConfiguration": {
+                            "contentTransfer": {
+                              "transferMode": "Chunked"
+                            }
                           }
-                        },
-                        "method": "post",
-                        "body": "@base64ToBinary(items('For_each')?['contentBytes'])",
-                        "headers": {
-                          "ReadFileMetadataFromServer": true
-                        },
-                        "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('s141d02pireanstorage'))}/files",
-                        "queries": {
-                          "folderPath": "/attachments",
-                          "name": "@items('For_each')?['name']",
-                          "queryParametersSingleEncoded": true
                         }
                       },
-                      "runAfter": {},
-                      "runtimeConfiguration": {
-                        "contentTransfer": {
-                          "transferMode": "Chunked"
-                        }
-                      }
+                      "runAfter": {}
                     }
                   },
                   "runAfter": {
@@ -250,6 +257,23 @@
                 ]
               },
               "runAfter": {}
+            },
+            "Delete_email_(V2)": {
+              "type": "ApiConnection",
+              "inputs": {
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['office365']['connectionId']"
+                  }
+                },
+                "method": "delete",
+                "path": "/codeless/v1.0/me/messages/@{encodeURIComponent(triggerBody()?['id'])}"
+              },
+              "runAfter": {
+                "For_each": [
+                  "Succeeded"
+                ]
+              }
             }
           },
           "parameters": {
