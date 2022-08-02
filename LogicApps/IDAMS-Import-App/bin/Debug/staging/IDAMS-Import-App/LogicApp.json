@@ -217,7 +217,7 @@
                             "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('s141d02pireanstorage'))}/files",
                             "queries": {
                               "folderPath": "/attachments",
-                              "name": "@{items('For_each_3')?['Name']}-@{utcnow()}.csv",
+                              "name": "@{items('For_each_3')?['Name']}-@{formatDateTime(utcNow(), 'dd-MM-yyyyTHH:mm:ss')}.csv",
                               "queryParametersSingleEncoded": true
                             }
                           },
