@@ -1,0 +1,40 @@
+name: $(BuildDefinitionName)_tag-$(BuildID)_at-$(Date:yyyyMMdd)$(Rev:.r)
+resources:
+  repositories:
+    - repository: devopsTemplates
+      type: github
+      endpoint: DfE-Digital
+      name: DFE-Digital/login.dfe.idams-dsi-migration
+      ref: master
+trigger:
+- master
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+- group: platform-global
+- group: platform-dev
+- group: platform-dev-idamsdsiapp
+- name: applicationName
+  value: dataimport
+
+stages:
+- stage: build
+  jobs:
+  - template: /templates/functionapps/jobs/pirean-master-functionapp-build-job.yml
+
+
+- stage: deployDev
+  dependsOn: build
+  jobs:
+    - template: /templates/functionapps/jobs/pirean-master-deploy-infrastructure-pp-job.yml
+      parameters:
+        serviceConnection: $(devServiceConnection)
+        subscriptionId: $(devSubscriptionId)
+        applicationName: $(applicationName)
+        environmentId: d02
+        environmentName: dev
+        platformVariableGroupName: platform-dev
+    
+      
