@@ -14,7 +14,6 @@ pool:
 
 variables:
 - group: platform-global
-- group: platform-dev
 - group: platform-dev-idamsdsiapp
 - name: applicationName
   value: dataimport
@@ -27,6 +26,8 @@ stages:
 
 - stage: deployDevD02
   displayName: Deploy Dev D02
+  variables:
+   -group: platform-dev
   dependsOn: build
   jobs:
     - template: /templates/functionapps/jobs/pirean-master-deploy-infrastructure-idams-job.yml
@@ -40,6 +41,8 @@ stages:
 
 - stage: deployDevD01
   displayName: Deploy Dev D01
+  variables:
+   -group: platform-dev - D01
   dependsOn: deployDevD02
   jobs:
     - template: /templates/functionapps/jobs/pirean-master-deploy-infrastructure-idams-job.yml
