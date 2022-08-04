@@ -25,7 +25,8 @@ stages:
   - template: /templates/functionapps/jobs/pirean-master-functionapp-build-job.yml
 
 
-- stage: deployDev-D02
+- stage: deployDevD02
+  displayName: Deploy Dev D02
   dependsOn: build
   jobs:
     - template: /templates/functionapps/jobs/pirean-master-deploy-infrastructure-idams-job.yml
@@ -37,8 +38,9 @@ stages:
         environmentName: dev
         platformVariableGroupName: platform-dev
 
-- stage: deployDev-D01
-  dependsOn: build
+- stage: deployDevD01
+  displayName: Deploy Dev D01
+  dependsOn: deployDevD02
   jobs:
     - template: /templates/functionapps/jobs/pirean-master-deploy-infrastructure-idams-job.yml
       parameters:
