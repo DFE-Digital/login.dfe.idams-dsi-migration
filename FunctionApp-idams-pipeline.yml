@@ -52,6 +52,6 @@ stages:
         applicationName: $(applicationName)
         environmentId: d01
         environmentName: dev
-        platformVariableGroupName: platform-dev
+        platformVariableGroupName: platform-dev - D01
     
       
