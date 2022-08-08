@@ -128,11 +128,11 @@
         "definition": {
           "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
           "actions": {
-            "For_each": {
+            "Get_all_the_attachments": {
               "type": "Foreach",
               "foreach": "@triggerBody()?['attachments']",
               "actions": {
-                "Lists_blobs_(V2)": {
+                "Create_blob_(V2)": {
                   "type": "ApiConnection",
                   "inputs": {
                     "host": {
@@ -140,121 +140,25 @@
                         "name": "@parameters('$connections')['azureblob_1']['connectionId']"
                       }
                     },
-                    "method": "get",
-                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('s141d02pireanstorage'))}/foldersV2/@{encodeURIComponent(encodeURIComponent('/attachments'))}",
+                    "method": "post",
+                    "body": "@base64ToBinary(items('Get_all_the_attachments')?['contentBytes'])",
+                    "headers": {
+                      "ReadFileMetadataFromServer": true
+                    },
+                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('s141d02pireanstorage'))}/files",
                     "queries": {
-                      "nextPageMarker": "",
-                      "useFlatListing": false
+                      "folderPath": "/attachments",
+                      "name": "@{formatDateTime(utcNow(), 'dd-MM-yyyyTHH:mm:ss')}-@{items('Get_all_the_attachments')?['name']}",
+                      "queryParametersSingleEncoded": true
                     }
                   },
-                  "runAfter": {}
-                },
-                "For_each_2": {
-                  "type": "Foreach",
-                  "foreach": "@body('Lists_blobs_(V2)')?['value']",
-                  "actions": {
-                    "Condition": {
-                      "type": "If",
-                      "expression": {
-                        "and": [
-                          {
-                            "equals": [
-                              "@items('For_each_2')?['Name']",
-                              "@items('For_each')?['name']"
-                            ]
-                          }
-                        ]
-                      },
-                      "actions": {
-                        "Set_variable": {
-                          "type": "SetVariable",
-                          "inputs": {
-                            "name": "fileexists",
-                            "value": true
-                          },
-                          "runAfter": {}
-                        }
-                      },
-                      "runAfter": {}
+                  "runAfter": {},
+                  "runtimeConfiguration": {
+                    "contentTransfer": {
+                      "transferMode": "Chunked"
                     }
-                  },
-                  "runAfter": {
-                    "Lists_blobs_(V2)": [
-                      "Succeeded"
-                    ]
-                  }
-                },
-                "Condition_2": {
-                  "type": "If",
-                  "expression": {
-                    "and": [
-                      {
-                        "equals": [
-                          "@variables('fileexists')",
-                          false
-                        ]
-                      }
-                    ]
-                  },
-                  "actions": {
-                    "For_each_3": {
-                      "type": "Foreach",
-                      "foreach": "@body('Lists_blobs_(V2)')?['value']",
-                      "actions": {
-                        "Create_blob_(V2)": {
-                          "type": "ApiConnection",
-                          "inputs": {
-                            "host": {
-                              "connection": {
-                                "name": "@parameters('$connections')['azureblob_1']['connectionId']"
-                              }
-                            },
-                            "method": "post",
-                            "body": "@base64ToBinary(items('For_each')?['contentBytes'])",
-                            "headers": {
-                              "ReadFileMetadataFromServer": true
-                            },
-                            "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('s141d02pireanstorage'))}/files",
-                            "queries": {
-                              "folderPath": "/attachments",
-                              "name": "@{formatDateTime(utcNow(), 'dd-MM-yyyyTHH:mm:ss')}-@{items('For_each')?['name']}",
-                              "queryParametersSingleEncoded": true
-                            }
-                          },
-                          "runAfter": {},
-                          "runtimeConfiguration": {
-                            "contentTransfer": {
-                              "transferMode": "Chunked"
-                            }
-                          }
-                        }
-                      },
-                      "runAfter": {}
-                    }
-                  },
-                  "runAfter": {
-                    "For_each_2": [
-                      "Succeeded"
-                    ]
                   }
                 }
-              },
-              "runAfter": {
-                "Initialize_variable": [
-                  "Succeeded"
-                ]
-              }
-            },
-            "Initialize_variable": {
-              "type": "InitializeVariable",
-              "inputs": {
-                "variables": [
-                  {
-                    "name": "fileexists",
-                    "type": "boolean",
-                    "value": false
-                  }
-                ]
               },
               "runAfter": {}
             },
@@ -270,7 +174,7 @@
                 "path": "/codeless/v1.0/me/messages/@{encodeURIComponent(triggerBody()?['id'])}"
               },
               "runAfter": {
-                "For_each": [
+                "Get_all_the_attachments": [
                   "Succeeded"
                 ]
               }
