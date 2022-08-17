@@ -1,0 +1,126 @@
+name: $(BuildDefinitionName)_tag-$(BuildID)_at-$(Date:yyyyMMdd)$(Rev:.r)
+resources:
+  repositories:
+    - repository: self
+      persistCredentials: true
+      clean: true
+    - repository: devopsTemplates
+      type: github
+      endpoint: DfE-Digital
+      name: DFE-Digital/login.dfe.idams-dsi-migration
+      ref: master
+
+variables:
+- group: platform-global
+- group: platform-dev - D01
+- group: platform-dev-idamsdsiapp
+
+stages:
+- stage: removeexistingorgsdb
+  displayName: Remove existing Orgs Database (D01)
+  jobs:
+    - deployment: removeexistingorgsdb
+      displayName: Remove existing Orgs Database (D01)
+      pool:
+        vmImage: ubuntu-latest
+      environment: 'Dev (D01)'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - task: AzureCLI@2
+                displayName: 'Azure CLI - Promote Service Principal'
+                inputs:
+                  azureSubscription: 's141d-Pirean.azdo-deployment'
+                  scriptType: pscore
+                  scriptLocation: inlineScript
+                  inlineScript: |
+                  
+                    Write-Host "##vso[task.setvariable variable=ARM_CLIENT_ID]$env:servicePrincipalId"
+                    Write-Host "##vso[task.setvariable variable=ARM_CLIENT_SECRET]$env:servicePrincipalKey"
+                    Write-Host "##vso[task.setvariable variable=ARM_TENANT_ID]$env:tenantId"
+                  addSpnToEnvironment: true
+              - task: AzurePowerShell@5
+                displayName: Connect with Az
+                inputs:
+                  azureSubscription: 's141d-Pirean.azdo-deployment'
+                  ScriptType: InlineScript
+                  Inline: |
+                 
+                   $username = "$(ARM_CLIENT_ID)"
+                   $password = "$(ARM_CLIENT_SECRET)"
+                   $tenantId = "$(ARM_TENANT_ID)"
+                   az login --service-principal --username  $username --password $password --tenant $tenantId
+
+                  azurePowerShellVersion: 'LatestVersion'                
+                  
+            
+              - checkout: self
+              - checkout: devopsTemplates
+              - task: AzurePowerShell@5
+                displayName: Remove existing Orgs Database (D01) 
+                inputs:
+                  azureSubscription: 's141d-Pirean.azdo-deployment'
+                  ScriptType: 'FilePath'
+                  ScriptPath: ./login.dfe.idams-dsi-migration/powershell/Remove-existing-orgs-db.ps1
+                  ScriptArguments: '-resourceGroupName s141d01-shd -serverName $(organisationsSqlHostName) -databaseName $(organisationsdbName)'
+                  azurePowerShellVersion: 'LatestVersion'
+                  pwsh: true
+- stage: importorgsdb
+  dependsOn: removeexistingorgsdb 
+  displayName: Import Organisations Database
+  jobs:
+    - deployment: importorgsdb
+      displayName: Import Organisations Database
+      pool:
+        vmImage: ubuntu-latest
+      environment: 'dev'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - checkout: self
+              - checkout: devopsTemplates
+             
+            
+              - task: AzurePowerShell@5
+                displayName: Import Organisations Database
+                inputs:
+                  azureSubscription: 's141d-Pirean.azdo-deployment'
+                  ScriptType: 'FilePath'
+                  ScriptPath: ./login.dfe.idams-dsi-migration/powershell/Import-from-bacpac-to-sql-db.ps1
+                  ScriptArguments: '-resourceGroupName s141d02-shd -serverName $(organisationsSqlHostName) -databaseName $(organisationsdbName) -storageAccountName $(azureblobaccountname) -storageContainerName $(blobsqlcontainername) -bacpacFilename $(azureblobbacpacfilename) -adminSqlLogin "$(organisationsdbUserName)" -adminpwd "$(organisationsdbPassword)"'
+                  azurePowerShellVersion: 'LatestVersion'
+                  pwsh: true
+              
+
+- stage: updateorgstable
+  dependsOn: importorgsdb
+  displayName: Update Organisations Table Schema
+  jobs:
+    - deployment: updateorgstable
+      displayName: Update Organisations Table Schema
+      pool:
+        vmImage: ubuntu-latest
+      environment: 'dev'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - checkout: self
+              - checkout: devopsTemplates
+              - task: PowerShell@2
+                displayName: Install Module SQLServer
+                inputs:
+                    targetType: 'inline'
+                    script: 'Install-Module -Name SqlServer -AllowPrerelease -Force -Verbose -Scope CurrentUser'
+
+              - task: AzurePowerShell@5
+                displayName: Update Organisations Table Schema
+                inputs:
+                  azureSubscription: 's141d-Pirean.azdo-deployment'
+                  ScriptType: 'FilePath'
+                  ScriptPath: ./login.dfe.idams-dsi-migration/powershell/Update-orgs-table-schema.ps1
+                  ScriptArguments: '-resourceGroupName s141d01-shd -serverName $(organisationsSqlHostName) -databaseName $(organisationsdbName) -adminSqlLogin "$(organisationsdbUserName)" -adminpwd "$(organisationsdbPassword)" -sqlscriptpath "./login.dfe.idams-dsi-migration/SQLScripts/Tables/organisations_schema_update.sql"'
+                  azurePowerShellVersion: 'LatestVersion'
+                  pwsh: true
