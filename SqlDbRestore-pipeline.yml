@@ -23,7 +23,7 @@ stages:
       displayName: Remove existing Orgs Database (D02)
       pool:
         vmImage: ubuntu-latest
-      environment: 'dev'
+      environment: 'Dev (D01)'
       strategy:
         runOnce:
           deploy:
@@ -74,7 +74,7 @@ stages:
       displayName: Import Organisations Database
       pool:
         vmImage: ubuntu-latest
-      environment: 'dev'
+      environment: 'Dev (D01)'
       strategy:
         runOnce:
           deploy:
