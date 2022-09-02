@@ -9,4 +9,5 @@ ADD
 	 SourceSystem VARCHAR (100)  NULL,
 	 ProviderTypeName VARCHAR (100)  NULL,
 	 GIASProviderType VARCHAR (100)  NULL,
+	 ProviderTypeCode INT NULL,
 	 masteringCode  VARCHAR (50)  NULL
