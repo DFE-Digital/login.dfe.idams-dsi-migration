@@ -12,7 +12,7 @@ BEGIN
 	-- Merge idams_user_services data
 	MERGE dbo.idams_user_services AS Target
 	USING @idams_user_type AS Source
-		ON source.mail + '123' = Target.mail
+		ON source.mail = Target.mail
 			AND (
 				SELECT perian_serviceName
 				FROM dbo.Idams_service
@@ -26,15 +26,17 @@ BEGIN
 				mail
 				,serviceName
 				,superuser
+				,userId
 				)
 			VALUES (
-				Source.mail + '123'
+				Source.mail 
 				,(
 					SELECT perian_serviceName
 					FROM dbo.Idams_service
 					WHERE perian_serviceId = Source.serviceId
 					),
-				Source.superuser
+				Source.superuser,
+				(SELECT Id FROM dbo.idams_user WHERE mail = Source.mail)
 				)
 				-- For Updates
 	WHEN MATCHED

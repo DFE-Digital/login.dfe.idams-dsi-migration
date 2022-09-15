@@ -11,7 +11,7 @@ BEGIN
 	-- Insert statements for procedure here
 	MERGE dbo.idams_user_services_roles AS Target
 	USING @idams_user_type AS Source
-		ON source.mail + '123' = Target.mail
+		ON source.mail  = Target.mail
 			AND (
 				SELECT perian_serviceName
 				FROM dbo.Idams_service
@@ -28,7 +28,7 @@ BEGIN
 				,roleName
 				)
 			VALUES (
-				Source.mail + '123'
+				Source.mail 
 				,(
 					SELECT perian_serviceName
 					FROM dbo.Idams_service

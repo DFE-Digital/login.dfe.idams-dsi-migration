@@ -29,7 +29,7 @@ BEGIN
 				,Source.ukprn
 				
 				,Source.modifytimestamp
-				,Source.mail + '123'
+				,Source.mail 
 				)
 				-- For Updates
 	WHEN MATCHED
@@ -41,7 +41,7 @@ BEGIN
 				,Target.ukprn = Source.ukprn
 				
 				,Target.modifytimestamp = Source.modifytimestamp
-				,Target.mail = Source.mail + '123';
+				,Target.mail = Source.mail ;
 
 	
 	-- Merge idams_user_services data
