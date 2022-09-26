@@ -92,7 +92,7 @@ jobs:
             azureSubscription: '${{parameters.serviceConnection}}'
             ScriptType: 'FilePath'
             scriptPath: './powershell/Container.ps1'
-            ScriptArguments: '-StorageAccountName '${{parameters.pireanstorageaccountname}}' -ContainerName "attachments"'
+            ScriptArguments: '-StorageAccountName ${{parameters.pireanstorageaccountname}} -ContainerName "attachments"'
             azurePowerShellVersion: 'LatestVersion'
             pwsh: true
 
