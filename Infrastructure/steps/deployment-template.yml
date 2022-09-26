@@ -41,7 +41,7 @@ steps:
   inputs:
     azureResourceManagerConnection: ${{parameters.serviceConnection}}
     subscriptionId: ${{parameters.subscriptionId}}
-    resourceGroupName: 's141d02-shd'
+    resourceGroupName: ${{parameters.resourceGroupName}}
     location: ${{parameters.location}}
     csmFile: ${{parameters.storageAccountTemplateFilePath}}
     overrideParameters: ${{parameters.storageAccountParameterOverideString}}
