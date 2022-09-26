@@ -24,8 +24,11 @@ jobs:
 - job: Deploy
   displayName: Deploy
   variables: 
+  - '${{ each variableGroup in parameters.variableGroups }}':
+    - group: '${{variableGroup}}'
   - name: applicationResourceGroupName
-    value: '$(platformGlobalIdentifier)${{parameters.environmentId}}-${{parameters.applicationName}}'      
+    value: '$(platformGlobalIdentifier)${{parameters.environmentId}}-${{parameters.applicationName}}'  
+      
   steps:
    - task: AzurePowerShell@5
      displayName: Create ResourceGroup with tags
