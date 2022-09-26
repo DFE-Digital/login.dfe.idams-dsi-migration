@@ -30,5 +30,21 @@ stages:
               - "platform-dev-${{parameters.applicationName}}"
             serviceConnection: "${{parameters.devServiceConnection}}"
             subscriptionId: "${{parameters.devSubscriptionId}}"
+
+  - stage: deployTest
+    displayName: "Package & Deploy [TEST]"
+    dependsOn: deployDev
+    jobs:
+        - template: ../jobs/pirean-master-deploy-infrastructure-job.yml
+          parameters:
+            applicationName: ${{parameters.applicationName}}
+            environmentName: test
+            environmentId: t01
+            location: westeurope
+            variableGroups:
+              - platform-test
+              - "platform-test-${{parameters.applicationName}}"
+            serviceConnection: "${{parameters.TestServiceConnection}}"
+            subscriptionId: "${{parameters.TestSubscriptionId}}"
           
    
