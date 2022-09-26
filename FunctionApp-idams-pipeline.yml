@@ -39,6 +39,7 @@ stages:
         applicationName: $(applicationName)
         environmentId: d02
         environmentName: dev
+        shdResourceGroup: s141d02-shd
         platformVariableGroupName: platform-dev
 
 - stage: deployDevD01
@@ -55,6 +56,7 @@ stages:
         applicationName: $(applicationName)
         environmentId: d01
         environmentName: dev
+        shdResourceGroup: s141d01-shd
         platformVariableGroupName: platform-dev - D01
 
 - stage: deployTestT01
@@ -71,6 +73,7 @@ stages:
         applicationName: $(applicationName)
         environmentId: t01
         environmentName: test
+        shdResourceGroup: s141t01-shd
         platformVariableGroupName: platform-test
     
       

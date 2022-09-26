@@ -25,6 +25,8 @@ parameters:
 - name: tags
   type: object
   default: ""
+- name: shdResourceGroup
+  type: string
 
 steps:
 - task: AzurePowerShell@5
@@ -41,7 +43,7 @@ steps:
   inputs:
     azureResourceManagerConnection: ${{parameters.serviceConnection}}
     subscriptionId: ${{parameters.subscriptionId}}
-    resourceGroupName: ${{parameters.resourceGroupName}}
+    resourceGroupName: ${{parameters.shdResourceGroup}}
     location: ${{parameters.location}}
     csmFile: ${{parameters.storageAccountTemplateFilePath}}
     overrideParameters: ${{parameters.storageAccountParameterOverideString}}
