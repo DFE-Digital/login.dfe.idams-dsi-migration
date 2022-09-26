@@ -44,7 +44,7 @@ stages:
             variableGroups:
               - platform-test
               - "platform-test-${{parameters.applicationName}}"
-            serviceConnection: "${{parameters.TestServiceConnection}}"
-            subscriptionId: "${{parameters.TestSubscriptionId}}"
+            serviceConnection:  $(testServiceConnection)
+            subscriptionId: $(TestSubscriptionId)
           
    
