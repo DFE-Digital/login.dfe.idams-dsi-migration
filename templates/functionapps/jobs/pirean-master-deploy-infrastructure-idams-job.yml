@@ -8,6 +8,8 @@ parameters:
     - name: deploymentLocation
       type: string
       default: westeurope
+    - name: pireanstorageaccountname
+      type: string
     - name: projectId
       type: string
       default: s141
@@ -90,7 +92,7 @@ jobs:
             azureSubscription: '${{parameters.serviceConnection}}'
             ScriptType: 'FilePath'
             scriptPath: './powershell/Container.ps1'
-            ScriptArguments: '-StorageAccountName "s141d02pireanstorage" -ContainerName "attachments"'
+            ScriptArguments: '-StorageAccountName '${{parameters.pireanstorageaccountname}}' -ContainerName "attachments"'
             azurePowerShellVersion: 'LatestVersion'
             pwsh: true
 

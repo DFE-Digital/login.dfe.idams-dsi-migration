@@ -35,6 +35,7 @@ stages:
       parameters:
         serviceConnection: $(devServiceConnection)
         subscriptionId: $(devSubscriptionId)
+        pireanstorageaccountname: $(pireanstorageaccountname)
         applicationName: $(applicationName)
         environmentId: d02
         environmentName: dev
@@ -50,9 +51,26 @@ stages:
       parameters:
         serviceConnection: $(devServiceConnection)
         subscriptionId: $(devSubscriptionId)
+        pireanstorageaccountname: $(pireanstorageaccountname)
         applicationName: $(applicationName)
         environmentId: d01
         environmentName: dev
         platformVariableGroupName: platform-dev - D01
+
+- stage: deployTestT01
+  displayName: Deploy Test T01
+  variables:
+   -group: platform-Test
+  dependsOn: deployDevD01
+  jobs:
+    - template: /templates/functionapps/jobs/pirean-master-deploy-infrastructure-idams-job.yml
+      parameters:
+        serviceConnection: $(testServiceConnection)
+        subscriptionId: $(testSubscriptionId)
+        pireanstorageaccountname: $(pireanstorageaccountname)
+        applicationName: $(applicationName)
+        environmentId: t01
+        environmentName: test
+        platformVariableGroupName: platform-test
     
       
