@@ -113,6 +113,7 @@
       "type": "string",
       "defaultValue": "Pirean-DSI.Migration1@education.gov.uk"
     }
+     
   },
   "variables": {},
   "resources": [
@@ -145,7 +146,7 @@
                     "headers": {
                       "ReadFileMetadataFromServer": true
                     },
-                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('s141d02pireanstorage'))}/files",
+                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent([parameters('azureblob_1_accountName')]))}/files",
                     "queries": {
                       "folderPath": "/attachments",
                       "name": "@{formatDateTime(utcNow(), 'dd-MM-yyyyTHH:mm:ss')}-@{items('Get_all_the_attachments')?['name']}",
