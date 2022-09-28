@@ -73,7 +73,7 @@
       "metadata": {
         "description": "Name of the storage account the connector should use."
       },
-      "defaultValue": "s141d02perianstorage"
+      "defaultValue": "s141d02pireanstorage"
     },
     "azureblob_1_accessKey": {
       "type": "securestring",
