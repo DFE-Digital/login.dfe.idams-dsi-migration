@@ -4,6 +4,9 @@
   "parameters": {
     "logicAppName": {
       "value": null
+    },
+    "azureblob_1_accountName": {
+      "value": null
     }
   }
 }
