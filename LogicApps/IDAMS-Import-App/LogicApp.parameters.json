@@ -7,6 +7,33 @@
     },
     "azureblob_1_accountName": {
       "value": null
+    },
+    
+    "logicAppLocation": {
+      "value": null
+     
+    },
+    "azureblob_1_Connection_Name": {
+      "value": null
+    },
+    "azureblob_1_Connection_DisplayName": {
+      "value": null
+    },
+   
+    "azureblob_1_accessKey": {
+      "value": null
+    },
+    "azureblob_1_authType": {
+      "value": null
+    },
+    "azureblob_1_privacySetting": {
+      "value": null
+    },
+    "office365_1_Connection_Name": {
+      "value": null
+    },
+    "office365_1_Connection_DisplayName": {
+      "value": null
     }
   }
 }
