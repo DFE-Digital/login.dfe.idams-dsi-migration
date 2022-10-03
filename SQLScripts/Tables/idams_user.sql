@@ -1,4 +1,3 @@
-
 CREATE TABLE [dbo].[idams_user](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[uid] [nvarchar](50) NULL,
