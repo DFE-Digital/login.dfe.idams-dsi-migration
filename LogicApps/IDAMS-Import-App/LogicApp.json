@@ -134,7 +134,7 @@
           "actions": {
             "Get_all_the_attachments": {
               "type": "Foreach",
-              "foreach": "@triggerBody()?['attachments']",
+              "foreach": "",
               "actions": {
                 "Create_blob_(V2)": {
                   "type": "ApiConnection",
@@ -198,23 +198,6 @@
                   }
                 ]
               },
-              "runAfter": {
-                "Initialize_EmailFrom": [
-                  "Succeeded"
-                ]
-              }
-            },
-            "Initialize_EmailFrom": {
-              "type": "InitializeVariable",
-              "inputs": {
-                "variables": [
-                  {
-                    "name": "EmailFrom",
-                    "type": "string",
-                    "value": "[parameters('Email_1_From')]"
-                  }
-                ]
-              },
               "runAfter": {}
             }
           },
@@ -236,7 +219,7 @@
                 "fetch": {
                   "queries": {
                     "folderPath": "Inbox",
-                    "from": "@parameters['Email_1_From']",
+                    "from": "parameters('Email_1_From')",
                     "importance": "Any",
                     "fetchOnlyWithAttachment": true,
                     "includeAttachments": true
