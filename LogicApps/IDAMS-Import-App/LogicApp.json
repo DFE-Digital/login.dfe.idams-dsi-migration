@@ -134,7 +134,7 @@
           "actions": {
             "Get_all_the_attachments": {
               "type": "Foreach",
-              "foreach": "",
+              "foreach": "@triggerBody()?['attachments']",
               "actions": {
                 "Create_blob_(V2)": {
                   "type": "ApiConnection",
