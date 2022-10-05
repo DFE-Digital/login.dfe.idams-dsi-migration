@@ -219,7 +219,7 @@
                 "fetch": {
                   "queries": {
                     "folderPath": "Inbox",
-                    "from": "parameters('Email_1_From')",
+                    "from": "@parameters('$connections')['EmailFrom']['addresses']",
                     "importance": "Any",
                     "fetchOnlyWithAttachment": true,
                     "includeAttachments": true
