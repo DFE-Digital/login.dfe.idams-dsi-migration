@@ -179,7 +179,7 @@
                   }
                 },
                 "method": "delete",
-                "path": "/codeless/v1.0/me/messages/@{encodeURIComponent('')}"
+                "path": "/codeless/v1.0/me/messages/@{encodeURIComponent(items('Get_all_the_attachments'))}"
               },
               "runAfter": {
                 "Get_all_the_attachments": [
