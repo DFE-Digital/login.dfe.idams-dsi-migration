@@ -205,6 +205,10 @@
             "$connections": {
               "defaultValue": {},
               "type": "Object"
+            },
+            "emailfrom": {
+              "defaultValue": "zeeshan.abbas@education.gov.uk",
+              "type": "String"
             }
           },
           "triggers": {
@@ -219,7 +223,7 @@
                 "fetch": {
                   "queries": {
                     "folderPath": "Inbox",
-                    "from": "@parameters('$connections')['EmailFrom']['addresses']",
+                    "from": "@parameters('emailfrom')",
                     "importance": "Any",
                     "fetchOnlyWithAttachment": true,
                     "includeAttachments": true
