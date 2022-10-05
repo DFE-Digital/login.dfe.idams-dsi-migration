@@ -8,10 +8,10 @@
     "azureblob_1_accountName": {
       "value": null
     },
-    
+
     "logicAppLocation": {
       "value": null
-     
+
     },
     "azureblob_1_Connection_Name": {
       "value": null
@@ -19,7 +19,7 @@
     "azureblob_1_Connection_DisplayName": {
       "value": null
     },
-   
+
     "azureblob_1_accessKey": {
       "value": null
     },
@@ -33,6 +33,9 @@
       "value": null
     },
     "office365_1_Connection_DisplayName": {
+      "value": null
+    },
+    "Email_1_From": {
       "value": null
     }
   }

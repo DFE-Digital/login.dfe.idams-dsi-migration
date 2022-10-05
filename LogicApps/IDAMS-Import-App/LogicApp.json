@@ -112,6 +112,10 @@
     "office365_1_Connection_DisplayName": {
       "type": "string",
       "defaultValue": "Pirean-DSI.Migration1@education.gov.uk"
+    },
+    "Email_1_From": {
+      "type": "string",
+      "defaultValue": "zeeshan.abbas@education.gov.uk;zeeshan.abbas@digital.gov.uk"
     }
   },
   "variables": {},
@@ -130,7 +134,7 @@
           "actions": {
             "Get_all_the_attachments": {
               "type": "Foreach",
-              "foreach": "@triggerBody()?['attachments']",
+              "foreach": "",
               "actions": {
                 "Create_blob_(V2)": {
                   "type": "ApiConnection",
@@ -161,7 +165,7 @@
                 }
               },
               "runAfter": {
-                "Initialize_variable": [
+                "Initialize_BlobStorageName": [
                   "Succeeded"
                 ]
               }
@@ -175,7 +179,7 @@
                   }
                 },
                 "method": "delete",
-                "path": "/codeless/v1.0/me/messages/@{encodeURIComponent(triggerBody()?['id'])}"
+                "path": "/codeless/v1.0/me/messages/@{encodeURIComponent('')}"
               },
               "runAfter": {
                 "Get_all_the_attachments": [
@@ -183,7 +187,7 @@
                 ]
               }
             },
-            "Initialize_variable": {
+            "Initialize_BlobStorageName": {
               "type": "InitializeVariable",
               "inputs": {
                 "variables": [
@@ -191,6 +195,23 @@
                     "name": "BlobStorageName",
                     "type": "string",
                     "value": "[parameters('azureblob_1_accountName')]"
+                  }
+                ]
+              },
+              "runAfter": {
+                "Initialize_EmailFrom": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Initialize_EmailFrom": {
+              "type": "InitializeVariable",
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "EmailFrom",
+                    "type": "string",
+                    "value": "[parameters('Email_1_From')]"
                   }
                 ]
               },
@@ -215,6 +236,7 @@
                 "fetch": {
                   "queries": {
                     "folderPath": "Inbox",
+                    "from": "@parameters['Email_1_From']",
                     "importance": "Any",
                     "fetchOnlyWithAttachment": true,
                     "includeAttachments": true
