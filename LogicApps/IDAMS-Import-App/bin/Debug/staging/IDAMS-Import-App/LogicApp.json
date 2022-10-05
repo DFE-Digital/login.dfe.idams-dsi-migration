@@ -190,7 +190,7 @@
                   {
                     "name": "BlobStorageName",
                     "type": "string",
-                    "value": "@{parameters('azureblob_1_accountName')}"
+                    "value": "[parameters('azureblob_1_accountName')]"
                   }
                 ]
               },
@@ -215,7 +215,6 @@
                 "fetch": {
                   "queries": {
                     "folderPath": "Inbox",
-                    "from": "@",
                     "importance": "Any",
                     "fetchOnlyWithAttachment": true,
                     "includeAttachments": true
