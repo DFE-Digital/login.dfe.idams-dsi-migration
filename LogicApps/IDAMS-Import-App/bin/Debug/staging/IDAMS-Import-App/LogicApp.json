@@ -113,7 +113,6 @@
       "type": "string",
       "defaultValue": "Pirean-DSI.Migration1@education.gov.uk"
     }
-     
   },
   "variables": {},
   "resources": [
@@ -146,7 +145,7 @@
                     "headers": {
                       "ReadFileMetadataFromServer": true
                     },
-                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent(parameters('azureblob_1_accountName')))}/files",
+                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent(variables('BlobStorageName')))}/files",
                     "queries": {
                       "folderPath": "/attachments",
                       "name": "@{formatDateTime(utcNow(), 'dd-MM-yyyyTHH:mm:ss')}-@{items('Get_all_the_attachments')?['name']}",
@@ -161,7 +160,11 @@
                   }
                 }
               },
-              "runAfter": {}
+              "runAfter": {
+                "Initialize_variable": [
+                  "Succeeded"
+                ]
+              }
             },
             "Delete_email_(V2)": {
               "type": "ApiConnection",
@@ -179,6 +182,19 @@
                   "Succeeded"
                 ]
               }
+            },
+            "Initialize_variable": {
+              "type": "InitializeVariable",
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "BlobStorageName",
+                    "type": "string",
+                    "value": "@{parameters('azureblob_1_accountName')}"
+                  }
+                ]
+              },
+              "runAfter": {}
             }
           },
           "parameters": {
@@ -199,6 +215,7 @@
                 "fetch": {
                   "queries": {
                     "folderPath": "Inbox",
+                    "from": "@",
                     "importance": "Any",
                     "fetchOnlyWithAttachment": true,
                     "includeAttachments": true
