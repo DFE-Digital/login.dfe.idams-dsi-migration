@@ -206,9 +206,9 @@
               "defaultValue": {},
               "type": "Object"
             },
-            "emailfrom": {
-              "defaultValue": "zeeshan.abbas@education.gov.uk",
-              "type": "String"
+            "$emailFrom": {
+              "defaultValue": {},
+              "type": "Object"
             }
           },
           "triggers": {
@@ -223,7 +223,7 @@
                 "fetch": {
                   "queries": {
                     "folderPath": "Inbox",
-                    "from": "@parameters('emailfrom')",
+                    "from": "@{parameters('$emailfrom')['addresses']['name']}",
                     "importance": "Any",
                     "fetchOnlyWithAttachment": true,
                     "includeAttachments": true
@@ -266,6 +266,13 @@
                 "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'office365')]",
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('office365_1_Connection_Name'))]",
                 "connectionName": "[parameters('office365_1_Connection_Name')]"
+              }
+            }
+          },
+          "$emailFrom": {
+            "value": {
+              "addresses": {
+                "name": "[parameters('Email_1_From')]"
               }
             }
           }
