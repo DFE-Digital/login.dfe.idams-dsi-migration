@@ -48,7 +48,12 @@ steps:
     csmFile: ${{parameters.storageAccountTemplateFilePath}}
     overrideParameters: ${{parameters.storageAccountParameterOverideString}}
     deploymentMode: 'Incremental'
-    
+
+- pwsh: |
+    Copy-Item -Path $(System.DefaultWorkingDirectory)/powershell -Destination $(System.DefaultWorkingDirectory)/Publish/ -Recurse
+    Get-ChildItem -Path $(System.DefaultWorkingDirectory)/Publish/powershell –Recurse
+  displayName: Copy Powershell Files to Publish    
+
 - task: AzureCLI@2
   displayName: 'Azure CLI - Promote Service Principal'
   inputs:
@@ -78,7 +83,7 @@ steps:
   inputs:
     azureSubscription: ${{parameters.serviceConnection}}
     ScriptType: 'FilePath'
-    ScriptPath: ./login.dfe.idams-dsi-migration/powershell/Add-Subnet-to-Existing-Vnet.ps1
+    ScriptPath: $(System.DefaultWorkingDirectory)/Publish/powershell/Add-Subnet-to-Existing-Vnet.ps1
     ScriptArguments: '-vNetName $(vnetname) -resourceGroupName $(vnetresourcegroupname) -AddressPrefix $(vnetsubnetaddressprefix) -subnetName $(vnetsubnetname)"'
     azurePowerShellVersion: 'LatestVersion'
     pwsh: true 
