@@ -48,7 +48,16 @@ steps:
     csmFile: ${{parameters.storageAccountTemplateFilePath}}
     overrideParameters: ${{parameters.storageAccountParameterOverideString}}
     deploymentMode: 'Incremental'
-    
+
+- task: AzurePowerShell@5
+  displayName: Create Subnet for the Storage Account
+  inputs:
+    azureSubscription: 's141t-Pirean.azdo-deployment'
+    ScriptType: 'FilePath'
+    ScriptPath: ./login.dfe.idams-dsi-migration/powershell/Add-Subnet-to-Existing-Vnet.ps1
+    ScriptArguments: '-vNetName $(vnetname) -resourceGroupName $(vnetresourcegroupname) -AddressPrefix $(vnetsubnetaddressprefix) -subnetName $(vnetsubnetname)"'
+    azurePowerShellVersion: 'LatestVersion'
+    pwsh: true 
 
 - task: AzureResourceManagerTemplateDeployment@3
   displayName: Create Data Import Function App
