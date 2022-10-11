@@ -13,12 +13,20 @@ param (
     [string]
     $subnetName
 )
-#Get existing service endpoints
-$ServiceEndPoint = New-Object 'System.Collections.Generic.List[String]'
-$VirtualNetwork.ServiceEndpoints | ForEach-Object { $ServiceEndPoint.Add($_.service) }
+
 #Get existing Azure Virtual Network information
 $azvNet = Get-AzVirtualNetwork -Name $vNetName -ResourceGroupName $resourceGroupName
-Add-AzVirtualNetworkSubnetConfig -Name $subnetName -AddressPrefix $AddressPrefix -VirtualNetwork $azvNet -ServiceEndpoint $ServiceEndPoint.Add("Microsoft.KeyVault")
+$existingsubnet = Get-AzVirtualNetworkSubnetConfig -Name $subnetName -VirtualNetwork $azvNet
 
-#Make changes to vNet
-$azvNet | Set-AzVirtualNetwork
+if(!$existingsubnet)
+{
+    #Get existing service endpoints
+    $ServiceEndPoint = New-Object 'System.Collections.Generic.List[String]'
+    $ServiceEndPoint.Add("Microsoft.KeyVault")
+    #$azvNet.ServiceEndpoints | ForEach-Object { $ServiceEndPoint.Add($_.service) }
+
+    Add-AzVirtualNetworkSubnetConfig -Name $subnetName -AddressPrefix $AddressPrefix -VirtualNetwork $azvNet -ServiceEndpoint $ServiceEndPoint
+
+    #Make changes to vNet
+    $azvNet | Set-AzVirtualNetwork
+}
