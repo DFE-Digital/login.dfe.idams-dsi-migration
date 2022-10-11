@@ -8,6 +8,12 @@ jobs:
            command: 'build'
            projects: '**/*.csproj'
            arguments: --output $(System.DefaultWorkingDirectory)/publish_output --configuration Release  
+        - pwsh: |
+            Copy-Item -Path $(System.DefaultWorkingDirectory)/powershell -Destination $(System.DefaultWorkingDirectory)/Publish/ -Recurse
+            Get-ChildItem -Path $(System.DefaultWorkingDirectory)/Publish/powershell –Recurse
+          displayName: Copy Powershell Files to Publish    
+
+      
         - task: ArchiveFiles@2
           displayName: Create Archive File
           inputs:

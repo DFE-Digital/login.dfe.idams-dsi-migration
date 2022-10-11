@@ -49,11 +49,6 @@ steps:
     overrideParameters: ${{parameters.storageAccountParameterOverideString}}
     deploymentMode: 'Incremental'
 
-- pwsh: |
-    Copy-Item -Path $(System.DefaultWorkingDirectory)/powershell -Destination $(System.DefaultWorkingDirectory)/Publish/ -Recurse
-    Get-ChildItem -Path $(System.DefaultWorkingDirectory)/Publish/powershell –Recurse
-  displayName: Copy Powershell Files to Publish    
-
 - task: AzureCLI@2
   displayName: 'Azure CLI - Promote Service Principal'
   inputs:
