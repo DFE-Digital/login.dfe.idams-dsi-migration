@@ -25,7 +25,7 @@ if(!$existingsubnet)
     $ServiceEndPoint.Add("Microsoft.Storage")
     #$azvNet.ServiceEndpoints | ForEach-Object { $ServiceEndPoint.Add($_.service) }
 
-    Add-AzVirtualNetworkSubnetConfig -Name $subnetName -AddressPrefix $AddressPrefix -VirtualNetwork $azvNet -ServiceEndpoints $ServiceEndPoint
+    Add-AzVirtualNetworkSubnetConfig -Name $subnetName -AddressPrefix $AddressPrefix -VirtualNetwork $azvNet -ServiceEndpoint $ServiceEndPoint
 
     #Make changes to vNet
     $azvNet | Set-AzVirtualNetwork
