@@ -16,7 +16,8 @@ param (
 
 #Get existing Azure Virtual Network information
 $azvNet = Get-AzVirtualNetwork -Name $vNetName -ResourceGroupName $resourceGroupName
-$existingsubnet = Get-AzVirtualNetworkSubnetConfig -Name $subnetName -VirtualNetwork $azvNet
+try {
+    $existingsubnet = Get-AzVirtualNetworkSubnetConfig -Name $subnetName -VirtualNetwork $azvNet
 
 if(!$existingsubnet)
 {
@@ -29,4 +30,8 @@ if(!$existingsubnet)
 
     #Make changes to vNet
     $azvNet | Set-AzVirtualNetwork
+}
+}
+catch {
+    Write-Host "An error occurred"
 }
