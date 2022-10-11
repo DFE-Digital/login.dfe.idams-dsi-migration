@@ -14,8 +14,11 @@ param (
     $subnetName,
     [Parameter(Mandatory = $true)]
     [string]
-    $storageaccountName
+    $storageaccountName,
+    [Parameter(Mandatory = $true)]
+    [string]
+    $storageaccountRGName
 )
 
 $subnet = Get-AzVirtualNetwork -ResourceGroupName $resourceGroupName -Name $vNetName | Get-AzVirtualNetworkSubnetConfig -Name $subnetName
-Add-AzStorageAccountNetworkRule -ResourceGroupName $resourceGroupName -Name $storageaccountName -VirtualNetworkResourceId $subnet.Id
+Add-AzStorageAccountNetworkRule -ResourceGroupName storageaccountRGName -Name $storageaccountName -VirtualNetworkResourceId $subnet.Id
