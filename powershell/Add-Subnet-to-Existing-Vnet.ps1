@@ -16,7 +16,6 @@ param (
     
      
 )
-
 #Get existing Azure Virtual Network information
 $azvNet = Get-AzVirtualNetwork -Name $vNetName -ResourceGroupName $resourceGroupName
 Add-AzVirtualNetworkSubnetConfig -Name $subnetName -AddressPrefix $subnet01AddressPrefix -VirtualNetwork $azvNet 
