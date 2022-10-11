@@ -25,8 +25,9 @@ if(!$existingsubnet)
     $ServiceEndPoint.Add("Microsoft.KeyVault")
     #$azvNet.ServiceEndpoints | ForEach-Object { $ServiceEndPoint.Add($_.service) }
 
-    Add-AzVirtualNetworkSubnetConfig -Name $subnetName -AddressPrefix $AddressPrefix -VirtualNetwork $azvNet -ServiceEndpoint $ServiceEndPoint
+    Add-AzVirtualNetworkSubnetConfig -Name $subnetName -AddressPrefix $AddressPrefix -VirtualNetwork $azvNet
 
     #Make changes to vNet
     $azvNet | Set-AzVirtualNetwork
+
 }
