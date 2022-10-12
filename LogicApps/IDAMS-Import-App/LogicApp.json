@@ -74,24 +74,6 @@
       "type": "string",
       "defaultValue": "zeeshan.abbas@education.gov.uk;zeeshan.abbas@digital.gov.uk"
     },
-    
-    "storageName": {
-      "type": "string",
-      "minLength": 3,
-      "maxLength": 24
-    },
-    "kind": {
-      "type": "string",
-      "defaultValue": "StorageV2"
-    },
-    "skuName": {
-      "type": "string",
-      "defaultValue": "Standard_LRS"
-    },
-    "skuTier": {
-      "type": "string",
-      "defaultValue": "Standard"
-    },
     "environmentId": {
           "type": "string",
           "defaultValue": "d02",
@@ -143,10 +125,10 @@
       "type": "Microsoft.Storage/storageAccounts",
       "apiVersion": "2019-06-01",
        "sku": {
-        "name": "[parameters('skuName')]",
-        "tier": "[parameters('skuTier')]"
+        "name": "Standard_LRS",
+        "tier": "Standard"
       },
-      "kind": "[parameters('kind')]",
+      "kind": "StorageV2",
       "name": "[variables('resourceNames').storageAccountName]",
       "location": "[parameters('logicAppLocation')]"
       
@@ -196,7 +178,7 @@
             },
             {
               "name": "AzureWebJobsStorage",
-              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('storageName'),';AccountKey=',concat(listKeys(concat(resourceGroup().id,'/providers/Microsoft.Storage/storageAccounts/', parameters('storageName')),'2019-06-01').keys[0].value),';EndpointSuffix=core.windows.net')]"
+              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('resourceNames').storageAccountName,';AccountKey=',concat(listKeys(concat(resourceGroup().id,'/providers/Microsoft.Storage/storageAccounts/', variables('resourceNames').storageAccountName),'2019-06-01').keys[0].value),';EndpointSuffix=core.windows.net')]"
             },
             {
               "name": "FUNCTIONS_EXTENSION_VERSION",
@@ -212,7 +194,7 @@
             },
             {
               "name": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
-              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('storageName'),';AccountKey=',concat(listKeys(concat(resourceGroup().id,'/providers/Microsoft.Storage/storageAccounts/', parameters('storageName')),'2019-06-01').keys[0].value),';EndpointSuffix=core.windows.net')]"
+              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('resourceNames').storageAccountName,';AccountKey=',concat(listKeys(concat(resourceGroup().id,'/providers/Microsoft.Storage/storageAccounts/', variables('resourceNames').storageAccountName),'2019-06-01').keys[0].value),';EndpointSuffix=core.windows.net')]"
             },
             {
               "name": "WEBSITE_CONTENTSHARE",
