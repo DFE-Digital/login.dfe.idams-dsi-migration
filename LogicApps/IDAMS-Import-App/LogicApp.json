@@ -108,7 +108,7 @@
    "variables": {
       "baseName": "[tolower(concat(parameters('projectId'), parameters('environmentId'), '-', parameters('serviceName'), '-', parameters('logicAppName')))]",
       "resourceNames": {
-        "storageAccountName": "[tolower(concat(parameters('projectId'), parameters('environmentId'), parameters('serviceName'),'invitation'))]",
+        "storageAccountName": "[tolower(concat(parameters('projectId'), parameters('environmentId'), parameters('serviceName'),'idamsdsiapp'))]",
         "functionName": "[variables('baseName')]",
         "functionAppServicePlanName": "[concat(variables('baseName'), '-asp')]",
         "appInsightsName": "[concat(variables('baseName'), '-ai')]"
