@@ -149,9 +149,6 @@
       "apiVersion": "2018-11-01",
       "name": "[parameters('logicAppName')]",
       "location": "[parameters('logicAppLocation')]",
-      "dependsOn": [
-        
-      ],
       "kind": "workflowapp,functionapp",
       "identity": {
         "type": "SystemAssigned"
@@ -220,19 +217,7 @@
             }              
           ]
         },
-        "clientAffinityEnabled": false
-      }
-    },
-    {
-      "name": "[parameters('logicAppName')]",
-      "type": "Microsoft.Logic/workflows",
-      "location": "[parameters('logicAppLocation')]",
-      "tags": {
-        "displayName": "LogicApp"
-      },
-      "apiVersion": "2016-06-01",
-      "properties": {
-        "definition": {
+           "definition": {
           "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
           "actions": {
             "Get_all_the_attachments": {
@@ -379,13 +364,15 @@
               }
             }
           }
-        }
+        },
+        "clientAffinityEnabled": false
       },
-      "dependsOn": [
+       "dependsOn": [
         "[resourceId('Microsoft.Web/connections', parameters('azureblob_1_Connection_Name'))]",
         "[resourceId('Microsoft.Web/connections', parameters('office365_1_Connection_Name'))]"
       ]
     },
+    
     {
       "type": "MICROSOFT.WEB/CONNECTIONS",
       "apiVersion": "2018-07-01-preview",
