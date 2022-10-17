@@ -43,5 +43,8 @@ stages:
   jobs:
   - template: /templates/logicapps/template-iac-logicapp.yml
     parameters:
-     applicationName: idamsdsiapp
+      serviceConnection: $(devServiceConnection)
+      environment: dev
+      
+    
     
