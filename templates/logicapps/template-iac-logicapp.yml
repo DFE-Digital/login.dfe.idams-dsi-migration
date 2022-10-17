@@ -28,7 +28,7 @@ jobs:
           displayName: 'Deploy Logic App'
           inputs:
             azureSubscription: ${{ parameters.serviceConnection }}
-            resourceGroupName: 'idamsdsiapp'
+            resourceGroupName: "s141d02-idamsdsiapp"
             
             location: 'westeurope'
             csmFile: '$(Pipeline.Workspace)/$(artifactName)/logicapp-template.json'
@@ -47,14 +47,14 @@ jobs:
           inputs:
             ConnectedServiceNameSelector: 'ConnectedServiceNameARM'
             ConnectedServiceNameARM: ${{ parameters.serviceConnection }}
-            resourceGroupName: $(resourceGroupName)
+            resourceGroupName: "resourceGroupName"
             whenLastDeploymentIsFailed: 'fail'
 
         - task: AzureResourceGroupDeployment@2
           displayName: 'Deploy Connectors'
           inputs:
             azureSubscription: ${{ parameters.serviceConnection }}
-            resourceGroupName: $(resourceGroupName)
+            resourceGroupName: "resourceGroupName"
             location: $(resourceGroupLocation)
             csmFile: '$(Pipeline.Workspace)/$(artifactName)/connectors-template.json'
             overrideParameters: '
