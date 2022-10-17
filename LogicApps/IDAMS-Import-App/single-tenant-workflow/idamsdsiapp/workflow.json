@@ -1,0 +1,131 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "Initialize_BlobStorageName": {
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "BlobStorageName",
+                            "type": "string",
+                            "value": "[parameters('azureblob_1_accountName')]"
+                        }
+                    ]
+                },
+                "runAfter": {}
+            },
+            "Get_all_the_attachments": {
+                "type": "Foreach",
+                "foreach": "@triggerBody()?['attachments']",
+                "actions": {
+                    "Create_blob_(V2)": {
+                        "type": "ApiConnection",
+                        "inputs": {
+                            "host": {
+                                "connection": {
+                                    "referenceName": "@parameters('$connections')['azureblob_1']['connectionId']"
+                                }
+                            },
+                            "method": "post",
+                            "body": "@items('Get_all_the_attachments')",
+                            "headers": {
+                                "ReadFileMetadataFromServer": true
+                            },
+                            "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent(variables('BlobStorageName')))}/files",
+                            "queries": {
+                                "folderPath": "/attachments",
+                                "name": "@{formatDateTime(utcNow(), 'dd-MM-yyyyTHH:mm:ss')}-@{items('Get_all_the_attachments')?['name']}",
+                                "queryParametersSingleEncoded": true
+                            }
+                        },
+                        "runAfter": {},
+                        "runtimeConfiguration": {
+                            "contentTransfer": {
+                                "transferMode": "Chunked"
+                            }
+                        }
+                    }
+                },
+                "runAfter": {
+                    "Initialize_BlobStorageName": [
+                        "Succeeded"
+                    ]
+                }
+            }
+        },
+        "triggers": {
+            "When_a_new_email_arrives_(V3)": {
+                "type": "ApiConnectionNotification",
+                "inputs": {
+                    "host": {
+                        "connection": {
+                            "referenceName": "@parameters('$connections')['office365']['connectionId']"
+                        }
+                    },
+                    "fetch": {
+                        "queries": {
+                            "folderPath": "Inbox",
+                            "from": "@{parameters('$emailfrom')['addresses']['name']}",
+                            "importance": "Any",
+                            "fetchOnlyWithAttachment": true,
+                            "includeAttachments": true
+                        },
+                        "pathTemplate": {
+                            "template": "/v3/Mail/OnNewEmail"
+                        },
+                        "method": "get"
+                    },
+                    "subscribe": {
+                        "queries": {
+                            "folderPath": "Inbox",
+                            "importance": "Any",
+                            "fetchOnlyWithAttachment": true
+                        },
+                        "body": {
+                            "NotificationUrl": "@{listCallbackUrl()}"
+                        },
+                        "pathTemplate": {
+                            "template": "/GraphMailSubscriptionPoke/$subscriptions"
+                        },
+                        "method": "post"
+                    }
+                },
+                "splitOn": "@triggerBody()?['value']"
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {}
+    },
+    "managedApiConnections": {
+        "office365": {
+          "api": {
+            "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'office365')]"
+          },
+          "connection": {
+            "id": "/subscriptions/9d98d71c-7399-47fc-a888-d5ea74c3d8c0/resourceGroups/s141d02-idamsdsiapp/providers/Microsoft.Web/connections/office365"
+          },
+          "connectionRuntimeUrl": "https://1ba8f414f4987d79.11.common.logic-westeurope.azure-apihub.net/apim/office365/dede076454b74aa3ab1dc2acb0154e57/",
+          "authentication": {
+            "type": "Raw",
+            "scheme": "Key",
+            "parameter": "@appsetting('office365-connectionKey')"
+          }
+        },
+        "azureblob": {
+          "api": {
+            "id": "/subscriptions/9d98d71c-7399-47fc-a888-d5ea74c3d8c0/providers/Microsoft.Web/locations/westeurope/managedApis/azureblob"
+          },
+          "connection": {
+            "id": "/subscriptions/9d98d71c-7399-47fc-a888-d5ea74c3d8c0/resourceGroups/s141d02-idamsdsiapp/providers/Microsoft.Web/connections/azureblob"
+          },
+          "connectionRuntimeUrl": "https://1ba8f414f4987d79.11.common.logic-westeurope.azure-apihub.net/apim/azureblob/69909b6b4d7d41c3a2d5146e82cd4f8d/",
+          "authentication": {
+            "type": "Raw",
+            "scheme": "Key",
+            "parameter": "@appsetting('azureblob-connectionKey')"
+          }
+        }
+      },
+    "kind": "Stateful"
+}
