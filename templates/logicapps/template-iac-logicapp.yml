@@ -6,7 +6,7 @@ parameters:
 - name: serviceConnection
   type: string
 - name: variableGroups
-   type: object
+  type: object
 
 jobs:
 - deployment: deploy_logicapp_resources
