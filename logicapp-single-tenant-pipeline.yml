@@ -49,6 +49,7 @@ stages:
       environment: dev
       variableGroups:
             -  platform-dev
+            -  platform-global
             - "platform-dev-${{variables.applicationName}}"
       
     
