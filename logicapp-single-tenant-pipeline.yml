@@ -25,6 +25,8 @@ variables:
 stages:
 - stage: Builds
   displayName: 'Publish IaC Artifacts'
+  variables:
+   -group: platform-dev
   jobs:
   - job: Build
     pool:
