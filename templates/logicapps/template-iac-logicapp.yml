@@ -31,7 +31,7 @@ jobs:
             resourceGroupName: "s141d02-idamsdsiapp"
             
             location: 'westeurope'
-            csmFile: '$(System.DefaultWorkingDirectory)\LogicApps\deploy\classic\logicapp-template.json'
+            csmFile: '$(Build.ArtifactStagingDirectory)/templates/logicapps/deploy/classic/logicapp-template.json'
             overrideParameters: '
               -location "westeurope"
               -environmentName ${{ parameters.environment }}
