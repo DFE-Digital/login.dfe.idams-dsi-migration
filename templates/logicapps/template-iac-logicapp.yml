@@ -33,11 +33,11 @@ jobs:
             location: 'westeurope'
             csmFile: '$(Pipeline.Workspace)/$(artifactName)/logicapp-template.json'
             overrideParameters: '
-              -location 'westeurope'
+              -location "westeurope"
               -environmentName ${{ parameters.environment }}
               -projectName $(projectName)
-              -logicAppName 'idamsdsiapp'
-              -appServicePlanName $(idamsdsiapp-asp)
+              -logicAppName "idamsdsiapp"
+              -appServicePlanName "idamsdsiapp-asp"
               -storageName $(storageName)'
             deploymentMode: $(deploymentMode)
             deploymentOutputs: 'LogicAppArmOutputs'
