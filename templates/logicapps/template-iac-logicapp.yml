@@ -14,7 +14,7 @@ jobs:
   pool:
     vmImage: ubuntu-18.04
   environment: ${{ parameters.environment }}
-   variables: 
+  variables: 
   - '${{ each variableGroup in parameters.variableGroups }}':
     - group: '${{variableGroup}}'
   strategy:
