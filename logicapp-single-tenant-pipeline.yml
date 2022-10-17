@@ -19,6 +19,8 @@ variables:
   value: deploy_artifacts
 - name: devEnvironment
   value: dev
+- name: applicationName
+  value: idamsdsiapp 
 
 stages:
 - stage: Builds
@@ -45,6 +47,9 @@ stages:
     parameters:
       serviceConnection: $(devServiceConnection)
       environment: dev
+      variableGroups:
+            -  platform-dev
+            - "platform-dev-${{variables.applicationName}}"
       
     
     
