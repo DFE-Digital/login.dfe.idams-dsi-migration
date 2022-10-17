@@ -21,6 +21,7 @@ variables:
   value: dev
 - name: applicationName
   value: idamsdsiapp 
+- group: platform-global
 
 stages:
 - stage: Builds
