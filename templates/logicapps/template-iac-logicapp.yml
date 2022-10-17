@@ -5,6 +5,8 @@ parameters:
   type: string
 - name: serviceConnection
   type: string
+- name: variableGroups
+   type: object
 
 jobs:
 - deployment: deploy_logicapp_resources
@@ -12,8 +14,9 @@ jobs:
   pool:
     vmImage: ubuntu-18.04
   environment: ${{ parameters.environment }}
-  variables:
-    deploymentMode: 'Incremental'
+   variables: 
+  - '${{ each variableGroup in parameters.variableGroups }}':
+    - group: '${{variableGroup}}'
   strategy:
     runOnce:
       deploy:
