@@ -28,7 +28,7 @@ jobs:
           displayName: 'Deploy Logic App'
           inputs:
             azureSubscription: ${{ parameters.serviceConnection }}
-            resourceGroupName: 's141d02-pirean-idamsdsiapp'
+            resourceGroupName: 'idamsdsiapp'
             
             location: 'westeurope'
             csmFile: '$(Pipeline.Workspace)/$(artifactName)/logicapp-template.json'
@@ -36,9 +36,9 @@ jobs:
               -location 'westeurope'
               -environmentName ${{ parameters.environment }}
               -projectName $(projectName)
-              -logicAppName $(logicAppName)
-              -appServicePlanName 's141d02-pirean-idamsdsiapp-asp'
-              -storageName 's141d02-pirean-idamsdsistorage'
+              -logicAppName 'idamsdsiapp'
+              -appServicePlanName $(idamsdsiapp-asp)
+              -storageName $(storageName)'
             deploymentMode: $(deploymentMode)
             deploymentOutputs: 'LogicAppArmOutputs'
 
