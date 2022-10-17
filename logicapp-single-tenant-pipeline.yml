@@ -42,5 +42,11 @@ stages:
     - group: platform-global
   jobs:
   - template: /templates/logicapps/template-iac-logicapp.yml
+    parameters:
+      serviceConnection: $(devServiceConnection)
+      environment: dev
+      variableGroups:
+            -  platform-dev 
+            - "platform-dev-${{variables.applicationName}}" 
     
     
