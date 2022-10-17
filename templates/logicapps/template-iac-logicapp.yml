@@ -12,7 +12,7 @@ jobs:
 - deployment: deploy_logicapp_resources
   displayName: Deploy Logic App Resources
   pool:
-    vmImage: ubuntu-18.04
+    vmImage: ubuntu-20.04
   environment: ${{ parameters.environment }}
   variables: 
   - '${{ each variableGroup in parameters.variableGroups }}':

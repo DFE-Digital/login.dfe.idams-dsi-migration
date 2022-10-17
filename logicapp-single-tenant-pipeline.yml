@@ -7,7 +7,7 @@ resources:
       name: DFE-Digital/login.dfe.idams-dsi-migration
       ref: master
 trigger:
-- none
+- master
 
 pool:
   vmImage: 'windows-latest'
@@ -37,7 +37,7 @@ stages:
     - task: CopyFiles@2
       displayName: 'Copy ARM templates'
       inputs:
-        sourceFolder: '/templates/logicapps/deploy'
+        sourceFolder: '/templates/logicapps/deploy/'
         targetFolder: '$(Build.ArtifactStagingDirectory)'
     - publish: '$(Build.ArtifactStagingDirectory)'
       artifact: $(artifactName)
