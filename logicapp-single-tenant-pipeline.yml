@@ -42,6 +42,15 @@ stages:
     - publish: '$(Build.ArtifactStagingDirectory)'
       artifact: $(artifactName)
 
+    - task: AzureFileCopy@4
+      displayName: 'Copy Workflow and Connectors to Azure Storage'
+      inputs:
+        SourcePath: $(Build.ArtifactStagingDirectory)/templates/logicapps/deploy/
+        azureSubscription: $(devServiceConnection)
+        Destination: AzureBlob
+        storage: s141d02logicappstorage
+        ContainerName: idamsdsiappcontainer
+
 - stage: DEV
   displayName: 'DEV Deployment'
   variables:

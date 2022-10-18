@@ -40,7 +40,7 @@ jobs:
               -projectName $(projectName)
               -logicAppName $(logicappname)
               -appServicePlanName "idamsdsiapp-asp"
-              -storageName "s141d01logicappstorage"
+              -storageName "s141d02logicappstorage"
               -azureblob_1_accountName $(azureblobaccountname)
               -azureblob_1_Connection_Name $(azureblobconnectionname)
               -office365_1_Connection_Name $(office365connectionname)
