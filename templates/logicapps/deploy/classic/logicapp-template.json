@@ -347,7 +347,7 @@
           
           "outputs": {}
         },
-        "kind": "Stateful",
+       
         "parameters": {
           "$connections": {
             "value": {
