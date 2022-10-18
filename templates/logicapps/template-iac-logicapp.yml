@@ -55,10 +55,10 @@ jobs:
           inputs:
             azureSubscription: ${{ parameters.serviceConnection }}
             resourceGroupName: "s141d02-idamsdsiapp"
-            location: $(resourceGroupLocation)
-            csmFile: '$(Pipeline.Workspace)/$(artifactName)/connectors-template.json'
+            location: "westeurope"
+            csmFile: '$(Pipeline.Workspace)/$(artifactName)/classic/connectors-template.json'
             overrideParameters: '
-              -location $(resourceGroupLocation)
+              -location "westeurope"
               -connections_azureblob_name $(blobConnectionName)
               -logicAppSystemAssignedIdentityTenantId $(logicAppSystemAssignedIdentityTenantId)
               -logicAppSystemAssignedIdentityObjectId $(logicAppSystemAssignedIdentityObjectId)'
