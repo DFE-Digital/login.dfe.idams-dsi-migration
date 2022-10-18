@@ -60,8 +60,7 @@ jobs:
             overrideParameters: '
               -location "westeurope"
               -connections_azureblob_name "s141d02pireanstorageconnector"
-              -logicAppSystemAssignedIdentityTenantId $(logicAppSystemAssignedIdentityTenantId)
-              -logicAppSystemAssignedIdentityObjectId $(logicAppSystemAssignedIdentityObjectId)
+             
               -sa_name $(pireanstorageaccountname)'
             deploymentMode: $(deploymentMode)
 

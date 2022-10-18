@@ -8,12 +8,7 @@
               "description": "The datacenter to use for the deployment."
             }
         },
-        "logicAppSystemAssignedIdentityTenantId": {
-            "type": "string"
-        },
-        "logicAppSystemAssignedIdentityObjectId": {
-            "type": "string"
-        },
+       
         "sa_name": {
             "defaultValue": "sa",
             "type": "string"
@@ -27,39 +22,7 @@
         "sa": "[concat(toLower(parameters('sa_name')), uniqueString(resourceGroup().id))]"
     },
     "resources": [
-        {
-            "type": "Microsoft.Storage/storageAccounts",
-            "apiVersion": "2020-08-01-preview",
-            "name": "[variables('sa')]",
-            "location": "[parameters('location')]",
-            "sku": {
-                "name": "Standard_LRS",
-                "tier": "Standard"
-            },
-            "kind": "Storage",
-            "properties": {
-                "networkAcls": {
-                    "bypass": "AzureServices",
-                    "virtualNetworkRules": [],
-                    "ipRules": [],
-                    "defaultAction": "Allow"
-                },
-                "supportsHttpsTrafficOnly": true,
-                "encryption": {
-                    "services": {
-                        "file": {
-                            "keyType": "Account",
-                            "enabled": true
-                        },
-                        "blob": {
-                            "keyType": "Account",
-                            "enabled": true
-                        }
-                    },
-                    "keySource": "Microsoft.Storage"
-                }
-            }
-        },
+        
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2018-02-01",
@@ -92,26 +55,8 @@
                     "id": "[concat('/subscriptions/',subscription().subscriptionId,'/providers/Microsoft.Web/locations/',parameters('location'),'/managedApis/azureblob')]"
                 }
             }
-        },
-        {
-            "type": "Microsoft.Web/connections/accessPolicies",
-            "apiVersion": "2016-06-01",
-            "name": "[concat(parameters('connections_azureblob_name'),'/',parameters('logicAppSystemAssignedIdentityObjectId'))]",
-            "location": "[parameters('location')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/connections', parameters('connections_azureblob_name'))]"
-            ],
-            "properties": {
-                "principal": {
-                    "type": "ActiveDirectory",
-                    "identity": {
-                        "tenantId": "[parameters('logicAppSystemAssignedIdentityTenantId')]",
-                        "objectId": "[parameters('logicAppSystemAssignedIdentityObjectId')]"
-                    }
-                }
-            }
         }
-   
+       
     ],
     "outputs": {
       "blobendpointurl": {
