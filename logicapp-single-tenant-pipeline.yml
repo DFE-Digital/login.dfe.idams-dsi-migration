@@ -51,6 +51,7 @@ stages:
     parameters:
       serviceConnection: $(devServiceConnection)
       environment: dev
+      environmentId: d02
       variableGroups:
             -  platform-dev
             -  platform-global
