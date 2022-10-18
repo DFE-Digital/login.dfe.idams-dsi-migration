@@ -47,14 +47,14 @@ jobs:
           inputs:
             ConnectedServiceNameSelector: 'ConnectedServiceNameARM'
             ConnectedServiceNameARM: ${{ parameters.serviceConnection }}
-            resourceGroupName: "resourceGroupName"
+            resourceGroupName: "s141d02-idamsdsiapp"
             whenLastDeploymentIsFailed: 'fail'
 
         - task: AzureResourceGroupDeployment@2
           displayName: 'Deploy Connectors'
           inputs:
             azureSubscription: ${{ parameters.serviceConnection }}
-            resourceGroupName: "resourceGroupName"
+            resourceGroupName: "s141d02-idamsdsiapp"
             location: $(resourceGroupLocation)
             csmFile: '$(Pipeline.Workspace)/$(artifactName)/connectors-template.json'
             overrideParameters: '
@@ -69,7 +69,7 @@ jobs:
           inputs:
             ConnectedServiceNameSelector: 'ConnectedServiceNameARM'
             ConnectedServiceNameARM: ${{ parameters.serviceConnection }}
-            resourceGroupName: $(resourceGroupName)
+            resourceGroupName: "s141d02-idamsdsiapp"
             whenLastDeploymentIsFailed: 'fail'
 
         - task: AzureCLI@2
