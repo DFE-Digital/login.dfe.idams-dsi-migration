@@ -35,12 +35,16 @@ jobs:
             location: 'westeurope'
             csmFile: '$(Pipeline.Workspace)/$(artifactName)/classic/logicapp-template.json'
             overrideParameters: '
-              -location "westeurope"
+              -logicAppLocation $(logicapplocation)
               -environmentName ${{ parameters.environment }}
               -projectName $(projectName)
-              -logicAppName "idamsdsiapp"
+              -logicAppName $(logicappname)
               -appServicePlanName "idamsdsiapp-asp"
-              -storageName "s141d01logicappstorage"'
+              -storageName "s141d01logicappstorage"
+              -azureblob_1_accountName $(azureblobaccountname)
+              -azureblob_1_Connection_Name $(azureblobconnectionname)
+              -office365_1_Connection_Name $(office365connectionname)
+              -Email_1_From $(logicappemailfrom)'
             deploymentMode: $(deploymentMode)
             deploymentOutputs: 'LogicAppArmOutputs'
 
