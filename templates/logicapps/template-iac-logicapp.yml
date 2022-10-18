@@ -73,6 +73,14 @@ jobs:
               -serviceName "pirean"'
               
             deploymentMode: $(deploymentMode)
+        - task: AzureResourceGroupDeployment@2
+          displayName: 'Deploy Workflows'
+          inputs:
+            azureSubscription: ${{ parameters.serviceConnection }}
+            resourceGroupName: "s141d02-idamsdsiapp"
+            location: "westeurope"
+            csmFile: '$(Pipeline.Workspace)/$(artifactName)/classic/workflow.json'
+            deploymentMode: $(deploymentMode)
 
         - task: ARM Outputs@6
           displayName: 'ARM Outputs Connections'
