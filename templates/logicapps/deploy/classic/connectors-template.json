@@ -19,7 +19,7 @@
         }
     },
     "variables": {
-        "sa": "[concat(toLower(parameters('sa_name')), uniqueString(resourceGroup().id))]"
+        "sa": "[concat(toLower(parameters('sa_name')))]"
     },
     "resources": [
         

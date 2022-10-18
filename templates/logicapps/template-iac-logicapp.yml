@@ -60,7 +60,6 @@ jobs:
             overrideParameters: '
               -location "westeurope"
               -connections_azureblob_name "s141d02pireanstorageconnector"
-             
               -sa_name $(pireanstorageaccountname)'
             deploymentMode: $(deploymentMode)
 
