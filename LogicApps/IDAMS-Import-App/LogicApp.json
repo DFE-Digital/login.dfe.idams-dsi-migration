@@ -405,17 +405,9 @@
     }
   ],
   "outputs": {
-    "logicAppSystemAssignedIdentityTenantId": {
+    "blobendpointurl": {
       "type": "string",
-      "value": "[subscription().tenantid]"
-    },
-    "logicAppSystemAssignedIdentityObjectId": {
-      "type": "string",
-      "value": "[reference(resourceId('Microsoft.Web/sites', parameters('logicAppName')),'2019-08-01', 'full').identity.principalId]"
-    },
-    "LAname": {
-      "type": "string",
-      "value": "[parameters('logicAppName')]"
+      "value": "[reference(resourceId('Microsoft.Web/connections', parameters('azureblob_1_Connection_Name')),'2016-06-01', 'full').properties.connectionRuntimeUrl]"
     }
   }
 }
