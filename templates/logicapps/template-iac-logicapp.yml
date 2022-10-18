@@ -58,9 +58,18 @@ jobs:
             location: "westeurope"
             csmFile: '$(Pipeline.Workspace)/$(artifactName)/classic/connectors-template.json'
             overrideParameters: '
-              -location "westeurope"
-              -connections_azureblob_name "s141d02pireanstorageconnector"
-              -sa_name $(pireanstorageaccountname)'
+              -logicAppName $(logicappname)
+              -logicAppLocation $(logicapplocation)
+              -azureblob_1_Connection_Name $(azureblobconnectionname)
+              -azureblob_1_Connection_DisplayName $(azureblobconnectiondisplayname)
+              -azureblob_1_accountName $(azureblobaccountname)
+              -azureblob_1_accessKey $(azureblobaccesskey)
+              -azureblob_1_authType $(azureblobauthtype)
+              -azureblob_1_privacySetting $(azureblobprivacysetting)
+              -environmentId ${{parameters.environmentId}}
+              -projectId "s141"
+              -serviceName "pirean"'
+              
             deploymentMode: $(deploymentMode)
 
         - task: ARM Outputs@6

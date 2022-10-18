@@ -2,66 +2,144 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "location": {
-            "type": "string",
-            "metadata": {
-              "description": "The datacenter to use for the deployment."
-            }
-        },
-       
-        "sa_name": {
-            "defaultValue": "sa",
-            "type": "string"
-        }, 
-        "connections_azureblob_name": {
-            "defaultValue": "azureblob",
-            "type": "string"
-        }
+    "logicAppName": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "metadata": {
+        "description": "Name of the Logic App."
+      }
+    },
+    "logicAppLocation": {
+      "type": "string",
+      "defaultValue": "westeurope",
+      "metadata": {
+        "description": "Location of the Logic App."
+      }
+    },
+    "azureblob_1_Connection_Name": {
+      "type": "string",
+      "defaultValue": "s141d02-pirean-dsiappblobconnector"
+    },
+    "azureblob_1_Connection_DisplayName": {
+      "type": "string",
+      "defaultValue": "s141d02-pirean-dsiappblobconnector"
+    },
+    "azureblob_1_accountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the storage account the connector should use."
+      },
+      "defaultValue": "s141d02pireanstorage"
+    },
+    "azureblob_1_accessKey": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Specify a valid primary/secondary storage account access key."
+      }
+    },
+    "azureblob_1_authType": {
+      "type": "string",
+      "metadata": {
+        "description": "Authentication type to connect to your database"
+      },
+      "defaultValue": "basic",
+      "allowedValues": [
+        "basic",
+        "anonymous"
+      ]
+    },
+    "azureblob_1_privacySetting": {
+      "type": "string",
+      "metadata": {
+        "description": "Privacy Setting"
+      },
+      "defaultValue": "Private",
+      "allowedValues": [
+        "None",
+        "Private",
+        "Organizational",
+        "Public"
+      ]
+ 
+    },
+    "environmentId": {
+          "type": "string",
+          "defaultValue": "d02",
+          "allowedValues": [
+              "d01",
+              "d02",
+              "t01",
+              "t02",
+              "t03",
+              "p01",
+              "p02"
+          ],
+          "metadata": {
+              "description": "Environment Identifier"
+          }
+      },
+      "projectId": {
+          "type": "string",
+          "defaultValue": "s141",
+          "metadata": {
+              "description": "Project Identifier"
+          }
+      },
+      "serviceName": {
+          "type": "string",
+          "defaultValue": "pirean",
+          "metadata": {
+              "description": "Service Identifier"
+          }
+      }
     },
     "variables": {
-        "sa": "[concat(toLower(parameters('sa_name')))]"
+      "baseName": "[tolower(concat(parameters('projectId'), parameters('environmentId'), '-', parameters('serviceName'), '-', parameters('logicAppName')))]",
+      "resourceNames": {
+        "storageAccountName": "[tolower(concat(parameters('projectId'), parameters('environmentId'), parameters('serviceName'),'idamsdsiapp'))]",
+        "functionName": "[variables('baseName')]",
+        "functionAppServicePlanName": "[concat(variables('baseName'), '-asp')]",
+        "appInsightsName": "[concat(variables('baseName'), '-ai')]"
+      }
+    
     },
     "resources": [
         
-        {
-            "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
-            "apiVersion": "2018-02-01",
-            "name": "[concat(variables('sa'), '/default/blobs')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', variables('sa'))]"
-            ],
-            "properties": {
-                "defaultEncryptionScope": "$account-encryption-key",
-                "denyEncryptionScopeOverride": false,
-                "publicAccess": "Container"
-            }
-        },
-        {
-            "type": "Microsoft.Web/connections",
-            "apiVersion": "2016-06-01",
-            "name": "[parameters('connections_azureblob_name')]",
-            "location": "[parameters('location')]",
-            "kind": "V2",            
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', variables('sa'))]"
-            ],
-            "properties": {
-                "displayName": "privatestorage",
-                "parameterValues": {
-                    "accountName": "[variables('sa')]", 
-                    "accessKey": "[concat(listKeys(concat(resourceGroup().id,'/providers/Microsoft.Storage/storageAccounts/', variables('sa')),'2019-06-01').keys[0].value)]"
-                },
-                "api": {
-                    "id": "[concat('/subscriptions/',subscription().subscriptionId,'/providers/Microsoft.Web/locations/',parameters('location'),'/managedApis/azureblob')]"
-                }
-            }
-        }
        
-    ],
-    "outputs": {
-      "blobendpointurl": {
-        "type": "string",
-        "value": "[reference(resourceId('Microsoft.Web/connections', parameters('connections_azureblob_name')),'2016-06-01', 'full').properties.connectionRuntimeUrl]"
+    {
+      "type": "Microsoft.Web/connections",
+      "apiVersion": "2016-06-01",
+      "name": "[parameters('azureblob_1_Connection_Name')]",
+      "location": "[parameters('logicAppLocation')]",
+      "properties": {
+        "api": {
+          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azureblob')]"
+        },
+        "displayName": "[parameters('azureblob_1_Connection_DisplayName')]",
+        "parameterValues": {
+          "accountName": "[parameters('azureblob_1_accountName')]",
+          "accessKey": "[parameters('azureblob_1_accessKey')]",
+          "authType": "[parameters('azureblob_1_authType')]",
+          "privacySetting": "[parameters('azureblob_1_privacySetting')]"
+        }
       }
     }
+       
+       
+    ],
+   "outputs": {
+    "logicAppSystemAssignedIdentityTenantId": {
+      "type": "string",
+      "value": "[subscription().tenantid]"
+    },
+    "logicAppSystemAssignedIdentityObjectId": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.Web/sites', parameters('logicAppName')),'2019-08-01', 'full').identity.principalId]"
+    },
+    "LAname": {
+      "type": "string",
+      "value": "[parameters('logicAppName')]"
+    }
+  }
   }
