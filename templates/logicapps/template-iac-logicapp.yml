@@ -59,7 +59,7 @@ jobs:
             csmFile: '$(Pipeline.Workspace)/$(artifactName)/classic/connectors-template.json'
             overrideParameters: '
               -location "westeurope"
-              -connections_azureblob_name "s141d02pireanstorage"
+              -connections_azureblob_name "s141d02pireanstorageconnector"
               -logicAppSystemAssignedIdentityTenantId $(logicAppSystemAssignedIdentityTenantId)
               -logicAppSystemAssignedIdentityObjectId $(logicAppSystemAssignedIdentityObjectId)'
             deploymentMode: $(deploymentMode)
@@ -78,7 +78,7 @@ jobs:
             scriptType: 'bash'
             scriptLocation: 'inlineScript'
             inlineScript: |
-              az functionapp config appsettings set --name $(LAname) --resource-group  "s141d02-idamsdsiapp" --settings "BLOB_CONNECTION_RUNTIMEURL=$(idamsblobstorageconnectionstring)"
-              az functionapp config appsettings set --name $(LAname) --resource-group  "s141d02-idamsdsiapp" --settings "WORKFLOWS_RESOURCE_GROUP_NAME=s141d02-idamsdsiapp"
+              az functionapp config appsettings set --name $(pireanstorageaccountname) --resource-group  "s141d02-idamsdsiapp" --settings "BLOB_CONNECTION_RUNTIMEURL=$(idamsblobstorageconnectionstring)"
+              az functionapp config appsettings set --name $(pireanstorageaccountname) --resource-group  "s141d02-idamsdsiapp" --settings "WORKFLOWS_RESOURCE_GROUP_NAME=s141d02-idamsdsiapp"
             addSpnToEnvironment: true
             useGlobalConfig: true
