@@ -68,20 +68,15 @@ jobs:
               -azureblob_1_accessKey $(azureblobaccesskey)
               -azureblob_1_authType $(azureblobauthtype)
               -azureblob_1_privacySetting $(azureblobprivacysetting)
+              -office365_1_Connection_Name $(office365connectionname)
+              -office365_1_Connection_DisplayName $(office365connectiondisplayname)
+              -Email_1_From $(logicappemailfrom)
               -environmentId ${{parameters.environmentId}}
               -projectId "s141"
               -serviceName "pirean"'
               
             deploymentMode: $(deploymentMode)
-        - task: AzureResourceGroupDeployment@2
-          displayName: 'Deploy Workflows'
-          inputs:
-            azureSubscription: ${{ parameters.serviceConnection }}
-            resourceGroupName: "s141d02-idamsdsiapp"
-            location: "westeurope"
-            csmFile: '$(Pipeline.Workspace)/$(artifactName)/classic/workflow.json'
-            deploymentMode: $(deploymentMode)
-
+      
         - task: ARM Outputs@6
           displayName: 'ARM Outputs Connections'
           inputs:
