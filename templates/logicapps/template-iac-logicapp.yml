@@ -99,7 +99,7 @@ jobs:
           inputs:
             SourcePath: '$(Pipeline.Workspace)/$(artifactName)/classic/'
             azureSubscription:  ${{ parameters.serviceConnection }}
-            Destination: AzureBlob
+            Destination: AzureFileShare
             storage: s141d02logicappstorage
             containerName: /s141d02-pirean-idamsdsiapp/site/wwwroot/
             
