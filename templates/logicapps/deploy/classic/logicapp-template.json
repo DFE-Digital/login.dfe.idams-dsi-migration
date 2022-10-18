@@ -223,6 +223,7 @@
       "properties": {
         "definition": {
           "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+          "contentVersion": "1.0.0.0",
           "actions": {
             "Get_all_the_attachments": {
               "type": "Foreach",
@@ -343,9 +344,10 @@
               "splitOn": "@triggerBody()?['value']"
             }
           },
-          "contentVersion": "1.0.0.0",
+          
           "outputs": {}
         },
+        "kind": "Stateful",
         "parameters": {
           "$connections": {
             "value": {
