@@ -3,6 +3,8 @@
 parameters:
 - name: environment
   type: string
+- name: environmentId
+  type: string
 - name: serviceConnection
   type: string
 - name: variableGroups
