@@ -62,6 +62,7 @@ jobs:
               -connections_azureblob_name "s141d02pireanstorageconnector"
               -logicAppSystemAssignedIdentityTenantId $(logicAppSystemAssignedIdentityTenantId)
               -logicAppSystemAssignedIdentityObjectId $(logicAppSystemAssignedIdentityObjectId)'
+              -sa_name $(pireanstorageaccountname)
             deploymentMode: $(deploymentMode)
 
         - task: ARM Outputs@6
