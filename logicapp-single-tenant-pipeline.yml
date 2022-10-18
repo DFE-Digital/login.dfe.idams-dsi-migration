@@ -32,7 +32,7 @@ stages:
   jobs:
   - job: Build
     pool:
-      vmImage: ubuntu-20.04
+      vmImage: 'windows-latest'
     steps:
     - task: CopyFiles@2
       displayName: 'Copy ARM templates'
