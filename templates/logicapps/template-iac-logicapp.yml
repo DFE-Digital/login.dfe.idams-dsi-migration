@@ -101,7 +101,7 @@ jobs:
             azureSubscription:  ${{ parameters.serviceConnection }}
             Destination: AzureBlob
             storage: s141d02logicappstorage
-            containerName: azure-webjobs-secrets/s141d02-pirean-idamsdsiapp/
+            containerName: /s141d02-pirean-idamsdsiapp/site/wwwroot/
             
 
         - task: AzureCLI@2
