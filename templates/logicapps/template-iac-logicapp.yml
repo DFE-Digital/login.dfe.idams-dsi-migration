@@ -44,6 +44,11 @@ jobs:
               -azureblob_1_accountName $(azureblobaccountname)
               -azureblob_1_Connection_Name $(azureblobconnectionname)
               -office365_1_Connection_Name $(office365connectionname)
+              -office365_1_Connection_DisplayName $(office365connectiondisplayname)
+              -azureblob_1_Connection_DisplayName $(azureblobconnectiondisplayname)
+              -azureblob_1_accessKey $(azureblobaccesskey)
+              -azureblob_1_authType $(azureblobauthtype)
+              -azureblob_1_privacySetting $(azureblobprivacysetting)
               -Email_1_From $(logicappemailfrom)'
             deploymentMode: $(deploymentMode)
             deploymentOutputs: 'LogicAppArmOutputs'
