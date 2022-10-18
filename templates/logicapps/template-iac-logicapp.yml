@@ -94,13 +94,14 @@ jobs:
             resourceGroupName: "s141d02-idamsdsiapp"
             whenLastDeploymentIsFailed: 'fail'
 
-        - task: AzureFileCopy@4
+        - task: AzureFileCopy@3
           displayName: 'Copy Workflow and Connectors to Azure Storage'
           inputs:
             SourcePath: '$(Pipeline.Workspace)/$(artifactName)/classic/'
             azureSubscription:  ${{ parameters.serviceConnection }}
             Destination: AzureBlob
             storage: s141d02logicappstorage
+            containerName: s141d02-pirean-idamsdsiapp
             
 
         - task: AzureCLI@2
