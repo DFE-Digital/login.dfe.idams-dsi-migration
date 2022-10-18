@@ -59,7 +59,7 @@ jobs:
             csmFile: '$(Pipeline.Workspace)/$(artifactName)/classic/connectors-template.json'
             overrideParameters: '
               -location "westeurope"
-              -connections_azureblob_name $(blobConnectionName)
+              -connections_azureblob_name "s141d02pireanstorage"
               -logicAppSystemAssignedIdentityTenantId $(logicAppSystemAssignedIdentityTenantId)
               -logicAppSystemAssignedIdentityObjectId $(logicAppSystemAssignedIdentityObjectId)'
             deploymentMode: $(deploymentMode)
