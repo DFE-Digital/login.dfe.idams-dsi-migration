@@ -31,7 +31,7 @@ jobs:
             resourceGroupName: "s141d02-idamsdsiapp"
             
             location: 'westeurope'
-            csmFile: '/classic/logicapp-template.json'
+            csmFile: '$(Pipeline.Workspace)/$(artifactName)/classic/logicapp-template.json'
             overrideParameters: '
               -location "westeurope"
               -environmentName ${{ parameters.environment }}
