@@ -38,7 +38,7 @@ jobs:
               -projectName $(projectName)
               -logicAppName "idamsdsiapp"
               -appServicePlanName "idamsdsiapp-asp"
-              -storageName $(storageName)'
+              -storageName "s141d01logicappstorage"
             deploymentMode: $(deploymentMode)
             deploymentOutputs: 'LogicAppArmOutputs'
 
