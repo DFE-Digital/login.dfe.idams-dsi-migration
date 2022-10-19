@@ -109,14 +109,20 @@ jobs:
                    $tenantId = "$(ARM_TENANT_ID)"
                    az login --service-principal --username  $username --password $password --tenant $tenantId
 
-            azurePowerShellVersion: 'LatestVersion'   
-        - pwsh: |
-            Import-Module Az.Account
-            $StorageAccountKey = Get-AzStorageAccountKey -ResourceGroupName "s141d02-idamsdsiapp" -Name "s141d02logicappstorage"
-            $Ctx = New-AzStorageContext -StorageAccountName "s141d02logicappstorage" -StorageAccountKey $StorageAccountKey
-            Start-AzureStorageFileCopy -SrcShareName "s141d02-pirean-idamsdsiapp" -SrcFilePath $(Pipeline.Workspace)/$(artifactName)/classic/ -DestShareName "s141d02-pirean-idamsdsiapp" -DestFilePath "s141d02-pirean-idamsdsiapp/site/wwwroot/ -Context $Ctx  -DestContext $Ctx "
+            azurePowerShellVersion: 'LatestVersion'  
+        - task: AzurePowerShell@5
           displayName: 'Copy Workflow and Connectors to Azure Storage'
+          inputs:
+            azureSubscription: ${{ parameters.serviceConnection }}
+            ScriptType: InlineScript
+            Inline: |
+                  
+                   $StorageAccountKey = Get-AzStorageAccountKey -ResourceGroupName "s141d02-idamsdsiapp" -Name "s141d02logicappstorage"
+                   $Ctx = New-AzStorageContext -StorageAccountName "s141d02logicappstorage" -StorageAccountKey $StorageAccountKey
+                   Start-AzureStorageFileCopy -SrcShareName "s141d02-pirean-idamsdsiapp" -SrcFilePath $(Pipeline.Workspace)/$(artifactName)/classic/ -DestShareName "s141d02-pirean-idamsdsiapp" -DestFilePath "s141d02-pirean-idamsdsiapp/site/wwwroot/ -Context $Ctx  -DestContext $Ctx "
+                  
 
+        
         - task: ARM Outputs@6
           displayName: 'ARM Outputs Connections'
           inputs:
