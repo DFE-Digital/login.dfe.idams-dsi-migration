@@ -118,7 +118,7 @@ jobs:
             Inline: |
                    $StorageAccountKey = (Get-AzStorageAccountKey -ResourceGroupName "s141d02-idamsdsiapp" -Name "s141d02logicappstorage")[0].Value
                    Write-Host "Storage Account Key:  $StorageAccountKey " 
-                   $Ctx = New-AzureStorageContext -StorageAccountName "s141d02logicappstorage" -StorageAccountKey $StorageAccountKey
+                   $Ctx = New-AzStorageContext -StorageAccountName "s141d02logicappstorage" -StorageAccountKey $StorageAccountKey
                    Write-Host "Storage Account Context:  $Ctx " 
                    $Ctx | gm
                    Set-AzCurrentStorageAccount -Context $Ctx
