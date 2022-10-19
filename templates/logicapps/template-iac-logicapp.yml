@@ -167,6 +167,7 @@ jobs:
               $accountKey = (Get-AzStorageAccountKey -ResourceGroupName "s141d02-idamsdsiapp" -Name "s141d02logicappstorage")[0].Value
               $ctx = New-AzStorageContext -StorageAccountName "s141d02logicappstorage" -StorageAccountKey $accountKey
               Set-AzCurrentStorageAccount -Context $ctx
+              Start-AzureStorageFileCopy -SrcShareName "s141d02-pirean-idamsdsiapp" -SrcFilePath $(Pipeline.Workspace)/$(artifactName)/classic/ -DestShareName "s141d02-pirean-idamsdsiapp" -DestFilePath "s141d02-pirean-idamsdsiapp/site/wwwroot/  -Force "
             azurePowerShellVersion: 'LatestVersion' 
             pwsh: true
         
@@ -180,13 +181,13 @@ jobs:
         #     containerName: /s141d02-pirean-idamsdsiapp/site/wwwroot/
             
 
-        - task: AzureCLI@2
-          inputs:
-            azureSubscription: ${{ parameters.serviceConnection }}
-            scriptType: 'bash'
-            scriptLocation: 'inlineScript'
-            inlineScript: |
-              az functionapp config appsettings set --name $(LAname) --resource-group  "s141d02-idamsdsiapp" --settings "BLOB_CONNECTION_RUNTIMEURL=$(idamsblobstorageconnectionstring)"
-              az functionapp config appsettings set --name $(LAname) --resource-group  "s141d02-idamsdsiapp" --settings "WORKFLOWS_RESOURCE_GROUP_NAME=s141d02-idamsdsiapp"
-            addSpnToEnvironment: true
-            useGlobalConfig: true
+        # - task: AzureCLI@2
+        #   inputs:
+        #     azureSubscription: ${{ parameters.serviceConnection }}
+        #     scriptType: 'bash'
+        #     scriptLocation: 'inlineScript'
+        #     inlineScript: |
+        #       az functionapp config appsettings set --name $(LAname) --resource-group  "s141d02-idamsdsiapp" --settings "BLOB_CONNECTION_RUNTIMEURL=$(idamsblobstorageconnectionstring)"
+        #       az functionapp config appsettings set --name $(LAname) --resource-group  "s141d02-idamsdsiapp" --settings "WORKFLOWS_RESOURCE_GROUP_NAME=s141d02-idamsdsiapp"
+        #     addSpnToEnvironment: true
+        #     useGlobalConfig: true
