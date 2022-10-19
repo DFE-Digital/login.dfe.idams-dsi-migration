@@ -25,7 +25,7 @@ variables:
 
 stages:
 - stage: Builds
-  displayName: 'Publish IaC Artifacts'
+  displayName: 'Build Logic App'
   variables:
    -group: platform-dev
            platform-global
@@ -43,8 +43,8 @@ stages:
       artifact: $(artifactName)
 
    
-- stage: DEV
-  displayName: 'DEV Deployment'
+- stage: dev
+  displayName: 'Package and Deploy: Tev'
   variables:
     - group: platform-global
   jobs:
