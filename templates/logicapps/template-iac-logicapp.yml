@@ -166,6 +166,7 @@ jobs:
             inline: |
               $accountKey = (Get-AzStorageAccountKey -ResourceGroupName "s141d02-idamsdsiapp" -Name "s141d02logicappstorage")[0].Value
               $ctx = New-AzStorageContext -StorageAccountName "s141d02logicappstorage" -StorageAccountKey $accountKey
+              Set-AzCurrentStorageAccount -Context $ctx
             azurePowerShellVersion: 'LatestVersion' 
             pwsh: true
         
