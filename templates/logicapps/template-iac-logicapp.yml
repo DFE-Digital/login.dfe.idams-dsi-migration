@@ -116,7 +116,7 @@ jobs:
             azureSubscription: ${{ parameters.serviceConnection }}
             ScriptType: InlineScript
             Inline: |
-                   Uninstall-AzureRm
+                   
                    $StorageAccountKey = (Get-AzStorageAccountKey -ResourceGroupName "s141d02-idamsdsiapp" -Name "s141d02logicappstorage")[0].Value
                    Write-Host "Storage Account Key:  $StorageAccountKey " 
                    $Ctx = New-AzureStorageContext -StorageAccountName "s141d02logicappstorage" -StorageAccountKey ((Get-AzStorageAccountKey -ResourceGroupName "s141d02-idamsdsiapp" -Name "s141d02logicappstorage")[0].Value)
