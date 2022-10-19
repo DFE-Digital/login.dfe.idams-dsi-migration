@@ -123,7 +123,7 @@ jobs:
                    $Ctx | gm
                    Set-AzCurrentStorageAccount -Context $Ctx
                    Start-AzureStorageFileCopy -SrcShareName "s141d02-pirean-idamsdsiapp" -SrcFilePath $(Pipeline.Workspace)/$(artifactName)/classic/ -DestShareName "s141d02-pirean-idamsdsiapp" -DestFilePath "s141d02-pirean-idamsdsiapp/site/wwwroot/ -Context $Ctx  -DestContext $Ctx -Force "
-            azurePowerShellVersion: 'LatestVersion'
+            azurePowerShellVersion: '3.4.0'
             pwsh: true
                   
 
