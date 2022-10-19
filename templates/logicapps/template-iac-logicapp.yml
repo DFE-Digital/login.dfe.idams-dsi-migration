@@ -119,9 +119,9 @@ jobs:
                    Uninstall-Module -Name AzureRm -AllVersions -Force
                    $StorageAccountKey = (Get-AzStorageAccountKey -ResourceGroupName "s141d02-idamsdsiapp" -Name "s141d02logicappstorage")[0].Value
                    Write-Host "Storage Account Key:  $StorageAccountKey " 
-                   $Ctx = New-AzureStorageContext -StorageAccountName "s141d02logicappstorage" -StorageAccountKey ((Get-AzStorageAccountKey -ResourceGroupName "s141d02-idamsdsiapp" -Name "s141d02logicappstorage")[0].Value)
-                   Write-Host $Ctx.GetType()
-                   Set-AzCurrentStorageAccount -Context (New-AzureStorageContext -StorageAccountName "s141d02logicappstorage" -StorageAccountKey $StorageAccountKey)
+                   $AzureContext = (Connect-AzAccount -Identity).context
+
+                   $AzureContext = Set-AzContext -SubscriptionName $AzureContext.Subscription -DefaultProfile $AzureContext
                    Start-AzureStorageFileCopy -SrcShareName "s141d02-pirean-idamsdsiapp" -SrcFilePath $(Pipeline.Workspace)/$(artifactName)/classic/ -DestShareName "s141d02-pirean-idamsdsiapp" -DestFilePath "s141d02-pirean-idamsdsiapp/site/wwwroot/  -Force "
             azurePowerShellVersion: 'LatestVersion' 
             pwsh: true
