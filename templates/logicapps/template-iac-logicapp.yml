@@ -147,11 +147,11 @@ jobs:
               $path = "scripts/"+$path 
               
               try {
-                if ($file.FullName -contains "workflow") {
+                if ($file.FullName.Contains("workflow")) {
                   Write-output "Writing: $($file.FullName)" 
                 Set-AzStorageFileContent -Share $s.CloudFileShare -Source $file.FullName -Path "/site/wwwroot/$(logicappname)" -Force
                 }
-                if ($file.FullName -contains "connections") 
+                if ($file.FullName.Contains("connections")) 
                 {
                   Write-output "Writing: $($file.FullName)" 
                 Set-AzStorageFileContent -Share $s.CloudFileShare -Source $file.FullName -Path "/site/wwwroot/" -Force
