@@ -69,7 +69,7 @@ jobs:
             azureSubscription: ${{ parameters.serviceConnection }}
             ScriptType: 'FilePath'
             ScriptPath: '$(Pipeline.Workspace)/$(artifactName)/Create-Workflow-And-Connectors.ps1'
-            ScriptArguments: '-applicationResourceGroupName '$(applicationResourceGroupName)' -StorageAccountName '$(StorageAccountName)' -idamsdsifileshare '$(idamsdsifileshare)' -logicappname '$(logicappname)' -artifactName '$(artifactName)'
+            ScriptArguments: '-applicationResourceGroupName '$(applicationResourceGroupName)' -StorageAccountName '$(StorageAccountName)' -idamsdsifileshare '$(idamsdsifileshare)' -logicappname '$(logicappname)' -artifactName '$(artifactName)''
             azurePowerShellVersion: 'LatestVersion'
             pwsh: true
         - task: AzureCLI@2
