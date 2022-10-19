@@ -1,7 +1,76 @@
 {
     "definition": {
       "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
-      "actions": {},
+      "actions": {
+        "Delete_email_(V2)": {
+          "inputs": {
+            "host": {
+              "connection": {
+                "referenceName": "office365"
+              }
+            },
+            "method": "delete",
+            "path": "/codeless/v1.0/me/messages/@{encodeURIComponent(triggerBody()?['id'])}"
+          },
+          "runAfter": {
+            "For_each": [
+              "Succeeded"
+            ]
+          },
+          "type": "ApiConnection"
+        },
+        "For_each": {
+          "actions": {
+            "Create_blob_(V2)": {
+              "inputs": {
+                "body": "@base64ToBinary(items('For_each')?['contentBytes'])",
+                "headers": {
+                  "ReadFileMetadataFromServer": true
+                },
+                "host": {
+                  "connection": {
+                    "referenceName": "azureblob"
+                  }
+                },
+                "method": "post",
+                "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent(variables('BlobStorageName')))}/files",
+                "queries": {
+                  "folderPath": "/attachments",
+                  "name": "@{formatDateTime(utcNow(), 'dd-MM-yyyyTHH:mm:ss')}-@{items('For_each')?['name']}",
+                  "queryParametersSingleEncoded": true
+                }
+              },
+              "runAfter": {},
+              "runtimeConfiguration": {
+                "contentTransfer": {
+                  "transferMode": "Chunked"
+                }
+              },
+              "type": "ApiConnection"
+            }
+          },
+          "foreach": "@triggerBody()?['attachments']",
+          "runAfter": {
+            "Initialize_variable": [
+              "Succeeded"
+            ]
+          },
+          "type": "Foreach"
+        },
+        "Initialize_variable": {
+          "inputs": {
+            "variables": [
+              {
+                "name": "BlobStorageName",
+                "type": "string",
+                "value": "[parameters('azureblob_1_accountName')]"
+              }
+            ]
+          },
+          "runAfter": {},
+          "type": "InitializeVariable"
+        }
+      },
       "contentVersion": "1.0.0.0",
       "outputs": {},
       "triggers": {
@@ -15,6 +84,7 @@
               "queries": {
                 "fetchOnlyWithAttachment": false,
                 "folderPath": "Inbox",
+                "from": "zeeshan.abbas@education.gov.uk",
                 "importance": "Any",
                 "includeAttachments": false
               }

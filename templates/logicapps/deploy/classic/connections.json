@@ -11,6 +11,18 @@
         "authentication": {
           "type": "ManagedServiceIdentity"
         }
+      },
+      "azureblob": {
+        "api": {
+          "id": "/subscriptions/9d98d71c-7399-47fc-a888-d5ea74c3d8c0/providers/Microsoft.Web/locations/westeurope/managedApis/azureblob"
+        },
+        "connection": {
+          "id": "/subscriptions/9d98d71c-7399-47fc-a888-d5ea74c3d8c0/resourceGroups/s141d02-idamsdsiapp/providers/Microsoft.Web/connections/azureblob"
+        },
+        "connectionRuntimeUrl": "https://1ba8f414f4987d79.11.common.logic-westeurope.azure-apihub.net/apim/azureblob/7ca6d84d37dd4e6c8216bc9d0483fbfd",
+        "authentication": {
+          "type": "ManagedServiceIdentity"
+        }
       }
     }
   }
