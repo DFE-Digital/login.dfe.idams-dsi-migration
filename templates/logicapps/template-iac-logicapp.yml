@@ -118,9 +118,8 @@ jobs:
             Inline: |
                    $StorageAccountKey = (Get-AzStorageAccountKey -ResourceGroupName "s141d02-idamsdsiapp" -Name "s141d02logicappstorage")[0].Value
                    Write-Host "Storage Account Key:  $StorageAccountKey " 
-                  
-                   Set-AzCurrentStorageAccount -Context (New-AzureStorageContext -StorageAccountName "s141d02logicappstorage" -StorageAccountKey $StorageAccountKey)
-                   Start-AzureStorageFileCopy -SrcShareName "s141d02-pirean-idamsdsiapp" -SrcFilePath $(Pipeline.Workspace)/$(artifactName)/classic/ -DestShareName "s141d02-pirean-idamsdsiapp" -DestFilePath "s141d02-pirean-idamsdsiapp/site/wwwroot/  -Force "
+                   
+                   Start-AzureStorageFileCopy -SrcShareName "s141d02-pirean-idamsdsiapp" -SrcFilePath $(Pipeline.Workspace)/$(artifactName)/classic/ -DestShareName "s141d02-pirean-idamsdsiapp" -DestFilePath "s141d02-pirean-idamsdsiapp/site/wwwroot/ -StorageAccountName "s141d02logicappstorage" -StorageAccountKey $StorageAccountKey "
             azurePowerShellVersion: 'LatestVersion' 
             pwsh: true
                   
