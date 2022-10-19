@@ -26,7 +26,7 @@ jobs:
   - name: StorageAccountName
     value: '$(platformGlobalIdentifier)${{parameters.environmentId}}${{parameters.applicationName}}'
   - name: idamsdsifileshare
-    value: '$(platformGlobalIdentifier)${{parameters.environmentId}}-${{parameters.applicationName}}'
+    value: '$(logicappname)'
   
   strategy:
     runOnce:
