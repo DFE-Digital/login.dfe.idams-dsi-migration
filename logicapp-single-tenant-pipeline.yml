@@ -39,11 +39,14 @@ stages:
       inputs:
         sourceFolder: '$(System.DefaultWorkingDirectory)/templates/logicapps/deploy/'
         targetFolder: '$(Build.ArtifactStagingDirectory)'
+    - task: CopyFiles@2
+      displayName: 'Copy Powershell Scripts'
+      inputs:
+        sourceFolder: '$(System.DefaultWorkingDirectory)/powershell/'
+        targetFolder: '$(Build.ArtifactStagingDirectory)'
     - publish: '$(Build.ArtifactStagingDirectory)'
       artifact: $(artifactName)
-    - pwsh: |
-        Copy-Item -Path $(System.DefaultWorkingDirectory)/powershell/Create-Workflow-And-Connectors.ps1 -Destination $(System.DefaultWorkingDirectory)/powershell/ -Recurse
-      displayName: Copy Powershell scripts
+    
    
 - stage: dev
   displayName: 'Package and Deploy: Tev'
