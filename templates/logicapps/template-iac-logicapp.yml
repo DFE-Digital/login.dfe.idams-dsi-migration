@@ -182,8 +182,8 @@ jobs:
                 Write-Warning "That didn't work: $message"
               }}
             
-          azurePowerShellVersion: 'LatestVersion'
-          displayName: "Azure Files Storage Copy"
+            azurePowerShellVersion: 'LatestVersion'
+            displayName: "Azure Files Storage Copy"
         
         # - task: AzureFileCopy@3
         #   displayName: 'Copy Workflow and Connectors to Azure Storage'
