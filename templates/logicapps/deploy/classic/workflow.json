@@ -1,49 +1,48 @@
 {
     "definition": {
-        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
-        
-        "actions": {},
-        "contentVersion": "1.0.0.0",
-        "outputs": {},
-        "triggers": {
-            "When_a_new_email_arrives_(V3)": {
-                "inputs": {
-                    "fetch": {
-                        "method": "get",
-                        "pathTemplate": {
-                            "template": "/v3/Mail/OnNewEmail"
-                        },
-                        "queries": {
-                            "fetchOnlyWithAttachment": false,
-                            "folderPath": "Inbox",
-                            "importance": "Any",
-                            "includeAttachments": false
-                        }
-                    },
-                    "host": {
-                        "connection": {
-                            "referenceName": "office365"
-                        }
-                    },
-                    "subscribe": {
-                        "body": {
-                            "NotificationUrl": "@{listCallbackUrl()}"
-                        },
-                        "method": "post",
-                        "pathTemplate": {
-                            "template": "/GraphMailSubscriptionPoke/$subscriptions"
-                        },
-                        "queries": {
-                            "fetchOnlyWithAttachment": false,
-                            "folderPath": "Inbox",
-                            "importance": "Any"
-                        }
-                    }
-                },
-                "splitOn": "@triggerBody()?['value']",
-                "type": "ApiConnectionNotification"
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "actions": {},
+      "contentVersion": "1.0.0.0",
+      "outputs": {},
+      "triggers": {
+        "When_a_new_email_arrives_(V3)": {
+          "inputs": {
+            "fetch": {
+              "method": "get",
+              "pathTemplate": {
+                "template": "/v3/Mail/OnNewEmail"
+              },
+              "queries": {
+                "fetchOnlyWithAttachment": false,
+                "folderPath": "Inbox",
+                "importance": "Any",
+                "includeAttachments": false
+              }
+            },
+            "host": {
+              "connection": {
+                "referenceName": "office365"
+              }
+            },
+            "subscribe": {
+              "body": {
+                "NotificationUrl": "@{listCallbackUrl()}"
+              },
+              "method": "post",
+              "pathTemplate": {
+                "template": "/GraphMailSubscriptionPoke/$subscriptions"
+              },
+              "queries": {
+                "fetchOnlyWithAttachment": false,
+                "folderPath": "Inbox",
+                "importance": "Any"
+              }
             }
+          },
+          "splitOn": "@triggerBody()?['value']",
+          "type": "ApiConnectionNotification"
         }
+      }
     },
     "kind": "Stateful"
-}
+  }
