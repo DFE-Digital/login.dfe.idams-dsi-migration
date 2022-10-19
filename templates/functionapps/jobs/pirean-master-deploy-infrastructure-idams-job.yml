@@ -94,7 +94,7 @@ jobs:
           inputs:
             azureSubscription: ${{parameters.serviceConnection}}
             ScriptType: 'FilePath'
-            ScriptPath: ./powershell/logicapps/Add-Subnet-to-Existing-Vnet.ps1
+            ScriptPath: ./powershell/Add-Subnet-to-Existing-Vnet.ps1
             ScriptArguments: '-vNetName $(vnetname) -resourceGroupName $(vnetresourcegroupname) -AddressPrefix $(vnetsubnetaddressprefix) -subnetName $(vnetsubnetname)'
             azurePowerShellVersion: 'LatestVersion'
             pwsh: true
