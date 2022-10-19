@@ -133,7 +133,7 @@ jobs:
             addToPath: true
           name: pyTools
 
-        - script: $(pyTools.pythonLocation)/bin/pip3 install azure-storage-file-share
+        - script: pip3 install azure-storage-file-share
           displayName: Install azure-storage-file-share module
         
         - task: PythonScript@0
