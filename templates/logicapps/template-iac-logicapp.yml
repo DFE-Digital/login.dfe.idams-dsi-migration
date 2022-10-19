@@ -116,6 +116,7 @@ jobs:
             azureSubscription: ${{ parameters.serviceConnection }}
             ScriptType: InlineScript
             Inline: |
+                   Import-Module -Name AzureRM.Storage
                    $StorageAccountKey = (Get-AzStorageAccountKey -ResourceGroupName "s141d02-idamsdsiapp" -Name "s141d02logicappstorage")[0].Value
                    Write-Host "Storage Account Key:  $StorageAccountKey " 
                    $Store = Get-AzureRmStorageAccount -ResourceGroupName "s141d02-idamsdsiapp" -Name "s141d02logicappstorage"
