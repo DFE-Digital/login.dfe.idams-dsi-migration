@@ -166,6 +166,8 @@ jobs:
             inline: |
               $accountKey = (Get-AzStorageAccountKey -ResourceGroupName "s141d02-idamsdsiapp" -Name "s141d02logicappstorage")[0].Value
               $ctx = New-AzStorageContext -StorageAccountName $(StorageAccountName) -StorageAccountKey $accountKey
+            azurePowerShellVersion: 'LatestVersion' 
+            pwsh: true
         
         # - task: AzureFileCopy@3
         #   displayName: 'Copy Workflow and Connectors to Azure Storage'
