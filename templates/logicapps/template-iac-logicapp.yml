@@ -170,8 +170,20 @@ jobs:
               Set-Location "$(Pipeline.Workspace)/$(artifactName)/classic/"
               $CurrentFolder = (Get-Item .).FullName
               $files = Get-ChildItem -Recurse | Where-Object { $_.GetType().Name -eq "FileInfo"}
-            azurePowerShellVersion: 'LatestVersion' 
-            pwsh: true
+              foreach ($file in $files) {
+              $path=$file.FullName.Substring($Currentfolder.Length+1).Replace("\","/")
+              $path = "scripts/"+$path 
+              Write-output "Writing: $($file.FullName)"
+              try {
+                Set-AzStorageFileContent -Share $s.CloudFileShare -Source $file.FullName -Path $path -Force
+              }
+              catch {
+                $message = $_
+                Write-Warning "That didn't work: $message"
+              }}
+            
+          azurePowerShellVersion: 'LatestVersion'
+          displayName: "Azure Files Storage Copy"
         
         # - task: AzureFileCopy@3
         #   displayName: 'Copy Workflow and Connectors to Azure Storage'
