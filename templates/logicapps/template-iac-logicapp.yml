@@ -121,8 +121,8 @@ jobs:
                    $Ctx = New-AzureStorageContext -StorageAccountName "s141d02logicappstorage" -StorageAccountKey $StorageAccountKey
                    Write-Host "Storage Account Context:  $Ctx " 
                    Set-AzCurrentStorageAccount -Context (New-AzureStorageContext -StorageAccountName "s141d02logicappstorage" -StorageAccountKey $StorageAccountKey)
-                   Start-AzureStorageFileCopy -SrcShareName "s141d02-pirean-idamsdsiapp" -SrcFilePath $(Pipeline.Workspace)/$(artifactName)/classic/ -DestShareName "s141d02-pirean-idamsdsiapp" -DestFilePath "s141d02-pirean-idamsdsiapp/site/wwwroot/ -Context $Ctx  -DestContext $Ctx -Force "
-            azurePowerShellVersion: '3.4.0'
+                   Start-AzureStorageFileCopy -SrcShareName "s141d02-pirean-idamsdsiapp" -SrcFilePath $(Pipeline.Workspace)/$(artifactName)/classic/ -DestShareName "s141d02-pirean-idamsdsiapp" -DestFilePath "s141d02-pirean-idamsdsiapp/site/wwwroot/  -Force "
+            azurePowerShellVersion: 'LatestVersion' 
             pwsh: true
                   
 
