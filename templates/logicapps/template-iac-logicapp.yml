@@ -139,7 +139,7 @@ jobs:
               $s = Get-AzStorageShare "s141d02-pirean-idamsdsiapp" -Context $ctx
               Write-Host -ForegroundColor Green "Creating directory in file share.."    
               Get-AzStorageShare -Context $ctx -Name "s141d02-pirean-idamsdsiapp" | New-AzStorageDirectory -Path "/site/wwwroot/test123"  
-              Set-Location "$(Pipeline.Workspace)/$(artifactName)/classic/"
+              Set-Location "$(Pipeline.Workspace)/$(artifactName)/"
               $CurrentFolder = (Get-Item .).FullName
               $files = Get-ChildItem -Recurse | Where-Object { $_.GetType().Name -eq "FileInfo"}
               foreach ($file in $files) {
