@@ -96,20 +96,24 @@ jobs:
                     Write-Host "##vso[task.setvariable variable=ARM_CLIENT_ID]$env:servicePrincipalId"
                     Write-Host "##vso[task.setvariable variable=ARM_CLIENT_SECRET]$env:servicePrincipalKey"
                     Write-Host "##vso[task.setvariable variable=ARM_TENANT_ID]$env:tenantId"
-                  addSpnToEnvironment: true
-              - task: AzurePowerShell@5
-                displayName: Connect with Az
-                inputs:
-                  azureSubscription: ${{ parameters.serviceConnection }}
-                  ScriptType: InlineScript
-                  Inline: |
+            addSpnToEnvironment: true
+        - task: AzurePowerShell@5
+          displayName: Connect with Az
+          inputs:
+            azureSubscription: ${{ parameters.serviceConnection }}
+            ScriptType: InlineScript
+            Inline: |
                  
                    $username = "$(ARM_CLIENT_ID)"
                    $password = "$(ARM_CLIENT_SECRET)"
                    $tenantId = "$(ARM_TENANT_ID)"
                    az login --service-principal --username  $username --password $password --tenant $tenantId
 
-                  azurePowerShellVersion: 'LatestVersion'      
+            azurePowerShellVersion: 'LatestVersion'   
+        - pwsh: |
+            Start-AzureStorageFileCopy -SrcShareName "s141d02-pirean-idamsdsiapp" -SrcFilePath $(Pipeline.Workspace)/$(artifactName)/classic/ -DestShareName "s141d02-pirean-idamsdsiapp" -DestFilePath "s141d02-pirean-idamsdsiapp/site/wwwroot/"
+          displayName: 'Copy Workflow and Connectors to Azure Storage'
+             
         - task: ARM Outputs@6
           displayName: 'ARM Outputs Connections'
           inputs:
@@ -117,9 +121,7 @@ jobs:
             ConnectedServiceNameARM: ${{ parameters.serviceConnection }}
             resourceGroupName: "s141d02-idamsdsiapp"
             whenLastDeploymentIsFailed: 'fail'
-        - pwsh: |
-            Start-AzureStorageFileCopy -SrcShareName "s141d02-pirean-idamsdsiapp" -SrcFilePath $(Pipeline.Workspace)/$(artifactName)/classic/ -DestShareName "s141d02-pirean-idamsdsiapp" -DestFilePath "s141d02-pirean-idamsdsiapp/site/wwwroot/"
-          displayName: 'Copy Workflow and Connectors to Azure Storage'
+        
         
         # - task: AzureFileCopy@3
         #   displayName: 'Copy Workflow and Connectors to Azure Storage'
