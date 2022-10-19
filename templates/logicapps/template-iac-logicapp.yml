@@ -150,7 +150,7 @@ jobs:
                 if ($file.FullName -contains "workflow") { 
                 Set-AzStorageFileContent -Share $s.CloudFileShare -Source $file.FullName -Path "/site/wwwroot/$(logicappname)" -Force
                 }
-                if ($file.FullName -contains "connections") { 
+                if ($file.FullName -contains "connections") 
                 {
                 Set-AzStorageFileContent -Share $s.CloudFileShare -Source $file.FullName -Path "/site/wwwroot/" -Force
                 }
