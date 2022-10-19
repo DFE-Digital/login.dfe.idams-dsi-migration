@@ -86,12 +86,12 @@ jobs:
               
             deploymentMode: $(deploymentMode)
         - task: AzureCLI@2
-                displayName: 'Azure CLI - Promote Service Principal'
-                inputs:
-                  azureSubscription: ${{ parameters.serviceConnection }}
-                  scriptType: pscore
-                  scriptLocation: inlineScript
-                  inlineScript: |
+          displayName: 'Azure CLI - Promote Service Principal'
+          inputs:
+            azureSubscription: ${{ parameters.serviceConnection }}
+            scriptType: pscore
+            scriptLocation: inlineScript
+            inlineScript: |
                   
                     Write-Host "##vso[task.setvariable variable=ARM_CLIENT_ID]$env:servicePrincipalId"
                     Write-Host "##vso[task.setvariable variable=ARM_CLIENT_SECRET]$env:servicePrincipalKey"
