@@ -102,13 +102,13 @@ jobs:
         
                   
 
-        # - task: AzureCLI@2
-        #   inputs:
-        #     azureSubscription: ${{ parameters.serviceConnection }}
-        #     scriptType: 'bash'
-        #     scriptLocation: 'inlineScript'
-        #     inlineScript: |
-        #       az functionapp config appsettings set --name $(LAname) --resource-group  "s141d02-idamsdsiapp" --settings "BLOB_CONNECTION_RUNTIMEURL=$(idamsblobstorageconnectionstring)"
-        #       az functionapp config appsettings set --name $(LAname) --resource-group  "s141d02-idamsdsiapp" --settings "WORKFLOWS_RESOURCE_GROUP_NAME=s141d02-idamsdsiapp"
-        #     addSpnToEnvironment: true
-        #     useGlobalConfig: true
+        - task: AzureCLI@2
+          inputs:
+            azureSubscription: ${{ parameters.serviceConnection }}
+            scriptType: 'bash'
+            scriptLocation: 'inlineScript'
+            inlineScript: |
+              az functionapp config appsettings set --name $(LAname) --resource-group  "s141d02-idamsdsiapp" --settings "BLOB_CONNECTION_RUNTIMEURL=$(idamsblobstorageconnectionstring)"
+              az functionapp config appsettings set --name $(LAname) --resource-group  "s141d02-idamsdsiapp" --settings "WORKFLOWS_RESOURCE_GROUP_NAME=s141d02-idamsdsiapp"
+            addSpnToEnvironment: true
+            useGlobalConfig: true
