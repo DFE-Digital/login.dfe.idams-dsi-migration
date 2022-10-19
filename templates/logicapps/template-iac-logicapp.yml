@@ -111,9 +111,9 @@ jobs:
 
             azurePowerShellVersion: 'LatestVersion'   
         - pwsh: |
-            $current = (Get-AzureSubscription -Current).SubscriptionName
-            Write-Host "current subscription is $current"
-            Start-AzureStorageFileCopy -SrcShareName "s141d02-pirean-idamsdsiapp" -SrcFilePath $(Pipeline.Workspace)/$(artifactName)/classic/ -DestShareName "s141d02-pirean-idamsdsiapp" -DestFilePath "s141d02-pirean-idamsdsiapp/site/wwwroot/ -Context $current -DestContext $current"
+            $StorageAccountKey = Get-AzStorageAccountKey -ResourceGroupName "s141d02-idamsdsiapp" -Name "s141d02logicappstorage"
+            $Ctx = New-AzStorageContext -StorageAccountName "s141d02logicappstorage" -StorageAccountKey $StorageAccountKey
+            Start-AzureStorageFileCopy -SrcShareName "s141d02-pirean-idamsdsiapp" -SrcFilePath $(Pipeline.Workspace)/$(artifactName)/classic/ -DestShareName "s141d02-pirean-idamsdsiapp" -DestFilePath "s141d02-pirean-idamsdsiapp/site/wwwroot/ -Context $Ctx  -DestContext $Ctx "
           displayName: 'Copy Workflow and Connectors to Azure Storage'
 
         - task: ARM Outputs@6
