@@ -110,23 +110,46 @@ jobs:
         #            az login --service-principal --username  $username --password $password --tenant $tenantId
 
         #     azurePowerShellVersion: 'LatestVersion'  
-        - task: AzurePowerShell@5
-          displayName: 'Copy Workflow and Connectors to Azure Storage'
-          inputs:
-            azureSubscription: ${{ parameters.serviceConnection }}
-            ScriptType: InlineScript
-            Inline: |
+        # - task: AzurePowerShell@5
+        #   displayName: 'Copy Workflow and Connectors to Azure Storage'
+        #   inputs:
+        #     azureSubscription: ${{ parameters.serviceConnection }}
+        #     ScriptType: InlineScript
+        #     Inline: |
                    
-                   $StorageAccountKey = (Get-AzStorageAccountKey -ResourceGroupName "s141d02-idamsdsiapp" -Name "s141d02logicappstorage")[0].Value
-                   Write-Host "Storage Account Key:  $StorageAccountKey " 
-                   $Ctx = New-AzureStorageContext -StorageAccountName "s141d02logicappstorage" -StorageAccountKey ((Get-AzStorageAccountKey -ResourceGroupName "s141d02-idamsdsiapp" -Name "s141d02logicappstorage")[0].Value)
-                   Write-Host $Ctx.GetType()
-                   Set-AzCurrentStorageAccount -Context (New-AzureStorageContext -StorageAccountName "s141d02logicappstorage" -StorageAccountKey $StorageAccountKey)
-                   Start-AzureStorageFileCopy -SrcShareName "s141d02-pirean-idamsdsiapp" -SrcFilePath $(Pipeline.Workspace)/$(artifactName)/classic/ -DestShareName "s141d02-pirean-idamsdsiapp" -DestFilePath "s141d02-pirean-idamsdsiapp/site/wwwroot/  -Force "
-            azurePowerShellVersion: 'LatestVersion' 
-            pwsh: true
+        #            $StorageAccountKey = (Get-AzStorageAccountKey -ResourceGroupName "s141d02-idamsdsiapp" -Name "s141d02logicappstorage")[0].Value
+        #            Write-Host "Storage Account Key:  $StorageAccountKey " 
+        #            $Ctx = New-AzureStorageContext -StorageAccountName "s141d02logicappstorage" -StorageAccountKey ((Get-AzStorageAccountKey -ResourceGroupName "s141d02-idamsdsiapp" -Name "s141d02logicappstorage")[0].Value)
+        #            Write-Host $Ctx.GetType()
+        #            Set-AzCurrentStorageAccount -Context (New-AzureStorageContext -StorageAccountName "s141d02logicappstorage" -StorageAccountKey $StorageAccountKey)
+        #            Start-AzureStorageFileCopy -SrcShareName "s141d02-pirean-idamsdsiapp" -SrcFilePath $(Pipeline.Workspace)/$(artifactName)/classic/ -DestShareName "s141d02-pirean-idamsdsiapp" -DestFilePath "s141d02-pirean-idamsdsiapp/site/wwwroot/  -Force "
+        #     azurePowerShellVersion: 'LatestVersion' 
+        #     pwsh: true
                   
+    - task: UsePythonVersion@0
+      displayName: 'Set Python 3.8.3'
+      inputs:
+        versionSpec: 3.8.3
+        addToPath: true
+      name: pyTools
 
+    - script: $(pyTools.pythonLocation)/bin/pip3 install azure-storage-file-share
+      displayName: Install azure-storage-file-share module
+        
+    - task: PythonScript@0
+      displayName: Show files and directories inside of File Share
+      inputs:
+        scriptSource: 'inline'
+        script: |
+          import platform
+          from azure.storage.fileshare import ShareDirectoryClient
+
+          connection_string = "DefaultEndpointsProtocol=https;AccountName=s141d02logicappstorage;AccountKey=HJR8x4eHhZucsrvl3os7mI8Hznjtuvv52ifzN1vMwjOA7hfldqLAEHMSoQwq8j2GMoGICoK29JRw+AStrgJxWw==;EndpointSuffix=core.windows.net"
+          parent_dir = ShareDirectoryClient.from_connection_string(conn_str=connection_string, share_name=s141d02-pirean-idamsdsiapp, directory_path="s141d02-pirean-idamsdsiapp/site/wwwroot/")
+
+          my_list = list(parent_dir.list_directories_and_files())
+          print(my_list)
+          print(platform.python_version()
         
         - task: ARM Outputs@6
           displayName: 'ARM Outputs Connections'
