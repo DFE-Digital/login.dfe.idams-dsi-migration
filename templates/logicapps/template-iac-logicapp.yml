@@ -126,15 +126,15 @@ jobs:
         #     azurePowerShellVersion: 'LatestVersion' 
         #     pwsh: true
                   
-    - task: UsePythonVersion@0
-      displayName: 'Set Python 3.8.3'
-      inputs:
-        versionSpec: 3.8.3
-        addToPath: true
-      name: pyTools
+        - task: UsePythonVersion@0
+          displayName: 'Set Python 3.8.3'
+          inputs:
+            versionSpec: 3.8.3
+            addToPath: true
+          name: pyTools
 
-    - script: $(pyTools.pythonLocation)/bin/pip3 install azure-storage-file-share
-      displayName: Install azure-storage-file-share module
+        - script: $(pyTools.pythonLocation)/bin/pip3 install azure-storage-file-share
+          displayName: Install azure-storage-file-share module
         
         - task: PythonScript@0
           displayName: Show files and directories inside of File Share
