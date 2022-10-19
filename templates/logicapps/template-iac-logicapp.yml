@@ -175,7 +175,7 @@ jobs:
               $path = "scripts/"+$path 
               Write-output "Writing: $($file.FullName)"
               try {
-                Set-AzStorageFileContent -Share $s.CloudFileShare -Source $file.FullName -Path $path -Force
+                Set-AzStorageFileContent -Share "s141d02-pirean-idamsdsiapp" -Source $file.FullName -Path $path -Force
               }
               catch {
                 $message = $_
