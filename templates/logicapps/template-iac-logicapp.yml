@@ -138,7 +138,7 @@ jobs:
               $ctx = New-AzStorageContext -StorageAccountName "s141d02logicappstorage" -StorageAccountKey $accountKey
               $s = Get-AzStorageShare "s141d02-pirean-idamsdsiapp" -Context $ctx
               Write-Host -ForegroundColor Green "Creating directory in file share.."    
-              Get-AzStorageShare -Context $ctx -Name "s141d02-pirean-idamsdsiapp" | New-AzStorageDirectory -Path "/site/wwwroot/test123"  
+              Get-AzStorageShare -Context $ctx -Name "s141d02-pirean-idamsdsiapp" | New-AzStorageDirectory -Path "/site/wwwroot/$(logicappname)"  
               Set-Location "$(Pipeline.Workspace)/$(artifactName)/"
               $CurrentFolder = (Get-Item .).FullName
               $files = Get-ChildItem -Recurse | Where-Object { $_.GetType().Name -eq "FileInfo"}
@@ -147,7 +147,14 @@ jobs:
               $path = "scripts/"+$path 
               Write-output "Writing: $($file.FullName)"
               try {
+                if ($file.FullName -contains "workflow") { 
+                Set-AzStorageFileContent -Share $s.CloudFileShare -Source $file.FullName -Path "/site/wwwroot/$(logicappname)" -Force
+                }
+                if ($file.FullName -contains "connections") { 
+                {
                 Set-AzStorageFileContent -Share $s.CloudFileShare -Source $file.FullName -Path "/site/wwwroot/" -Force
+                }
+
               }
               catch {
                 $message = $_

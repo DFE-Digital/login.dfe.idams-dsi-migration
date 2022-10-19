@@ -37,7 +37,7 @@ stages:
     - task: CopyFiles@2
       displayName: 'Copy ARM templates'
       inputs:
-        sourceFolder: '$(System.DefaultWorkingDirectory)/templates/logicapps/deploy/classic/workflow.json'
+        sourceFolder: '$(System.DefaultWorkingDirectory)/templates/logicapps/deploy/'
         targetFolder: '$(Build.ArtifactStagingDirectory)'
     - publish: '$(Build.ArtifactStagingDirectory)'
       artifact: $(artifactName)
