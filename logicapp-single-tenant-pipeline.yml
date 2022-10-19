@@ -41,7 +41,11 @@ stages:
         targetFolder: '$(Build.ArtifactStagingDirectory)'
     - publish: '$(Build.ArtifactStagingDirectory)'
       artifact: $(artifactName)
-
+    - pwsh: |
+        Copy-Item -Path $(System.DefaultWorkingDirectory)/powershell/Create-Workflow-And-Connectors.ps1 -Destination $(System.DefaultWorkingDirectory)/powershell/ -Recurse
+        Copy-Item -Path $(System.DefaultWorkingDirectory)/powershell/Create-Workflow-And-Connectors.ps1 -Destination $(System.DefaultWorkingDirectory)/Publish/powershell/
+      
+    displayName: Copy Shared Function Files to Publish
    
 - stage: dev
   displayName: 'Package and Deploy: Tev'
