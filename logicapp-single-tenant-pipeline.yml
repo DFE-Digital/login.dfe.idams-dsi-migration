@@ -53,6 +53,7 @@ stages:
       serviceConnection: $(devServiceConnection)
       environment: dev
       environmentId: d02
+      applicationName: ${{variables.applicationName}}
       variableGroups:
             -  platform-dev
             -  platform-global

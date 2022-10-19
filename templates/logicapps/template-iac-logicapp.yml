@@ -7,6 +7,8 @@ parameters:
   type: string
 - name: serviceConnection
   type: string
+- name: applicationName
+  type: string
 - name: variableGroups
   type: object
 
