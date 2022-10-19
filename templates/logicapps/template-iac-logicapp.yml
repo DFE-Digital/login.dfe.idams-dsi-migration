@@ -26,65 +26,65 @@ jobs:
         - download: current
           artifact: $(artifactName)
 
-        - task: AzureResourceGroupDeployment@2
-          displayName: 'Deploy Logic App'
-          inputs:
-            azureSubscription: ${{ parameters.serviceConnection }}
-            resourceGroupName: "s141d02-idamsdsiapp"
+        # - task: AzureResourceGroupDeployment@2
+        #   displayName: 'Deploy Logic App'
+        #   inputs:
+        #     azureSubscription: ${{ parameters.serviceConnection }}
+        #     resourceGroupName: "s141d02-idamsdsiapp"
             
-            location: 'westeurope'
-            csmFile: '$(Pipeline.Workspace)/$(artifactName)/classic/logicapp-template.json'
-            overrideParameters: '
-              -logicAppLocation $(logicapplocation)
-              -environmentName ${{ parameters.environment }}
-              -projectName $(projectName)
-              -logicAppName $(logicappname)
-              -appServicePlanName "idamsdsiapp-asp"
-              -storageName "s141d02logicappstorage"
-              -azureblob_1_accountName $(azureblobaccountname)
-              -azureblob_1_Connection_Name $(azureblobconnectionname)
-              -office365_1_Connection_Name $(office365connectionname)
-              -office365_1_Connection_DisplayName $(office365connectiondisplayname)
-              -azureblob_1_Connection_DisplayName $(azureblobconnectiondisplayname)
-              -azureblob_1_accessKey $(azureblobaccesskey)
-              -azureblob_1_authType $(azureblobauthtype)
-              -azureblob_1_privacySetting $(azureblobprivacysetting)
-              -Email_1_From $(logicappemailfrom)'
-            deploymentMode: $(deploymentMode)
-            deploymentOutputs: 'LogicAppArmOutputs'
+        #     location: 'westeurope'
+        #     csmFile: '$(Pipeline.Workspace)/$(artifactName)/classic/logicapp-template.json'
+        #     overrideParameters: '
+        #       -logicAppLocation $(logicapplocation)
+        #       -environmentName ${{ parameters.environment }}
+        #       -projectName $(projectName)
+        #       -logicAppName $(logicappname)
+        #       -appServicePlanName "idamsdsiapp-asp"
+        #       -storageName "s141d02logicappstorage"
+        #       -azureblob_1_accountName $(azureblobaccountname)
+        #       -azureblob_1_Connection_Name $(azureblobconnectionname)
+        #       -office365_1_Connection_Name $(office365connectionname)
+        #       -office365_1_Connection_DisplayName $(office365connectiondisplayname)
+        #       -azureblob_1_Connection_DisplayName $(azureblobconnectiondisplayname)
+        #       -azureblob_1_accessKey $(azureblobaccesskey)
+        #       -azureblob_1_authType $(azureblobauthtype)
+        #       -azureblob_1_privacySetting $(azureblobprivacysetting)
+        #       -Email_1_From $(logicappemailfrom)'
+        #     deploymentMode: $(deploymentMode)
+        #     deploymentOutputs: 'LogicAppArmOutputs'
 
-        - task: ARM Outputs@6
-          displayName: 'ARM Outputs'
-          inputs:
-            ConnectedServiceNameSelector: 'ConnectedServiceNameARM'
-            ConnectedServiceNameARM: ${{ parameters.serviceConnection }}
-            resourceGroupName: "s141d02-idamsdsiapp"
-            whenLastDeploymentIsFailed: 'fail'
+        # - task: ARM Outputs@6
+        #   displayName: 'ARM Outputs'
+        #   inputs:
+        #     ConnectedServiceNameSelector: 'ConnectedServiceNameARM'
+        #     ConnectedServiceNameARM: ${{ parameters.serviceConnection }}
+        #     resourceGroupName: "s141d02-idamsdsiapp"
+        #     whenLastDeploymentIsFailed: 'fail'
 
-        - task: AzureResourceGroupDeployment@2
-          displayName: 'Deploy Connectors'
-          inputs:
-            azureSubscription: ${{ parameters.serviceConnection }}
-            resourceGroupName: "s141d02-idamsdsiapp"
-            location: "westeurope"
-            csmFile: '$(Pipeline.Workspace)/$(artifactName)/classic/connectors-template.json'
-            overrideParameters: '
-              -logicAppName $(logicappname)
-              -logicAppLocation $(logicapplocation)
-              -azureblob_1_Connection_Name $(azureblobconnectionname)
-              -azureblob_1_Connection_DisplayName $(azureblobconnectiondisplayname)
-              -azureblob_1_accountName $(azureblobaccountname)
-              -azureblob_1_accessKey $(azureblobaccesskey)
-              -azureblob_1_authType $(azureblobauthtype)
-              -azureblob_1_privacySetting $(azureblobprivacysetting)
-              -office365_1_Connection_Name $(office365connectionname)
-              -office365_1_Connection_DisplayName $(office365connectiondisplayname)
-              -Email_1_From $(logicappemailfrom)
-              -environmentId ${{parameters.environmentId}}
-              -projectId "s141"
-              -serviceName "pirean"'
+        # - task: AzureResourceGroupDeployment@2
+        #   displayName: 'Deploy Connectors'
+        #   inputs:
+        #     azureSubscription: ${{ parameters.serviceConnection }}
+        #     resourceGroupName: "s141d02-idamsdsiapp"
+        #     location: "westeurope"
+        #     csmFile: '$(Pipeline.Workspace)/$(artifactName)/classic/connectors-template.json'
+        #     overrideParameters: '
+        #       -logicAppName $(logicappname)
+        #       -logicAppLocation $(logicapplocation)
+        #       -azureblob_1_Connection_Name $(azureblobconnectionname)
+        #       -azureblob_1_Connection_DisplayName $(azureblobconnectiondisplayname)
+        #       -azureblob_1_accountName $(azureblobaccountname)
+        #       -azureblob_1_accessKey $(azureblobaccesskey)
+        #       -azureblob_1_authType $(azureblobauthtype)
+        #       -azureblob_1_privacySetting $(azureblobprivacysetting)
+        #       -office365_1_Connection_Name $(office365connectionname)
+        #       -office365_1_Connection_DisplayName $(office365connectiondisplayname)
+        #       -Email_1_From $(logicappemailfrom)
+        #       -environmentId ${{parameters.environmentId}}
+        #       -projectId "s141"
+        #       -serviceName "pirean"'
               
-            deploymentMode: $(deploymentMode)
+        #     deploymentMode: $(deploymentMode)
         - task: AzureCLI@2
           displayName: 'Azure CLI - Promote Service Principal'
           inputs:
@@ -118,8 +118,10 @@ jobs:
             Inline: |
                    $StorageAccountKey = (Get-AzStorageAccountKey -ResourceGroupName "s141d02-idamsdsiapp" -Name "s141d02logicappstorage")[0].Value
                    Write-Host "Storage Account Key:  $StorageAccountKey " 
-                   
-                   Start-AzureStorageFileCopy -SrcShareName "s141d02-pirean-idamsdsiapp" -SrcFilePath $(Pipeline.Workspace)/$(artifactName)/classic/ -DestShareName "s141d02-pirean-idamsdsiapp" -DestFilePath "s141d02-pirean-idamsdsiapp/site/wwwroot/ -StorageAccountName "s141d02logicappstorage" -StorageAccountKey $StorageAccountKey "
+                   $Ctx = New-AzureStorageContext -StorageAccountName "s141d02logicappstorage" -StorageAccountKey ((Get-AzStorageAccountKey -ResourceGroupName "s141d02-idamsdsiapp" -Name "s141d02logicappstorage")[0].Value)
+                   Write-Host $Ctx.GetType()
+                   Set-AzCurrentStorageAccount -Context (New-AzureStorageContext -StorageAccountName "s141d02logicappstorage" -StorageAccountKey $StorageAccountKey)
+                   Start-AzureStorageFileCopy -SrcShareName "s141d02-pirean-idamsdsiapp" -SrcFilePath $(Pipeline.Workspace)/$(artifactName)/classic/ -DestShareName "s141d02-pirean-idamsdsiapp" -DestFilePath "s141d02-pirean-idamsdsiapp/site/wwwroot/  -Force "
             azurePowerShellVersion: 'LatestVersion' 
             pwsh: true
                   
