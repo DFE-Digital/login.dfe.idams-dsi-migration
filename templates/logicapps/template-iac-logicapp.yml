@@ -111,9 +111,11 @@ jobs:
 
             azurePowerShellVersion: 'LatestVersion'   
         - pwsh: |
-            Start-AzureStorageFileCopy -SrcShareName "s141d02-pirean-idamsdsiapp" -SrcFilePath $(Pipeline.Workspace)/$(artifactName)/classic/ -DestShareName "s141d02-pirean-idamsdsiapp" -DestFilePath "s141d02-pirean-idamsdsiapp/site/wwwroot/"
+            $current = (Get-AzureSubscription -Current).SubscriptionName
+            Write-Host "current subscription is $current"
+            Start-AzureStorageFileCopy -SrcShareName "s141d02-pirean-idamsdsiapp" -SrcFilePath $(Pipeline.Workspace)/$(artifactName)/classic/ -DestShareName "s141d02-pirean-idamsdsiapp" -DestFilePath "s141d02-pirean-idamsdsiapp/site/wwwroot/ -Context $current -DestContext $current"
           displayName: 'Copy Workflow and Connectors to Azure Storage'
-             
+
         - task: ARM Outputs@6
           displayName: 'ARM Outputs Connections'
           inputs:
