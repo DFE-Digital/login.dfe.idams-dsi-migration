@@ -167,6 +167,8 @@ jobs:
               $accountKey = (Get-AzStorageAccountKey -ResourceGroupName "s141d02-idamsdsiapp" -Name "s141d02logicappstorage")[0].Value
               $ctx = New-AzStorageContext -StorageAccountName "s141d02logicappstorage" -StorageAccountKey $accountKey
               $s = Get-AzStorageShare "s141d02-pirean-idamsdsiapp" -Context $ctx
+              Write-Host -ForegroundColor Green "Creating directory in file share.."    
+              Get-AzStorageShare -Context $ctx -Name "s141d02-pirean-idamsdsiapp" | New-AzStorageDirectory -Path "/site/wwwroot/test123"  
               Set-Location "$(Pipeline.Workspace)/$(artifactName)/classic/"
               $CurrentFolder = (Get-Item .).FullName
               $files = Get-ChildItem -Recurse | Where-Object { $_.GetType().Name -eq "FileInfo"}
