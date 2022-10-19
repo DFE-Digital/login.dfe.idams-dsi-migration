@@ -14,6 +14,9 @@ param (
     $logicappname,
     [Parameter(Mandatory = $true)]
     [string]
+    $PipelineWorkspace,
+    [Parameter(Mandatory = $true)]
+    [string]
     $artifactName
 )
 
@@ -21,11 +24,12 @@ $accountKey = (Get-AzStorageAccountKey -ResourceGroupName $applicationResourceGr
 $ctx = New-AzStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $accountKey
 $s = Get-AzStorageShare $idamsdsifileshare -Context $ctx
 
-Write-Host -ForegroundColor Green "Creating directory in file share.."    
+   
 if (!$s.ShareClient.GetRootDirectoryClient().GetFileClient("workflow.json").Exists()) {
+    Write-Host -ForegroundColor Green "Creating directory in file share.." 
     Get-AzStorageShare -Context $ctx -Name $idamsdsifileshare | New-AzStorageDirectory -Path "/site/wwwroot/$logicappname"  
 }
-Set-Location "$(Pipeline.Workspace)/$artifactName/"
+Set-Location "$PipelineWorkspace/$artifactName/"
 $CurrentFolder = (Get-Item .).FullName
 $files = Get-ChildItem -Recurse | Where-Object { $_.GetType().Name -eq "FileInfo" }
 
