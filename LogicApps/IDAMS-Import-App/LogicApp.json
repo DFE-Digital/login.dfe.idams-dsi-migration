@@ -13,6 +13,49 @@
     "logicAppLocation": {
       "type": "string",
       "defaultValue": "westeurope",
+      "allowedValues": [
+        "[resourceGroup().location]",
+        "eastasia",
+        "southeastasia",
+        "centralus",
+        "eastus",
+        "eastus2",
+        "westus",
+        "northcentralus",
+        "southcentralus",
+        "northeurope",
+        "westeurope",
+        "japanwest",
+        "japaneast",
+        "brazilsouth",
+        "australiaeast",
+        "australiasoutheast",
+        "southindia",
+        "centralindia",
+        "westindia",
+        "canadacentral",
+        "canadaeast",
+        "uksouth",
+        "ukwest",
+        "westcentralus",
+        "westus2",
+        "koreacentral",
+        "koreasouth",
+        "francecentral",
+        "francesouth",
+        "uaecentral",
+        "uaenorth",
+        "southafricanorth",
+        "southafricawest",
+        "switzerlandnorth",
+        "switzerlandwest",
+        "germanynorth",
+        "germanywestcentral",
+        "norwaywest",
+        "norwayeast",
+        "brazilsoutheast",
+        "westus3"
+      ],
       "metadata": {
         "description": "Location of the Logic App."
       }
@@ -73,151 +116,20 @@
     "Email_1_From": {
       "type": "string",
       "defaultValue": "zeeshan.abbas@education.gov.uk;zeeshan.abbas@digital.gov.uk"
-    },
-    "environmentId": {
-          "type": "string",
-          "defaultValue": "d02",
-          "allowedValues": [
-              "d01",
-              "d02",
-              "t01",
-              "t02",
-              "t03",
-              "p01",
-              "p02"
-          ],
-          "metadata": {
-              "description": "Environment Identifier"
-          }
-      },
-      "projectId": {
-          "type": "string",
-          "defaultValue": "s141",
-          "metadata": {
-              "description": "Project Identifier"
-          }
-      },
-      "serviceName": {
-          "type": "string",
-          "defaultValue": "pirean",
-          "metadata": {
-              "description": "Service Identifier"
-          }
-      }
+    }
   },
-   "variables": {
-      "baseName": "[tolower(concat(parameters('projectId'), parameters('environmentId'), '-', parameters('serviceName'), '-', parameters('logicAppName')))]",
-      "resourceNames": {
-        "storageAccountName": "[tolower(concat(parameters('projectId'), parameters('environmentId'), parameters('serviceName'),'idamsdsiapp'))]",
-        "functionName": "[variables('baseName')]",
-        "functionAppServicePlanName": "[concat(variables('baseName'), '-asp')]",
-        "appInsightsName": "[concat(variables('baseName'), '-ai')]"
-      },
-      "resourceIds": {
-        "functionAppServicePlanId": "[resourceId('Microsoft.Resources/deployments', variables('resourceNames').functionAppServicePlanName)]",
-        "functionId": "[resourceId('Microsoft.Web/sites', variables('resourceNames').functionName)]",
-        "storageAccountId": "[resourceId('Microsoft.Resources/deployments', variables('resourceNames').storageAccountName)]",
-        "appInsightsId": "[resourceId('microsoft.insights/components', variables('resourceNames').appInsightsName)]"
-      }
-   },
+  "variables": {},
   "resources": [
     {
-      "type": "Microsoft.Storage/storageAccounts",
-      "apiVersion": "2019-06-01",
-       "sku": {
-        "name": "Standard_LRS",
-        "tier": "Standard"
-      },
-      "kind": "StorageV2",
-      "name": "[variables('resourceNames').storageAccountName]",
-      "location": "[parameters('logicAppLocation')]"
-      
-    },
-    {
-      "type": "Microsoft.Web/serverfarms",
-      "apiVersion": "2018-02-01",
-      "name": "[variables('resourceNames').functionAppServicePlanName]",
-      "location": "[parameters('logicAppLocation')]",
-      "sku": {
-        "name": "WS1",
-        "tier": "WorkflowStandard"
-      },
-      "kind": "windows"
-    },
-    {
-      "type": "Microsoft.Web/sites",
-      "apiVersion": "2018-11-01",
       "name": "[parameters('logicAppName')]",
+      "type": "Microsoft.Logic/workflows",
       "location": "[parameters('logicAppLocation')]",
-      "kind": "workflowapp,functionapp",
-      "identity": {
-        "type": "SystemAssigned"
+      "tags": {
+        "displayName": "LogicApp"
       },
-      
+      "apiVersion": "2016-06-01",
       "properties": {
-        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('resourceNames').functionAppServicePlanName) ]",
-        "siteConfig": {
-          "netFrameworkVersion": "v4.6",
-          "appSettings": [
-            {
-              "name": "APP_KIND",
-              "value": "workflowApp"
-            },
-            {
-              "name": "AzureFunctionsJobHost__extensionBundle__id",
-              "value": "Microsoft.Azure.Functions.ExtensionBundle.Workflows"
-            },
-            {
-              "name": "AzureFunctionsJobHost__extensionBundle__version",
-              "value": "[1.*, 2.0.0"
-            },
-            {
-              "name": "AzureWebJobsStorage",
-              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('resourceNames').storageAccountName,';AccountKey=',concat(listKeys(concat(resourceGroup().id,'/providers/Microsoft.Storage/storageAccounts/', variables('resourceNames').storageAccountName),'2019-06-01').keys[0].value),';EndpointSuffix=core.windows.net')]"
-            },
-            {
-              "name": "FUNCTIONS_EXTENSION_VERSION",
-              "value": "~3"
-            },
-            {
-              "name": "FUNCTIONS_V2_COMPATIBILITY_MODE",
-              "value": "true"
-            },
-            {
-              "name": "FUNCTIONS_WORKER_RUNTIME",
-              "value": "node"
-            },
-            {
-              "name": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
-              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('resourceNames').storageAccountName,';AccountKey=',concat(listKeys(concat(resourceGroup().id,'/providers/Microsoft.Storage/storageAccounts/', variables('resourceNames').storageAccountName),'2019-06-01').keys[0].value),';EndpointSuffix=core.windows.net')]"
-            },
-            {
-              "name": "WEBSITE_CONTENTSHARE",
-              "value": "[parameters('logicAppName')]"
-            },
-            {
-              "name": "WEBSITE_NODE_DEFAULT_VERSION",
-              "value": "~12"
-            }, 
-            {
-              "name": "WORKFLOWS_SUBSCRIPTION_ID", 
-              "value": "[subscription().subscriptionId]"
-            },
-            {
-              "name": "WORKFLOWS_LOCATION_NAME", 
-              "value": "[parameters('logicAppLocation')]"
-            },
-            {
-              "name": "WORKFLOWS_RESOURCE_GROUP_NAME", 
-              "value": ""
-            },
-            {
-              "name": "BLOB_CONNECTION_RUNTIMEURL", 
-              "value": ""
-            }              
-          ]
-        },
-           "definition": {
+        "definition": {
           "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
           "actions": {
             "Get_all_the_attachments": {
@@ -364,15 +276,13 @@
               }
             }
           }
-        },
-        "clientAffinityEnabled": false
+        }
       },
-       "dependsOn": [
+      "dependsOn": [
         "[resourceId('Microsoft.Web/connections', parameters('azureblob_1_Connection_Name'))]",
         "[resourceId('Microsoft.Web/connections', parameters('office365_1_Connection_Name'))]"
       ]
     },
-    
     {
       "type": "MICROSOFT.WEB/CONNECTIONS",
       "apiVersion": "2018-07-01-preview",
@@ -404,10 +314,5 @@
       }
     }
   ],
-  "outputs": {
-    "blobendpointurl": {
-      "type": "string",
-      "value": "[reference(resourceId('Microsoft.Web/connections', parameters('azureblob_1_Connection_Name')),'2016-06-01', 'full').properties.connectionRuntimeUrl]"
-    }
-  }
+  "outputs": {}
 }
