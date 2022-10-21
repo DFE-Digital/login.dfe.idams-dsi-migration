@@ -182,8 +182,8 @@
           "NetFirewall": {
             "value": "[parameters('NetFirewall')]"
           },
-          "virtualNetworksSubNet": {
-            "value": "[variables('virtualNetworkRules')]"
+         "virtualNetworksSubNet": {
+            "value": []
           },
           "bypass": {
             "value": "[parameters('bypass')]"
