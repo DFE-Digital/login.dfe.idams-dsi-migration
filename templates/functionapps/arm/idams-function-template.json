@@ -136,7 +136,7 @@
     },
     "ipSecurityRestrictions": [
       {
-        "vnetSubnetResourceId": "[resourceId(parameters('sharedResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), 'sup-sn-1')]",
+        "vnetSubnetResourceId": "[resourceId(parameters('sharedResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName'))]",
         "action": "Allow",
         "tag": "Default",
         "priority": 10,
