@@ -1,254 +1,321 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-      "templatesBaseUri": {
-        "type": "string",
-        "defaultValue": "https://raw.githubusercontent.com/DFE-Digital/login.dfe.infrastructure/master/"
-      },
-      "applicationName": {
-        "type": "string"
-      },
-      "environmentName": {
-        "type": "string"
-      },
-      "AppServicePlanSku": {
-          "type": "object",
-          "defaultValue": {},
-          "metadata": {
-              "description": "The sku of the app service plan"
-          }
-      },
-     
-      "dirDBName": {
-        "type": "string"
-      },
-      "dirDBHostName": {
-        "type": "string"
-      },
-      "dirDBUsername": {
-        "type": "string"
-      },
-      "dirDBPassword": {
-        "type": "string"
-      },
-       "orgDBName": {
-        "type": "string"
-      },
-      "orgDBHostName": {
-        "type": "string"
-      },
-      "orgDBUsername": {
-        "type": "string"
-      },
-      "orgDBPassword": {
-        "type": "string"
-      },
-      "ppapiendpointurl": {
-        "type": "string"
-      },
-      "ppapifunctionkey": {
-        "type": "string"
-      },
-      "idamsblobstorageconnectionstring": {
-          "type": "string"
-      },
-      "projectId": {
-          "type": "string",
-          "defaultValue": "s141",
-          "metadata": {
-              "description": "Project Identifier"
-          }
-      },
-      "environmentId": {
-          "type": "string",
-          "defaultValue": "d02",
-          "allowedValues": [
-              "d01",
-              "d02",
-              "t01",
-              "t02",
-              "t03",
-              "p01",
-              "p02"
-          ],
-          "metadata": {
-              "description": "Environment Identifier"
-          }
-      },
-     
-      "serviceName": {
-          "type": "string",
-          "defaultValue": "pirean",
-          "metadata": {
-              "description": "Service Identifier"
-          }
-      },
-      "sharedResourceGroupName": {
-          "type": "string",
-          "defaultValue": "",
-          "metadata": {
-              "description": "Shared resource group name"
-          }
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "templatesBaseUri": {
+      "type": "string",
+      "defaultValue": "https://raw.githubusercontent.com/DFE-Digital/login.dfe.infrastructure/master/"
+    },
+    "applicationName": {
+      "type": "string"
+    },
+    "environmentName": {
+      "type": "string"
+    },
+    "AppServicePlanSku": {
+      "type": "object",
+      "defaultValue": {},
+      "metadata": {
+        "description": "The sku of the app service plan"
       }
     },
-    "variables": {
-      "baseName": "[tolower(concat(parameters('projectId'), parameters('environmentId'), '-', parameters('serviceName'), '-', parameters('applicationName')))]",
-      "resourceNames": {
-        "storageAccountName": "[tolower(concat(parameters('projectId'), parameters('environmentId'), parameters('serviceName'),'dataimport'))]",
-        "functionName": "[variables('baseName')]",
-        "functionAppServicePlanName": "[concat(variables('baseName'), '-asp')]",
-        "appInsightsName": "[concat(variables('baseName'), '-ai')]"
-      },
-      "resourceIds": {
-        "functionAppServicePlanId": "[resourceId('Microsoft.Resources/deployments', variables('resourceNames').functionAppServicePlanName)]",
-        "functionId": "[resourceId('Microsoft.Web/sites', variables('resourceNames').functionName)]",
-        "storageAccountId": "[resourceId('Microsoft.Resources/deployments', variables('resourceNames').storageAccountName)]",
-        "appInsightsId": "[resourceId('microsoft.insights/components', variables('resourceNames').appInsightsName)]"
-      },
-          
-     
-     
-      "sbVersion": "2017-04-01"
+    "virtualNetworkName": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Name of the virtual network"
+      }
     },
-    "resources": [
+    "subnetName": {
+      "type": "string",
+      "defaultValue": "pmimport-sn",
+      "metadata": {
+        "description": "Prefix of the subnet to integrate the app service with in the virtual network"
+      }
+    },
+    "NetFirewall": {
+      "type": "bool",
+      "defaultValue": true
+    },
+    "bypass": {
+      "type": "string",
+      "defaultValue": "AzureServices"
+    },
+    "serviceName": {
+      "type": "string",
+      "defaultValue": "signin",
+      "metadata": {
+        "description": "Service Identifier"
+      }
+    },
+    "sharedResourceGroupName": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Shared resource group name"
+      }
+    },
+    "dirDBName": {
+      "type": "string"
+    },
+    "dirDBHostName": {
+      "type": "string"
+    },
+    "dirDBUsername": {
+      "type": "string"
+    },
+    "dirDBPassword": {
+      "type": "string"
+    },
+    "orgDBName": {
+      "type": "string"
+    },
+    "orgDBHostName": {
+      "type": "string"
+    },
+    "orgDBUsername": {
+      "type": "string"
+    },
+    "orgDBPassword": {
+      "type": "string"
+    },
+    "ppapiendpointurl": {
+      "type": "string"
+    },
+    "ppapifunctionkey": {
+      "type": "string"
+    },
+    "idamsblobstorageconnectionstring": {
+      "type": "string"
+    },
+    "projectId": {
+      "type": "string",
+      "defaultValue": "s141",
+      "metadata": {
+        "description": "Project Identifier"
+      }
+    },
+    "environmentId": {
+      "type": "string",
+      "defaultValue": "d02",
+      "allowedValues": [
+        "d01",
+        "d02",
+        "t01",
+        "t02",
+        "t03",
+        "p01",
+        "p02"
+      ],
+      "metadata": {
+        "description": "Environment Identifier"
+      }
+    }
+
+
+  },
+  "variables": {
+    "baseName": "[tolower(concat(parameters('projectId'), parameters('environmentId'), '-', parameters('serviceName'), '-', parameters('applicationName')))]",
+    "resourceNames": {
+      "storageAccountName": "[tolower(concat(parameters('projectId'), parameters('environmentId'), parameters('serviceName'),'dataimport'))]",
+      "functionName": "[variables('baseName')]",
+      "functionAppServicePlanName": "[concat(variables('baseName'), '-asp')]",
+      "appInsightsName": "[concat(variables('baseName'), '-ai')]"
+    },
+    "resourceIds": {
+      "functionAppServicePlanId": "[resourceId('Microsoft.Resources/deployments', variables('resourceNames').functionAppServicePlanName)]",
+      "functionId": "[resourceId('Microsoft.Web/sites', variables('resourceNames').functionName)]",
+      "storageAccountId": "[resourceId('Microsoft.Resources/deployments', variables('resourceNames').storageAccountName)]",
+      "appInsightsId": "[resourceId('microsoft.insights/components', variables('resourceNames').appInsightsName)]"
+    },
+    "sharedResourceIds": {
+      "auditSubnetResourceId": "[resourceId(parameters('sharedResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName'))]"
+    },
+    "ipSecurityRestrictions": [
       {
-        "name": "[variables('resourceNames').storageAccountName]",
-        "type": "Microsoft.Resources/deployments",
-        "apiVersion": "2020-10-01",
-        "properties": {
-            "mode": "Incremental",
-            "templateLink": {
-                "uri": "https://raw.githubusercontent.com/DFE-Digital/login.dfe.idams-dsi-migration/master/templates/functionapps/arm/storage-account.json"
-            },
-            "parameters": {
-                "storageAccountName": {
-                    "value": "[variables('resourceNames').storageAccountName]"
-                }
-                
-               
-            }
-        }
-      },
-      {
-        "apiVersion": "2020-02-02",
-        "name": "[variables('resourceNames').appInsightsName]",
-        "type": "microsoft.insights/components",
-        "location": "[resourceGroup().location]",
-        "tags": {
-          "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', variables('resourceNames').functionName)]": "Resource"
-        },
-        "properties": {
-          "ApplicationId": "[variables('resourceNames').functionName]",
-          "Request_Source": "IbizaWebAppExtensionCreate"
-        }
-      },
-      {
-        "apiVersion": "2020-10-01",
-        "name": "[variables('resourceNames').functionAppServicePlanName]",
-        "type": "Microsoft.Resources/deployments",
-        "properties": {
-            "mode": "Incremental",
-            "templateLink": {
-                "uri": "[concat(parameters('templatesBaseUri'),'Shared/app-service-plan.json')]",
-                "contentVersion": "1.0.0.0"
-            },
-            "parameters": {
-                "appServicePlanName": {
-                    "value": "[variables('resourceNames').functionAppServicePlanName]"
-                },
-                "appServicePlanSku": {
-                    "value": "[parameters('AppServicePlanSku')]"
-                },
-                "appServicePlanOS": {
-                    "value": "Windows"
-                },
-                "appServicePlanIsLinux": {
-                    "value": false
-                }
-            }
-        }
-      },
-      {
-        "apiVersion": "2020-10-01",
-        "name": "[variables('resourceNames').functionName]",
-        "type": "Microsoft.Resources/deployments",
-        "properties": {
-            "mode": "Incremental",
-            "templateLink": {
-                "uri": "[concat(parameters('templatesBaseUri'),'Shared/function-app.json')]",
-                "contentVersion": "1.0.0.0"
-            },
-            "parameters": {
-                "functionAppName": {
-                    "value": "[variables('resourceNames').functionName]"
-                },
-                "appServicePlanName": {
-                    "value": "[variables('resourceNames').functionAppServicePlanName]"
-                },
-                "appServicePlanResourceGroup": {
-                    "value": "[resourceGroup().name]"
-                },
-                "functionAppAppSettings": {
-                    "value": {
-                        "array": [
-                            {
-                              "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                              "value": "[reference(variables('resourceIds').appInsightsId, '2020-02-02').InstrumentationKey]"
-                            },
-                            {
-                              "name": "DATABASE_DIRECTORIES_HOST_NAME",
-                              "value": "[parameters('dirdbHostName')]"
-                            },
-                            {
-                              "name": "DATATBASE_DIRECTORIES_NAME",
-                              "value": "[parameters('dirdbName')]"
-                            },
-                            {
-                              "name": "DATABASE_DIRECTORIES_USERNAME",
-                              "value": "[parameters('dirDBUsername')]"
-                            },
-                            {
-                              "name": "DATABASE_DIRECTORIES_PASSWORD",
-                              "value": "[parameters('dirDBPassword')]"
-                            },
-                          
-                           
-                            {
-                              "name": "FUNCTIONS_WORKER_RUNTIME",
-                              "value": "dotnet"
-                            },
-                            {
-                              "name": "AzureWebJobsStorage",
-                              "value": "[parameters('idamsblobstorageconnectionstring')]"
-                              
-                            },
-                            {
-                              "name": "FUNCTIONS_EXTENSION_VERSION",
-                              "value": "~3"
-                            },
-                            
-                            {
-                              "name": "StorageAccountConnectionString",
-                              "value": "[reference(variables('resourceNames').storageAccountName).outputs.storageAccountConnectionString.value]"
-                            }
-                        ]
-                    }
-                }
-                
-            }
-        },
-        "dependsOn": [
-          "[variables('resourceIds').storageAccountId]",
-          "[variables('resourceIds').functionAppServicePlanId]",
-          "[variables('resourceIds').appInsightsId]"
-        ]
+        "vnetSubnetResourceId": "[resourceId(parameters('sharedResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), 'sup-sn-1')]",
+        "action": "Allow",
+        "tag": "Default",
+        "priority": 10,
+        "name": "Support Console Subnet"
       }
     ],
-    "outputs": {
-      "functionName": {
-        "type": "string",
-        "value": "[variables('resourceNames').functionName]"
+    "resourceAccessRules": [
+      {
+        "tenantId": "",
+        "resourceId": ""
+      }
+    ],
+    "ipRules": [
+      {
+        "value": "",
+        "action": ""
+      }
+    ],
+    "virtualNetworkRules": [
+      {
+        "id": "[variables('sharedResourceIds').auditSubnetResourceId]",
+        "action": "Allow",
+        "state": "Succeeded"
+      }
+    ],
+    "sbVersion": "2017-04-01"
+  },
+  "resources": [
+    {
+      "name": "[variables('resourceNames').storageAccountName]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/DFE-Digital/login.dfe.idams-dsi-migration/master/templates/functionapps/arm/storage-account.json"
+        },
+        "parameters": {
+           "parameters": {
+              "storageAccountName": {
+                  "value": "[variables('resourceNames').storageAccountName]"
+              },
+              "NetFirewall":{
+                  "value": "[parameters('NetFirewall')]"
+              },
+              "virtualNetworksSubNet": {
+                  "value": "[variables('virtualNetworkRules')]"
+              },
+              "bypass":{
+                  "value": "[parameters('bypass')]"
+              }
+          }
+
+
+        }
+      }
+    },
+    {
+      "apiVersion": "2020-02-02",
+      "name": "[variables('resourceNames').appInsightsName]",
+      "type": "microsoft.insights/components",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', variables('resourceNames').functionName)]": "Resource"
+      },
+      "properties": {
+        "ApplicationId": "[variables('resourceNames').functionName]",
+        "Request_Source": "IbizaWebAppExtensionCreate"
+      }
+    },
+    {
+      "apiVersion": "2020-10-01",
+      "name": "[variables('resourceNames').functionAppServicePlanName]",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(parameters('templatesBaseUri'),'Shared/app-service-plan.json')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "appServicePlanName": {
+            "value": "[variables('resourceNames').functionAppServicePlanName]"
+          },
+          "appServicePlanSku": {
+            "value": "[parameters('AppServicePlanSku')]"
+          },
+          "appServicePlanOS": {
+            "value": "Windows"
+          },
+          "appServicePlanIsLinux": {
+            "value": false
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "2020-10-01",
+      "name": "[variables('resourceNames').functionName]",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(parameters('templatesBaseUri'),'Shared/function-app.json')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "functionAppName": {
+            "value": "[variables('resourceNames').functionName]"
+          },
+          "appServicePlanName": {
+            "value": "[variables('resourceNames').functionAppServicePlanName]"
+          },
+          "appServicePlanResourceGroup": {
+            "value": "[resourceGroup().name]"
+          },
+          "functionAppAppSettings": {
+            "value": {
+              "array": [
+                {
+                  "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                  "value": "[reference(variables('resourceIds').appInsightsId, '2020-02-02').InstrumentationKey]"
+                },
+                {
+                  "name": "DATABASE_DIRECTORIES_HOST_NAME",
+                  "value": "[parameters('dirdbHostName')]"
+                },
+                {
+                  "name": "DATATBASE_DIRECTORIES_NAME",
+                  "value": "[parameters('dirdbName')]"
+                },
+                {
+                  "name": "DATABASE_DIRECTORIES_USERNAME",
+                  "value": "[parameters('dirDBUsername')]"
+                },
+                {
+                  "name": "DATABASE_DIRECTORIES_PASSWORD",
+                  "value": "[parameters('dirDBPassword')]"
+                },
+
+
+                {
+                  "name": "FUNCTIONS_WORKER_RUNTIME",
+                  "value": "dotnet"
+                },
+                {
+                  "name": "AzureWebJobsStorage",
+                  "value": "[parameters('idamsblobstorageconnectionstring')]"
+
+                },
+                {
+                  "name": "FUNCTIONS_EXTENSION_VERSION",
+                  "value": "~3"
+                },
+
+                {
+                  "name": "StorageAccountConnectionString",
+                  "value": "[reference(variables('resourceNames').storageAccountName).outputs.storageAccountConnectionString.value]"
+                }
+              ]
+            }
+          },
+           "ipSecurityRestrictions": {
+                  "value": "[variables('ipSecurityRestrictions')]"
+              },
+              "subnetResourceId": {
+                  "value": "[variables('sharedResourceIds').auditSubnetResourceId]"
+              }
+
+        }
+      },
+      "dependsOn": [
+        "[variables('resourceIds').storageAccountId]",
+        "[variables('resourceIds').functionAppServicePlanId]",
+        "[variables('resourceIds').appInsightsId]"
+      ]
     }
+  ],
+  "outputs": {
+    "functionName": {
+      "type": "string",
+      "value": "[variables('resourceNames').functionName]"
     }
   }
+}
