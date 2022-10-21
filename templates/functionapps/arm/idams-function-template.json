@@ -31,7 +31,7 @@
     },
     "subnetName": {
       "type": "string",
-      "defaultValue": "pmimport-sn",
+      "defaultValue": "pmimpfa-sn",
       "metadata": {
         "description": "Prefix of the subnet to integrate the app service with in the virtual network"
       }
