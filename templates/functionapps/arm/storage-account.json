@@ -56,7 +56,7 @@
         "ipRules": "[if(empty(parameters('ipRules')), createArray(), parameters('ipRules'))]",
         "defaultAction": "Deny"
         }
-
+       
     },
     "resources": [
         {
@@ -70,18 +70,8 @@
             "kind": "[parameters('storageKind')]",
             "properties": {
                 "minimumTlsVersion": "TLS1_2",
-                // "networkAcls": "[if(parameters('NetFirewall'), variables('networkAcls'), json('null'))]",
-                "networkAcls": {
-                         "bypass": "AzureServices",
-                         "virtualNetworkRules": [
-                           {
-                             "id": "",
-                             "action": "Allow"
-                           }
-                         ],
-                         "ipRules": [],
-                         "defaultAction": "Deny"
-                       },
+                "networkAcls": "[if(parameters('NetFirewall'), variables('networkAcls'), json('null'))]",
+               
                 "supportsHttpsTrafficOnly": true,
                 "encryption": {
                     "keySource": "Microsoft.Storage",
