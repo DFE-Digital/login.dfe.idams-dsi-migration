@@ -85,9 +85,10 @@ jobs:
                     Write-Host "##vso[task.setvariable variable=ARM_CLIENT_SECRET]$env:servicePrincipalKey"
                     Write-Host "##vso[task.setvariable variable=ARM_TENANT_ID]$env:tenantId"
             addSpnToEnvironment: true
-         - task: AzurePowerShell@5
-           displayName: Connect with Az
-           inputs:
+         
+        - task: AzurePowerShell@5
+          displayName: Connect with Az
+          inputs:
             azureSubscription: '${{parameters.serviceConnection}}'
             ScriptType: InlineScript
             Inline: |
