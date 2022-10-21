@@ -17,6 +17,79 @@
       "defaultValue": {},
       "metadata": {
         "description": "The sku of the app service plan"
+		   
+		
+	 
+					
+						
+		
+						
+						
+		
+						
+						
+		
+						
+						
+		
+					 
+						
+		
+						
+						
+		
+						
+						
+		
+						
+						
+		
+						   
+						
+		
+						   
+						
+		
+										   
+						  
+		
+					
+						   
+								 
+					   
+												 
+		   
+		
+						
+						   
+								
+							
+					
+					
+					
+					
+					
+					
+				   
+			
+					   
+													 
+		   
+		
+	 
+					  
+						   
+								   
+					   
+												 
+		   
+		
+								  
+						   
+							 
+					   
+														 
+		   
       }
     },
     "virtualNetworkName": {
@@ -25,6 +98,18 @@
       "metadata": {
         "description": "Name of the virtual network"
       }
+																   
+		
+					  
+																																															
+																									 
+																															 
+																													
+		
+		  
+	 
+	 
+							   
     },
     "subnetName": {
       "type": "string",
@@ -171,24 +256,24 @@
         "templateLink": {
           "uri": "https://raw.githubusercontent.com/DFE-Digital/login.dfe.idams-dsi-migration/master/templates/functionapps/arm/storage-account.json"
         },
-        "parameters": {
-           "parameters": {
-              "storageAccountName": {
-                  "value": "[variables('resourceNames').storageAccountName]"
-              },
-              "NetFirewall":{
-                  "value": "[parameters('NetFirewall')]"
-              },
-              "virtualNetworksSubNet": {
-                  "value": "[variables('virtualNetworkRules')]"
-              },
-              "bypass":{
-                  "value": "[parameters('bypass')]"
-              }
+      
+          "parameters": {
+            "storageAccountName": {
+              "value": "[variables('resourceNames').storageAccountName]"
+            },
+            "NetFirewall": {
+              "value": "[parameters('NetFirewall')]"
+            },
+            "virtualNetworksSubNet": {
+              "value": "[variables('virtualNetworkRules')]"
+            },
+            "bypass": {
+              "value": "[parameters('bypass')]"
+            }
           }
 
 
-        }
+       
       }
     },
     {
@@ -267,7 +352,23 @@
                 },
                 {
                   "name": "DATABASE_DIRECTORIES_USERNAME",
+				 
+			 
+		 
+		
+	   
+								   
+															
+												  
+					   
+								  
+							 
                   "value": "[parameters('dirDBUsername')]"
+										   
+			  
+						   
+									
+																		
                 },
                 {
                   "name": "DATABASE_DIRECTORIES_PASSWORD",
@@ -280,6 +381,35 @@
                   "value": "dotnet"
                 },
                 {
+							  
+								  
+							 
+																	   
+																																									  
+							  
+							 
+																	   
+																	  
+							  
+							 
+																   
+																  
+							  
+							 
+																	  
+																	  
+							  
+							 
+																	  
+																	  
+							  
+						  
+						   
+							 
+																 
+											   
+							  
+							 
                   "name": "AzureWebJobsStorage",
                   "value": "[parameters('idamsblobstorageconnectionstring')]"
 
@@ -292,16 +422,19 @@
                 {
                   "name": "StorageAccountConnectionString",
                   "value": "[reference(variables('resourceNames').storageAccountName).outputs.storageAccountConnectionString.value]"
+							 
+						 
+					 
                 }
               ]
             }
           },
-           "ipSecurityRestrictions": {
-                  "value": "[variables('ipSecurityRestrictions')]"
-              },
-              "subnetResourceId": {
-                  "value": "[variables('sharedResourceIds').auditSubnetResourceId]"
-              }
+          "ipSecurityRestrictions": {
+            "value": "[variables('ipSecurityRestrictions')]"
+          },
+          "subnetResourceId": {
+            "value": "[variables('sharedResourceIds').auditSubnetResourceId]"
+          }
 
         }
       },
@@ -310,6 +443,12 @@
         "[variables('resourceIds').functionAppServicePlanId]",
         "[variables('resourceIds').appInsightsId]"
       ]
+	   
+	  
+				
+					   
+						 
+															
     }
   ],
   "outputs": {
