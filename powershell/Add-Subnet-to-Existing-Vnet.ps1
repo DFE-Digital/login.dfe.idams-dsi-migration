@@ -22,7 +22,7 @@ param (
 
 #Get existing Azure Virtual Network information
 Write-Host "Start"
-   
+$azvNet = Get-AzVirtualNetwork -Name $vNetName -ResourceGroupName $resourceGroupName
 $existingsubnetStorage = Get-AzVirtualNetworkSubnetConfig -Name $subnetNameStorage -VirtualNetwork $azvNet -ErrorAction SilentlyContinue
 $existingsubnetFunction = Get-AzVirtualNetworkSubnetConfig -Name $subnetNameFunction -VirtualNetwork $azvNet -ErrorAction SilentlyContinue
 
