@@ -134,22 +134,7 @@
     "sharedResourceIds": {
       "auditSubnetResourceId": "[resourceId(parameters('sharedResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName'))]"
     },
-    "ipSecurityRestrictions": [
-            {
-                "vnetSubnetResourceId": "[resourceId(parameters('sharedResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), 'sup-sn-1')]",
-                "action": "Allow",
-                "tag": "Default",
-                "priority": 10,
-                "name": "Support Console Subnet"
-            },
-            {
-                "vnetSubnetResourceId": "[resourceId(parameters('sharedResourceGroupName'), 'Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), 'mng-sn')]",
-                "action": "Allow",
-                "tag": "Default",
-                "priority": 20,
-                "name": "Management Console Subnet"
-            }
-        ],
+   
     "resourceAccessRules": [
       {
         "tenantId": "",
@@ -354,9 +339,7 @@
               ]
             }
           },
-          "ipSecurityRestrictions": {
-            "value": "[variables('ipSecurityRestrictions')]"
-          },
+        
           "subnetResourceId": {
             "value": "[variables('sharedResourceIds').auditSubnetResourceId]"
           }
