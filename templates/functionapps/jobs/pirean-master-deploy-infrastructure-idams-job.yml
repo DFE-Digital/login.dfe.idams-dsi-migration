@@ -40,8 +40,7 @@ jobs:
   - group: '${{parameters.platformVariableGroupName}}'
   - name: resourceGroupName
     value: '${{parameters.projectId}}${{parameters.environmentId}}-dataimport'
-  - name: storageaccountimport
-    value: tolower(concat(parameters('projectId'), parameters('environmentId'), parameters('serviceName'),'dataimport'))
+ 
   strategy:
     runOnce:
       deploy:
