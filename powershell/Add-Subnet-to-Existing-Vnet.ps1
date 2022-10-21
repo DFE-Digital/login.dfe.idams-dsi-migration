@@ -7,10 +7,10 @@ param (
     [string]
     $resourceGroupName,
     [Parameter(Mandatory = $true)]
-    [string]
+    [String[]]
     $AddressPrefix,
     [Parameter(Mandatory = $true)]
-    [string]
+    [String[]]
     $subnetName
 )
 
