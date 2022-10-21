@@ -21,5 +21,5 @@ param (
 )
 
 $subnet = Get-AzVirtualNetwork -ResourceGroupName $resourceGroupName -Name $vNetName | Get-AzVirtualNetworkSubnetConfig -Name $subnetName
-Add-AzStorageAccountNetworkRule -ResourceGroupName $storageaccountRGName -Name $storageaccountName -VirtualNetworkResourceId $subnet.Id
-az storage account update --name $storageaccountName --resource-group $storageaccountRGName --default-action Deny
+Add-AzStorageAccountNetworkRule -ResourceGroupName $resourceGroupName -Name $storageaccountName -VirtualNetworkResourceId $subnet.Id
+az storage account update --name $storageaccountName --resource-group $resourceGroupName --default-action Deny
