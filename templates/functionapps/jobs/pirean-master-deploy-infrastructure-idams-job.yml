@@ -75,14 +75,16 @@ jobs:
               
 
         - task: AzurePowerShell@5
-          displayName: Configure VNET Firewall rules for the Storage Account
+          displayName: Configure VNET Firewall rules
           inputs:
             azureSubscription: ${{parameters.serviceConnection}}
             ScriptType: 'FilePath'
             ScriptPath: ./powershell/Configure-VNET-Firewall-Rules.ps1
-            ScriptArguments: '-vNetName $(vnetname) -resourceGroupName $(vnetresourcegroupname) -AddressPrefix $(vnetsubnetaddressprefixst) -subnetName $(vnetsubnetnamest) -storageaccountName $(storageaccountimport) -storageaccountRGName $(resourceGroupName)'
+            ScriptArguments: '-vNetName $(vnetname) -resourceGroupName $(vnetresourcegroupname) -AddressPrefix $(vnetsubnetaddressprefixst) -subnetName $(vnetsubnetnamest) -storageaccountName $(storageaccountimport) -storageaccountRGName $(resourceGroupName) -functionAppName $(functionAppImport) -subnetNamefa $(vnetsubnetnamefa)'
             azurePowerShellVersion: 'LatestVersion'
             pwsh: true
+
+        
      
         - task: AzurePowerShell@5
           displayName: Create Attachments Container
