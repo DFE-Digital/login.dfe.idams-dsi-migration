@@ -105,7 +105,7 @@ jobs:
             azureSubscription: ${{parameters.serviceConnection}}
             ScriptType: 'FilePath'
             ScriptPath: ./powershell/Configure-VNET-Firewall-Rules.ps1
-            ScriptArguments: '-vNetName $(vnetname) -resourceGroupName $(vnetresourcegroupname) -AddressPrefix $(vnetsubnetaddressprefixst) -subnetName $(vnetsubnetnamest) -storageaccountName $(storageaccountimport) -storageaccountRGName $(resourceGroupName) -functionAppName $(functionAppImport) -subnetNamefa $(vnetsubnetnamefa)'
+            ScriptArguments: '-vNetName $(vnetname) -resourceGroupName $(resourceGroupName) -AddressPrefix $(vnetsubnetaddressprefixst) -subnetName $(vnetsubnetnamest) -storageaccountName $(storageaccountimport) -storageaccountRGName $(resourceGroupName) -functionAppName $(functionAppImport) -subnetNamefa $(vnetsubnetnamefa)'
             azurePowerShellVersion: 'LatestVersion'
             pwsh: true
 

@@ -30,4 +30,4 @@ $subnet = Get-AzVirtualNetwork -ResourceGroupName $resourceGroupName -Name $vNet
 Add-AzStorageAccountNetworkRule -ResourceGroupName $storageaccountRGName -Name $storageaccountName -VirtualNetworkResourceId $subnet.Id
 az storage account update --name $storageaccountName --resource-group $storageaccountRGName --default-action Deny
 Write-Host "Integrate Function App to the Vnet"
-az functionapp vnet-integration add -g $resourceGroupName -n $functionAppName --vnet $vNetName --subnet $subnetNamefa
+az webapp vnet-integration add --resource-group $resourceGroupName --name $functionAppName --vnet $vNetName --subnet $subnetNamefa
