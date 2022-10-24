@@ -2,6 +2,9 @@
 param (
     [Parameter(Mandatory = $true)]
     [string]
+    $subscriptionId,  
+    [Parameter(Mandatory = $true)]
+    [string]
     $vNetName,    
     [Parameter(Mandatory = $true)]
     [string]
@@ -34,4 +37,4 @@ $vnet = Get-AzVirtualNetwork -ResourceGroupName $resourceGroupName -Name $vNetNa
 Add-AzStorageAccountNetworkRule -ResourceGroupName $storageaccountRGName -Name $storageaccountName -VirtualNetworkResourceId $subnet.Id
 az storage account update --name $storageaccountName --resource-group $storageaccountRGName --default-action Deny
 Write-Host "Integrate Function App to the Vnet"
-az webapp vnet-integration add --resource-group $functionAppRG --name $functionAppName --vnet $vnet.ResourceId --subnet $subnetNamefa
+az functionapp  vnet-integration add --resource-group $functionAppRG --name $functionAppName --vnet '/subscriptions/'$subscriptionId'/resourceGroups/'$resourceGroupName'/providers/Microsoft.Network/virtualNetworks/'$vNetName --subnet $subnetNamefa
