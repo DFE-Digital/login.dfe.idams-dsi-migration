@@ -7,31 +7,46 @@ param (
     [string]
     $resourceGroupName,
     [Parameter(Mandatory = $true)]
-    [String[]]
-    $AddressPrefix,
+    [string]
+    $AddressPrefixStorage,
     [Parameter(Mandatory = $true)]
-    [String[]]
-    $subnetName
+    [string]
+    $AddressPrefixFunction,
+    [Parameter(Mandatory = $true)]
+    [string]
+    $subnetNameStorage,
+    [Parameter(Mandatory = $true)]
+    [string]
+    $subnetNameFunction
 )
 
 #Get existing Azure Virtual Network information
-$subnetNameArray = $subnetName.Split(",")
-$addressPrefixArray = $AddressPrefix.Split(",")
+Write-Host "Start"
 $azvNet = Get-AzVirtualNetwork -Name $vNetName -ResourceGroupName $resourceGroupName
-For ($i = 0; $i -lt $subnetNameArray.Length; $i++) {
-   
-    $existingsubnet = Get-AzVirtualNetworkSubnetConfig -Name $subnetNameArray[$i] -VirtualNetwork $azvNet -ErrorAction SilentlyContinue
+$existingsubnetStorage = Get-AzVirtualNetworkSubnetConfig -Name $subnetNameStorage -VirtualNetwork $azvNet -ErrorAction SilentlyContinue
+$existingsubnetFunction = Get-AzVirtualNetworkSubnetConfig -Name $subnetNameFunction -VirtualNetwork $azvNet -ErrorAction SilentlyContinue
 
-    if (!$existingsubnet) {
-        #Get existing service endpoints
-        $ServiceEndPoint = New-Object 'System.Collections.Generic.List[String]'
-        $ServiceEndPoint.Add("Microsoft.Storage")
-        $ServiceEndPoint.Add("Microsoft.Web")
+if (!$existingsubnetStorage) {
+    $ServiceEndPoint = New-Object 'System.Collections.Generic.List[String]'
+    $ServiceEndPoint.Add("Microsoft.Storage")
+    $ServiceEndPoint.Add("Microsoft.Web")
         
-        Add-AzVirtualNetworkSubnetConfig -Name $subnetNameArray[$i] -AddressPrefix $addressPrefixArray[$i] -VirtualNetwork $azvNet -ServiceEndpoint $ServiceEndPoint
+    Add-AzVirtualNetworkSubnetConfig -Name $subnetNameStorage -AddressPrefix $AddressPrefixStorage -VirtualNetwork $azvNet -ServiceEndpoint $ServiceEndPoint
 
-        #Make changes to vNet
-        $azvNet | Set-AzVirtualNetwork
+    #Make changes to vNet
+    $azvNet | Set-AzVirtualNetwork
 
-    }
+}
+
+if (!$existingsubnetFunction) {
+    #Get existing service endpoints
+    $ServiceEndPoint = New-Object 'System.Collections.Generic.List[String]'
+    $ServiceEndPoint.Add("Microsoft.Storage")
+    $ServiceEndPoint.Add("Microsoft.Web")
+        
+    Add-AzVirtualNetworkSubnetConfig -Name $subnetNameFunction -AddressPrefix $AddressPrefixFunction -VirtualNetwork $azvNet -ServiceEndpoint $ServiceEndPoint
+
+    #Make changes to vNet
+    $azvNet | Set-AzVirtualNetwork
+
 }

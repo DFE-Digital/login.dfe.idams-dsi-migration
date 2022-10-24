@@ -40,6 +40,7 @@ jobs:
   - group: '${{parameters.platformVariableGroupName}}'
   - name: resourceGroupName
     value: '${{parameters.projectId}}${{parameters.environmentId}}-dataimport'
+ 
   strategy:
     runOnce:
       deploy:
@@ -49,12 +50,12 @@ jobs:
           artifact: $(Build.BuildId)
 
         - task: AzurePowerShell@5
-          displayName: Create Subnet for the Storage Account
+          displayName: Create Subnets
           inputs:
             azureSubscription: ${{parameters.serviceConnection}}
             ScriptType: 'FilePath'
             ScriptPath: ./powershell/Add-Subnet-to-Existing-Vnet.ps1
-            ScriptArguments: '-vNetName $(vnetname) -resourceGroupName $(vnetresourcegroupname) -AddressPrefix $(vnetsubnetaddressprefix) -subnetName $(vnetsubnetname)'
+            ScriptArguments: '-vNetName $(vnetname) -resourceGroupName $(vnetresourcegroupname) -AddressPrefixStorage $(vnetsubnetaddressprefixst) -AddressPrefixFunction $(vnetsubnetaddressprefixfa) -subnetNameStorage $(vnetsubnetnamest) -subnetNameFunction $(vnetsubnetnamefa)'
             azurePowerShellVersion: 'LatestVersion'
             pwsh: true
 
@@ -68,23 +69,47 @@ jobs:
             shdResourceGroup: '${{parameters.shdResourceGroup}}'
             templateFilePath: $(Build.SourcesDirectory)/templates/functionapps/arm/idams-function-template.json
             storageAccountTemplateFilePath: $(Build.SourcesDirectory)/templates/functionapps/arm/storage-account-template.json 
-            armParameterOverrideString: '-templatesBaseUri "$(templatesBaseUri)" -applicationName "${{parameters.applicationName}}" -environmentName "${{parameters.environmentName}}" -dirDBName "$(dirSqlDbName)" -dirDBHostName "$(dirSqlHostName)" -dirDBUsername "$(dirSqlLogin)" -dirDBPassword "$(dirSqlPassword)" -orgDBName "$(organisationsdbName)" -orgDBHostName "$(organisationsSqlHostName)" -orgDBUsername "$(organisationsdbUserName)" -orgDBPassword "$(organisationsdbPassword)" -idamsblobstorageconnectionstring "$(idamsblobstorageconnectionstring)" -environmentId "${{parameters.environmentId}}" -AppServicePlanSku "$(FunctionAppServicePlanSku)" -sharedResourceGroupName "$(sharedResourceGroupName)" -ppapiendpointurl "$(ppapiendpointurl)" -ppapifunctionkey "$(ppapifunctionkey)" '
-
+            armParameterOverrideString: '-templatesBaseUri "$(templatesBaseUri)" -applicationName "${{parameters.applicationName}}" -environmentName "${{parameters.environmentName}}" -dirDBName "$(dirSqlDbName)" -dirDBHostName "$(dirSqlHostName)" -dirDBUsername "$(dirSqlLogin)" -dirDBPassword "$(dirSqlPassword)" -orgDBName "$(organisationsdbName)" -orgDBHostName "$(organisationsSqlHostName)" -orgDBUsername "$(organisationsdbUserName)" -orgDBPassword "$(organisationsdbPassword)" -idamsblobstorageconnectionstring "$(idamsblobstorageconnectionstring)" -environmentId "${{parameters.environmentId}}" -AppServicePlanSku "$(FunctionAppServicePlanSku)" -sharedResourceGroupName "${{parameters.shdResourceGroup}}" -ppapiendpointurl "$(ppapiendpointurl)" -ppapifunctionkey "$(ppapifunctionkey)" '
             storageAccountParameterOverideString: '-applicationName "${{parameters.applicationName}}" -environmentId "${{parameters.environmentId}}"'
             processOutputs: true
+              
+        - task: AzureCLI@2
+          displayName: 'Azure CLI - Promote Service Principal'
+          inputs:
+            azureSubscription: '${{parameters.serviceConnection}}'
+            scriptType: pscore
+            scriptLocation: inlineScript
+            inlineScript: |
+                  
+                    Write-Host "##vso[task.setvariable variable=ARM_CLIENT_ID]$env:servicePrincipalId"
+                    Write-Host "##vso[task.setvariable variable=ARM_CLIENT_SECRET]$env:servicePrincipalKey"
+                    Write-Host "##vso[task.setvariable variable=ARM_TENANT_ID]$env:tenantId"
+            addSpnToEnvironment: true
+         
+        - task: AzurePowerShell@5
+          displayName: Connect with Az
+          inputs:
+            azureSubscription: '${{parameters.serviceConnection}}'
+            ScriptType: InlineScript
+            Inline: |
+                 
+                   $username = "$(ARM_CLIENT_ID)"
+                   $password = "$(ARM_CLIENT_SECRET)"
+                   $tenantId = "$(ARM_TENANT_ID)"
+                   az login --service-principal --username  $username --password $password --tenant $tenantId
 
-       
+            azurePowerShellVersion: 'LatestVersion'  
+        - task: AzurePowerShell@5
+          displayName: Configure VNET Firewall rules
+          inputs:
+            azureSubscription: ${{parameters.serviceConnection}}
+            ScriptType: 'FilePath'
+            ScriptPath: ./powershell/Configure-VNET-Firewall-Rules.ps1
+            ScriptArguments: '-subscriptionId ${{parameters.subscriptionId}} -vNetName $(vnetname) -resourceGroupName $(vnetresourcegroupname) -functionAppRG $(resourceGroupName) -AddressPrefix $(vnetsubnetaddressprefixst) -subnetName $(vnetsubnetnamest) -storageaccountName $(storageaccountimport) -storageaccountRGName $(resourceGroupName) -functionAppName $(functionAppImport) -subnetNamefa $(vnetsubnetnamefa)'
+            azurePowerShellVersion: 'LatestVersion'
+            pwsh: true
+
         
-
-        # - task: AzurePowerShell@5
-        #   displayName: Configure VNET Firewall rules for the Storage Account
-        #   inputs:
-        #     azureSubscription: ${{parameters.serviceConnection}}
-        #     ScriptType: 'FilePath'
-        #     ScriptPath: ./powershell/Configure-VNET-Firewall-Rules.ps1
-        #     ScriptArguments: '-vNetName $(vnetname) -resourceGroupName $(vnetresourcegroupname) -AddressPrefix $(vnetsubnetaddressprefix) -subnetName $(vnetsubnetname) -storageaccountName ${{parameters.pireanstorageaccountname}} -storageaccountRGName ${{parameters.shdResourceGroup}}'
-        #     azurePowerShellVersion: 'LatestVersion'
-        #     pwsh: true
      
         - task: AzurePowerShell@5
           displayName: Create Attachments Container
