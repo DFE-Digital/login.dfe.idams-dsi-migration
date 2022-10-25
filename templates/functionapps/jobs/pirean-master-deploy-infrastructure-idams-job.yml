@@ -40,7 +40,7 @@ jobs:
     vmImage: ubuntu-latest
   variables:
   - group: '${{parameters.platformVariableGroupName}}'
-           '${{parameters.platformIdamsVariableGroupName}}'
+  - group: '${{parameters.platformIdamsVariableGroupName}}'
   - name: resourceGroupName
     value: '${{parameters.projectId}}${{parameters.environmentId}}-dataimport'
  
