@@ -38,6 +38,7 @@ jobs:
     vmImage: ubuntu-latest
   variables:
   - group: '${{parameters.platformVariableGroupName}}'
+           '${{parameters.projectId}}${{parameters.environmentId}}-idamsdsiapp'
   - name: resourceGroupName
     value: '${{parameters.projectId}}${{parameters.environmentId}}-dataimport'
  

@@ -45,7 +45,7 @@ stages:
   displayName: Deploy Dev D01
   variables:
    -group: platform-dev - D01
-           platform-dev-idamsdsiapp
+           
   dependsOn: build
   jobs:
     - template: /templates/functionapps/jobs/pirean-master-deploy-infrastructure-idams-job.yml
@@ -63,7 +63,7 @@ stages:
   displayName: Deploy Test T01
   variables:
    -group: platform-Test
-           platform-test-idamsdsiapp
+           
   dependsOn: deployDevD01
   jobs:
     - template: /templates/functionapps/jobs/pirean-master-deploy-infrastructure-idams-job.yml
