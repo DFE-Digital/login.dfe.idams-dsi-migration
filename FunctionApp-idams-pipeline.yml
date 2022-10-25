@@ -76,7 +76,7 @@ stages:
         environmentId: t01
         environmentName: test
         shdResourceGroup: s141t01-shd
-        pireanVariableGroupName: pirean-test
-        pireanIdamsVariableGroupName: pirean-test-idamsdsiapp
+        platformVariableGroupName: pirean-test
+        platformIdamsVariableGroupName: pirean-test-idamsdsiapp
     
       
