@@ -14,7 +14,6 @@ pool:
 
 variables:
 - group: platform-global
-- group: platform-dev-idamsdsiapp
 - name: applicationName
   value: dataimport
 
