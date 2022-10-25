@@ -21,14 +21,14 @@ variables:
   value: dev
 - name: applicationName
   value: idamsdsiapp 
-- group: platform-global
+- group: pirean-global
 
 stages:
 - stage: Builds
   displayName: 'Build Logic App'
   variables:
-   -group: platform-dev
-           platform-global
+   -group: pirean-dev
+           pirean-global
   jobs:
   - job: Build
     pool:
@@ -51,7 +51,7 @@ stages:
 - stage: dev
   displayName: 'Package and Deploy: Tev'
   variables:
-    - group: platform-global
+    - group: pirean-global
   jobs:
   - template: /templates/logicapps/template-iac-logicapp.yml
     parameters:
@@ -60,9 +60,9 @@ stages:
       environmentId: d02
       applicationName: ${{variables.applicationName}}
       variableGroups:
-            -  platform-dev
-            -  platform-global
-            - "platform-dev-${{variables.applicationName}}"
+            -  pirean-dev
+            -  pirean-global
+            - "pirean-dev-${{variables.applicationName}}"
       
     
     

@@ -11,8 +11,8 @@ resources:
       ref: master
 
 variables:
-- group: platform-global
-- group: platform-test
+- group: pirean-global
+- group: pirean-test
 
 
 stages:

@@ -26,8 +26,8 @@ stages:
             environmentId: d02
             location: westeurope
             variableGroups:
-              - platform-dev
-              - "platform-dev-${{parameters.applicationName}}"
+              - pirean-dev
+              - "pirean-dev-${{parameters.applicationName}}"
             serviceConnection: "${{parameters.devServiceConnection}}"
             subscriptionId: "${{parameters.devSubscriptionId}}"
 
@@ -42,8 +42,8 @@ stages:
             environmentId: t01
             location: westeurope
             variableGroups:
-              - platform-test
-              - "platform-test-${{parameters.applicationName}}"
+              - pirean-test
+              - "pirean-test-${{parameters.applicationName}}"
             serviceConnection:  $(testServiceConnection)
             subscriptionId: $(TestSubscriptionId)
           

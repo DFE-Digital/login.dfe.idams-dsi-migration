@@ -11,9 +11,9 @@ resources:
       ref: master
 
 variables:
-- group: platform-global
-- group: platform-Dev
-- group: platform-dev-idamsdsiapp
+- group: pirean-global
+- group: pirean-Dev
+- group: pirean-dev-idamsdsiapp
 
 stages:
 - stage: removeexistingorgsdb

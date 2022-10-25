@@ -1,4 +1,4 @@
-name: $(BuildDefinitionName)_tag-$(BuildID)_at-$(Date:yyyyMMdd)$(Rev:.r)
+name: $(BuildDefinitionName)_tag-$(BuildID)_at-$(Date:yyyyMMdd)project$(Rev:.r)
 resources:
   repositories:
     - repository: devopsTemplates
@@ -13,7 +13,7 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-- group: platform-global
+- group: pirean-global
 - name: applicationName
   value: dataimport
 
@@ -27,7 +27,7 @@ stages:
 # - stage: deployDevD02
 #   displayName: Deploy Dev D02
 #   variables:
-#    -group: platform-dev
+#    -group: pirean-dev
 #   dependsOn: build
 #   jobs:
 #     - template: /templates/functionapps/jobs/pirean-master-deploy-infrastructure-idams-job.yml
@@ -39,12 +39,12 @@ stages:
 #         environmentId: d02
 #         environmentName: dev
 #         shdResourceGroup: s141d02-shd
-#         platformVariableGroupName: platform-dev
+#         pireanVariableGroupName: pirean-dev
 
 - stage: deployDevD01
   displayName: Deploy Dev D01
   variables:
-   -group: platform-dev - D01
+   -group: pirean-dev - D01
            
   dependsOn: build
   jobs:
@@ -57,13 +57,13 @@ stages:
         environmentId: d01
         environmentName: dev
         shdResourceGroup: s141d01-shd
-        platformVariableGroupName: platform-dev - D01
-        platformIdamsVariableGroupName: platform-dev-idamsdsiapp
+        pireanVariableGroupName: pirean-dev - D01
+        pireanIdamsVariableGroupName: pirean-dev-idamsdsiapp
 
 - stage: deployTestT01
   displayName: Deploy Test T01
   variables:
-   -group: platform-Test
+   -group: pirean-Test
            
   dependsOn: deployDevD01
   jobs:
@@ -76,7 +76,7 @@ stages:
         environmentId: t01
         environmentName: test
         shdResourceGroup: s141t01-shd
-        platformVariableGroupName: platform-test
-        platformIdamsVariableGroupName: platform-test-idamsdsiapp
+        pireanVariableGroupName: pirean-test
+        pireanIdamsVariableGroupName: pirean-test-idamsdsiapp
     
       

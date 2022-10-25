@@ -26,8 +26,8 @@ stages:
             environmentId: d02
             location: westeurope
             variableGroups:
-              - platform-dev
-              - "platform-dev-${{parameters.applicationName}}"
+              - pirean-dev
+              - "pirean-dev-${{parameters.applicationName}}"
             serviceConnection: "${{parameters.devServiceConnection}}"
             subscriptionId: "${{parameters.devSubscriptionId}}"
           

@@ -42,10 +42,10 @@ stages:
       applicationName: '${{parameters.applicationName}}'
       applicationType: standalone
       variableGroups:
-      - platform-dev
-      - platform-dev-secured
-      - platform-standalone-custom-hosts
-      - 'platform-dev-${{parameters.applicationName}}'
+      - pirean-dev
+      - pirean-dev-secured
+      - pirean-standalone-custom-hosts
+      - 'pirean-dev-${{parameters.applicationName}}'
       standaloneHostEnvPrefix: dev
       serviceConnection: '${{parameters.devServiceConnection}}'
       subscriptionId: '${{parameters.devSubscriptionId}}'
@@ -60,9 +60,9 @@ stages:
   parameters:
       applicationName: '${{parameters.applicationName}}'    
       variableGroups:
-      - platform-dev
-      - platform-dev-secured
-      - 'platform-dev-${{parameters.applicationName}}'
+      - pirean-dev
+      - pirean-dev-secured
+      - 'pirean-dev-${{parameters.applicationName}}'
       
       serviceConnection: '${{parameters.devServiceConnection}}'
       resourceGroupSuffix: '${{parameters.resourceGroupSuffix}}'

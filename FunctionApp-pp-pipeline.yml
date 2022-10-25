@@ -13,9 +13,9 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-- group: platform-global
-- group: platform-dev
-- group: platform-dev-idamsdsiapp
+- group: pirean-global
+- group: pirean-dev
+- group: pirean-dev-idamsdsiapp
 - name: applicationName
   value: dataimport
 
@@ -35,6 +35,6 @@ stages:
         applicationName: $(applicationName)
         environmentId: d02
         environmentName: dev
-        platformVariableGroupName: platform-dev
+        pireanVariableGroupName: pirean-dev
     
       
