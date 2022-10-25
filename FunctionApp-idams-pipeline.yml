@@ -58,6 +58,7 @@ stages:
         environmentName: dev
         shdResourceGroup: s141d01-shd
         platformVariableGroupName: platform-dev - D01
+        platformIdamsVariableGroupName: platform-dev-idamsdsiapp
 
 - stage: deployTestT01
   displayName: Deploy Test T01
@@ -76,5 +77,6 @@ stages:
         environmentName: test
         shdResourceGroup: s141t01-shd
         platformVariableGroupName: platform-test
+        platformIdamsVariableGroupName: platform-test-idamsdsiapp
     
       
