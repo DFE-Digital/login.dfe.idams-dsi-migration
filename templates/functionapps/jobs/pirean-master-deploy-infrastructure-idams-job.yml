@@ -55,7 +55,7 @@ jobs:
         - task: AzurePowerShell@5
           displayName: Create Subnets
           inputs:
-            azureSubscription: $(devServiceConnection)
+            azureSubscription: '$(devServiceConnection)'
             ScriptType: 'FilePath'
             ScriptPath: ./powershell/Add-Subnet-to-Existing-Vnet.ps1
             ScriptArguments: '-vNetName $(vnetname) -resourceGroupName $(vnetresourcegroupname) -AddressPrefixStorage $(vnetsubnetaddressprefixst) -AddressPrefixFunction $(vnetsubnetaddressprefixfa) -subnetNameStorage $(vnetsubnetnamest) -subnetNameFunction $(vnetsubnetnamefa)'
