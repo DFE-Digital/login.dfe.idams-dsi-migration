@@ -55,7 +55,7 @@ jobs:
         - task: AzurePowerShell@5
           displayName: Create Subnets
           inputs:
-            azureSubscription: ${{parameters.serviceConnection}}
+            azureSubscription: $(devServiceConnection)
             ScriptType: 'FilePath'
             ScriptPath: ./powershell/Add-Subnet-to-Existing-Vnet.ps1
             ScriptArguments: '-vNetName $(vnetname) -resourceGroupName $(vnetresourcegroupname) -AddressPrefixStorage $(vnetsubnetaddressprefixst) -AddressPrefixFunction $(vnetsubnetaddressprefixfa) -subnetNameStorage $(vnetsubnetnamest) -subnetNameFunction $(vnetsubnetnamefa)'
@@ -64,7 +64,7 @@ jobs:
 
         - template: /Infrastructure/steps/deployment-template.yml@devopsTemplates
           parameters:
-            serviceConnection: '${{parameters.serviceConnection}}'
+            serviceConnection: '$(devServiceConnection)'
             subscriptionId: '${{parameters.subscriptionId}}'
             resourceGroupName: '$(resourceGroupName)'
             location: '${{parameters.deploymentLocation}}'
@@ -79,7 +79,7 @@ jobs:
         - task: AzureCLI@2
           displayName: 'Azure CLI - Promote Service Principal'
           inputs:
-            azureSubscription: '${{parameters.serviceConnection}}'
+            azureSubscription: '$(devServiceConnection)'
             scriptType: pscore
             scriptLocation: inlineScript
             inlineScript: |
@@ -92,7 +92,7 @@ jobs:
         - task: AzurePowerShell@5
           displayName: Connect with Az
           inputs:
-            azureSubscription: '${{parameters.serviceConnection}}'
+            azureSubscription: '$(devServiceConnection)'
             ScriptType: InlineScript
             Inline: |
                  
@@ -105,7 +105,7 @@ jobs:
         - task: AzurePowerShell@5
           displayName: Configure VNET Firewall rules
           inputs:
-            azureSubscription: ${{parameters.serviceConnection}}
+            azureSubscription: $(devServiceConnection)
             ScriptType: 'FilePath'
             ScriptPath: ./powershell/Configure-VNET-Firewall-Rules.ps1
             ScriptArguments: '-subscriptionId ${{parameters.subscriptionId}} -vNetName $(vnetname) -resourceGroupName $(vnetresourcegroupname) -functionAppRG $(resourceGroupName) -AddressPrefix $(vnetsubnetaddressprefixst) -subnetName $(vnetsubnetnamest) -storageaccountName $(storageaccountimport) -storageaccountRGName $(resourceGroupName) -functionAppName $(functionAppImport) -subnetNamefa $(vnetsubnetnamefa)'
@@ -117,7 +117,7 @@ jobs:
         - task: AzurePowerShell@5
           displayName: Create Attachments Container
           inputs:
-            azureSubscription: '${{parameters.serviceConnection}}'
+            azureSubscription: '$(devServiceConnection)'
             ScriptType: 'FilePath'
             scriptPath: './powershell/Container.ps1'
             ScriptArguments: '-StorageAccountName ${{parameters.pireanstorageaccountname}} -ContainerName "attachments"'
@@ -167,7 +167,7 @@ jobs:
         - task: AzureFunctionApp@1
           displayName: Deploy Azure Function App
           inputs:
-            azureSubscription: '${{parameters.serviceConnection}}'
+            azureSubscription: '$(devServiceConnection)'
             appType: functionApp
             deploymentMethod: zipDeploy
             appName: $(functionName)
