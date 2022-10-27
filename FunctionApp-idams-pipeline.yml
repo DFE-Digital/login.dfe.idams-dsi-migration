@@ -62,7 +62,7 @@ stages:
         platformIdamsVariableGroupName: pirean-test-idamsdsiapp
 
 - stage: deployPPT02
-  displayName: Deploy PP T02
+  displayName: Deploy Pre-Prod T02
   variables:
    -group: pirean-PP
            
