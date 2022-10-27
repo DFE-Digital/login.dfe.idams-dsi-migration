@@ -28,7 +28,7 @@ stages:
             variableGroups:
               - pirean-dev
               - "pirean-dev-${{parameters.applicationName}}"
-            serviceConnection: "${{parameters.devServiceConnection}}"
+            serviceConnection: "$(devServiceConnection)"
             subscriptionId: "${{parameters.devSubscriptionId}}"
           
    
