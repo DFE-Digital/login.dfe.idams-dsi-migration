@@ -31,7 +31,7 @@ stages:
   jobs:
     - template: /templates/functionapps/jobs/pirean-master-deploy-infrastructure-idams-job.yml
       parameters:
-        serviceConnection: 'S141D.bsvc.cip.azdo'
+        serviceConnection: 'S141D.bsvc.cip.azddddo'
         subscriptionId: $(devSubscriptionId)
         pireanstorageaccountname: $(pireanstorageaccountname)
         applicationName: $(applicationName)
