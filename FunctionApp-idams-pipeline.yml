@@ -23,6 +23,7 @@ stages:
   jobs:
   - template: /templates/functionapps/jobs/pirean-master-functionapp-build-job.yml
 
+
 - stage: deployDevD01
   displayName: Deploy Dev D01
   variables:
@@ -31,7 +32,7 @@ stages:
   jobs:
     - template: /templates/functionapps/jobs/pirean-master-deploy-infrastructure-idams-job.yml
       parameters:
-        serviceConnection: 'S141D.bsvc.cip.azddddo'
+        serviceConnection: $(devServiceConnection)
         subscriptionId: $(devSubscriptionId)
         pireanstorageaccountname: $(pireanstorageaccountname)
         applicationName: $(applicationName)
@@ -41,7 +42,23 @@ stages:
         platformVariableGroupName: pirean-dev
         platformIdamsVariableGroupName: pirean-dev-idamsdsiapp
 
-
-
+- stage: deployTestT01
+  displayName: Deploy Test T01
+  variables:
+   -group: pirean-Test
+           
+  dependsOn: deployDevD01
+  jobs:
+    - template: /templates/functionapps/jobs/pirean-master-deploy-infrastructure-idams-job.yml
+      parameters:
+        serviceConnection: $(testServiceConnection)
+        subscriptionId: $(testSubscriptionId)
+        pireanstorageaccountname: $(pireanstorageaccountname)
+        applicationName: $(applicationName)
+        environmentId: t01
+        environmentName: test
+        shdResourceGroup: s141t01-shd
+        platformVariableGroupName: pirean-test
+        platformIdamsVariableGroupName: pirean-test-idamsdsiapp
     
       
