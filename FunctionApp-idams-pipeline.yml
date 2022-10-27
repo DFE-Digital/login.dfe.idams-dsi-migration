@@ -22,6 +22,24 @@ stages:
   displayName: Build
   jobs:
   - template: /templates/functionapps/jobs/pirean-master-functionapp-build-job.yml
+  
+- stage: deployDevD01
+  displayName: Deploy Dev D01
+  variables:
+   -group: pirean-dev           
+  dependsOn: build
+  jobs:
+    - template: /templates/functionapps/jobs/pirean-master-deploy-infrastructure-idams-job.yml
+      parameters:
+        serviceConnection: $(devServiceConnection)
+        subscriptionId: $(devSubscriptionId)
+        pireanstorageaccountname: $(pireanstorageaccountname)
+        applicationName: $(applicationName)
+        environmentId: d01
+        environmentName: dev
+        shdResourceGroup: s141d01-shd
+        platformVariableGroupName: pirean-dev
+        platformIdamsVariableGroupName: pirean-dev-idamsdsiapp
 
 
 
