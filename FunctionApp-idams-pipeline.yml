@@ -44,8 +44,7 @@ stages:
 - stage: deployDevD01
   displayName: Deploy Dev D01
   variables:
-   -group: pirean-dev - D01
-           
+   -group: pirean-dev           
   dependsOn: build
   jobs:
     - template: /templates/functionapps/jobs/pirean-master-deploy-infrastructure-idams-job.yml
@@ -57,7 +56,7 @@ stages:
         environmentId: d01
         environmentName: dev
         shdResourceGroup: s141d01-shd
-        platformVariableGroupName: pirean-dev - D01
+        platformVariableGroupName: pirean-dev
         platformIdamsVariableGroupName: pirean-dev-idamsdsiapp
 
 - stage: deployTestT01
