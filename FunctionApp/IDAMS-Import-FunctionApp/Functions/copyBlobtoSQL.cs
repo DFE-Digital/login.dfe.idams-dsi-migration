@@ -80,7 +80,7 @@ namespace IDAMS_Import_FunctionApp
                     dtResult.Rows.Add(item.uid, item.name,  item.upin, item.ukprn, item.superuser, item.modifytimestamp,
                     item.mail, serviceId, item.roleName);
                 }
-
+                log.LogInformation($"Records Count in Data Table '{dtResult.Rows.Count}' ");
                 ImportDataToSQL(name, log, dtResult);
             }
         }
