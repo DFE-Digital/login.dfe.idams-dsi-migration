@@ -42,4 +42,4 @@ Add-AzStorageAccountNetworkRule -ResourceGroupName $storageaccountRGName -Name $
 az storage account update --name $storageaccountName --resource-group $storageaccountRGName --default-action Deny
 Write-Host "Integrate Function App to the Vnet"
 
-az functionapp  vnet-integration add --resource-group $functionAppRG --name $functionAppName --vnet $vnetResouceId --subnet $storageaccountName
+az functionapp  vnet-integration add --resource-group $functionAppRG --name $functionAppName --vnet $vnetResouceId --subnet $subnetNamefa
