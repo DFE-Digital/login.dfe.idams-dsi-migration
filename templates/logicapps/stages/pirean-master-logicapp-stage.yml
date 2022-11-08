@@ -62,5 +62,21 @@ stages:
               - "pirean-pp-${{parameters.applicationName}}"
             serviceConnection:  $(testServiceConnection)
             subscriptionId: $(TestSubscriptionId)
+
+  - stage: deployPR
+    displayName: "Package & Deploy [Prod]"
+    dependsOn: deployPP
+    jobs:
+        - template: ../jobs/pirean-master-deploy-infrastructure-job.yml
+          parameters:
+            applicationName: ${{parameters.applicationName}}
+            environmentName: pr
+            environmentId: p01
+            location: westeurope
+            variableGroups:
+              - pirean-pr
+              - "pirean-pr-${{parameters.applicationName}}"
+            serviceConnection:  $(prodServiceConnection)
+            subscriptionId: $(prodSubscriptionId)
           
    
