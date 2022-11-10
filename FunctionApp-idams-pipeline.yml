@@ -79,5 +79,24 @@ stages:
         shdResourceGroup: s141t02-shd
         platformVariableGroupName: pirean-pp
         platformIdamsVariableGroupName: pirean-pp-idamsdsiapp
+
+- stage: deployPRP01
+  displayName: Deploy Prod P01
+  variables:
+   -group: pirean-pr
+           
+  dependsOn: deployPPT02
+  jobs:
+    - template: /templates/functionapps/jobs/pirean-master-deploy-infrastructure-idams-job.yml
+      parameters:
+        serviceConnection: $(prodServiceConnection)
+        subscriptionId: $(prodSubscriptionId)
+        pireanstorageaccountname: $(pireanstorageaccountname)
+        applicationName: $(applicationName)
+        environmentId: p01
+        environmentName: pr
+        shdResourceGroup: s141p01-shd
+        platformVariableGroupName: pirean-pr
+        platformIdamsVariableGroupName: pirean-pr-idamsdsiapp
     
       
