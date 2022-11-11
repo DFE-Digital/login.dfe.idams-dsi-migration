@@ -6,6 +6,8 @@ CREATE TABLE [dbo].[idams_user_services](
 	[sendWelcomeEmail] [tinyint] NOT NULL,
 	[sendPasswordEmail] [tinyint] NOT NULL,
 	[superuser] [nvarchar](10) NULL,
+	[dateSendWelcomeEmail] [datetime2](7) NULL,
+	[dateSendPasswordEmail] [datetime2](7) NULL,
  CONSTRAINT [PK_idams_user_services] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
