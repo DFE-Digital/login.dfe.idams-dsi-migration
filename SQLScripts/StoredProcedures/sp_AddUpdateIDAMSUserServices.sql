@@ -62,3 +62,6 @@ BEGIN
 	FROM cte
 	WHERE row_num > 1;
 END
+GO
+
+
