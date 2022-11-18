@@ -49,16 +49,9 @@ BEGIN
 					),
 					superuser = Source.superuser;
 
--- Delete duplicates for the first insert
-	WITH cte
-	AS (
-		SELECT mail,serviceName
-			,Row_number() OVER (
-				PARTITION BY mail,serviceName ORDER BY mail,serviceName
-				) row_num
-		FROM dbo.idams_user_services
-		)
-	DELETE
-	FROM cte
-	WHERE row_num > 1;
+
+
 END
+GO
+
+
