@@ -66,7 +66,6 @@ DECLARE @IDAMSUserData  IDAMS_USER_TYPE
 	EXEC sp_AddUpdateIDAMSUserServicesRoles @idams_user_type;
 
 
-
 END
 GO
 

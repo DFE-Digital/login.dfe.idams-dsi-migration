@@ -8,7 +8,6 @@ CREATE TYPE [dbo].[idams_user_type] AS TABLE(
 	[mail] [nvarchar](200) NULL,
 	[serviceId] [nvarchar](200) NULL,
 	[roleName] [nvarchar](500) NULL
-	
 )
 GO
 
