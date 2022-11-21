@@ -17,6 +17,10 @@ namespace IDAMS_Import_FunctionApp.HelperClasses
 
             [CsvColumn(Name = "name")]
             public string name { get; set; }
+            [CsvColumn(Name = "givenName")]
+            public string givenName { get; set; }
+            [CsvColumn(Name = "sn")]
+            public string sn { get; set; }
 
             [CsvColumn(Name = "upin")]
             public string upin { get; set; }

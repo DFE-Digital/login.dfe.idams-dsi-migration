@@ -32,6 +32,8 @@ DECLARE @IDAMSUserData  IDAMS_USER_TYPE
 			INSERT (
 				uid
 				,NAME
+				,givenName
+				,sn
 				,upin
 				,ukprn
 				
@@ -41,6 +43,8 @@ DECLARE @IDAMSUserData  IDAMS_USER_TYPE
 			VALUES (
 				Source.uid
 				,Source.NAME
+				,Source.givenName
+				,Source.sn
 				,Source.upin
 				,Source.ukprn
 				
@@ -53,6 +57,8 @@ DECLARE @IDAMSUserData  IDAMS_USER_TYPE
 			UPDATE
 			SET Target.uid = Source.uid
 				,Target.NAME = Source.NAME
+				,Target.givenName = Source.givenName
+				,Target.sn = Source.sn
 				,Target.upin = Source.upin
 				,Target.ukprn = Source.ukprn
 				

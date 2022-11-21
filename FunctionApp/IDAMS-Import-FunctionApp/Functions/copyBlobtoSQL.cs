@@ -69,6 +69,8 @@ namespace IDAMS_Import_FunctionApp
                 dtResult.Columns.Add("roleName", typeof(string));
                 dtResult.Columns.Add("uid", typeof(string));
                 dtResult.Columns.Add("name", typeof(string));
+                dtResult.Columns.Add("givenName", typeof(string));
+                dtResult.Columns.Add("sn", typeof(string));
                 dtResult.Columns.Add("upin", typeof(string));
                 dtResult.Columns.Add("ukprn", typeof(string));
                 dtResult.Columns.Add("superuser", typeof(string));
@@ -78,7 +80,7 @@ namespace IDAMS_Import_FunctionApp
                 foreach (idamsUserCSVItem item in items)
                 {
                     log.LogInformation($"ServiceId : '{serviceId}' ");
-                    dtResult.Rows.Add(item.uid, item.name,  item.upin, item.ukprn, item.superuser, item.modifytimestamp,
+                    dtResult.Rows.Add(item.uid, item.name,item.givenName,item.sn,  item.upin, item.ukprn, item.superuser, item.modifytimestamp,
                     item.mail, serviceId, item.roleName);
                 }
                 log.LogInformation($"Records Count in Data Table '{dtResult.Rows.Count}' ");
