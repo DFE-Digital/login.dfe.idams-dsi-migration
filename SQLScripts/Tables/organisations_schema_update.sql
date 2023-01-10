@@ -8,13 +8,12 @@ ADD
      GIASProviderType NVARCHAR (100) NULL,
 	 PIMSProviderType NVARCHAR (100) NULL,
  	 ProviderTypeCode INT NULL,
-	 PIMSProviderTypeCode INT NULL
+	 PIMSProviderTypeCode INT NULL,
 	 PIMSStatus NVARCHAR (100) NULL,
 	 OpenedOn NVARCHAR (100) NULL,
 	 DistrictAdministrativeName NVARCHAR (500) NULL,
-	 DistrictAdministrativeCode NVARCHAR (100) NULL,
-	 
-  
+	 DistrictAdministrativeCode NVARCHAR (100) NULL
+GO
 -- Stored Procedures---
 CREATE PROCEDURE [dbo].[SyncOrgs]
 AS
@@ -109,7 +108,7 @@ p.telephone, p.regionCode,p.legacyId,p.companyRegistrationNumber, p.createdAt, p
 p.PIMSProviderType,p.PIMSStatus, p.DistrictAdministrativeName, p.OpenedOn,p.SourceSystem,p.ProviderTypeName, p.GIASProviderType,p.ProviderTypeCode,p.masteringCode,p.PIMSProviderTypeCode from pp_cache p
 WHERE NOT EXISTS (select * from organisation o WHERE o.ProviderProfileID = p.ProviderProfileID)
 END
-
+GO
 CREATE PROCEDURE [dbo].[SyncOrgsAssociation]
 AS
 
@@ -131,7 +130,7 @@ INSERT INTO organisation_association (organisation_id,associated_organisation_id
     Where oa.organisation_id IS NULL
 
 END
-
+GO
 -- Cache Tables
 CREATE TABLE [dbo].[pp_cache](
 	[id] [uniqueidentifier] NOT NULL,
@@ -200,7 +199,7 @@ GO
     GO
 
 -- Indexes
-
+GO
 CREATE NONCLUSTERED INDEX [ProviderProfileID_index] ON [dbo].[organisation]
 (
 	[ProviderProfileID] ASC
