@@ -24,13 +24,13 @@ update organisation
 set ProviderProfileID = p.ProviderProfileID
 from
 organisation o INNER JOIN pp_cache p
-on p.URN = o.URN AND o.ProviderProfileID IS NULL WHERE o.masteringCode = 1 OR o.masteringCode IS NULL
+on p.URN = o.URN AND o.ProviderProfileID IS NULL
 
 update organisation
 set ProviderProfileID = p.ProviderProfileID
 from
 organisation o INNER JOIN pp_cache p
-on o.URN IS NULL AND p.UKPRN = o.UKPRN AND o.ProviderProfileID IS NULL WHERE o.masteringCode = 1 OR o.masteringCode IS NULL
+on o.URN IS NULL AND p.UKPRN = o.UKPRN AND o.ProviderProfileID IS NULL
 
 update organisation
 set name=p.name,
@@ -67,7 +67,6 @@ set name=p.name,
 from
 organisation o INNER JOIN pp_cache p
 on p.ProviderProfileID = o.ProviderProfileID
-WHERE o.masteringCode = 1 OR o.masteringCode IS NULL
 
 
 insert into organisation (id,
@@ -108,6 +107,7 @@ p.telephone, p.regionCode,p.legacyId,p.companyRegistrationNumber, p.createdAt, p
 p.PIMSProviderType,p.PIMSStatus, p.DistrictAdministrativeName, p.OpenedOn,p.SourceSystem,p.ProviderTypeName, p.GIASProviderType,p.ProviderTypeCode,p.masteringCode,p.PIMSProviderTypeCode from pp_cache p
 WHERE NOT EXISTS (select * from organisation o WHERE o.ProviderProfileID = p.ProviderProfileID)
 END
+
 GO
 CREATE PROCEDURE [dbo].[SyncOrgsAssociation]
 AS
