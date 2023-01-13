@@ -153,32 +153,33 @@ CREATE TABLE [dbo].[pp_cache](
 	[companyRegistrationNumber] [varchar](50) NULL,
 	[createdAt] [datetime2](7) NOT NULL,
 	[updatedAt] [datetime2](7) NOT NULL,
-	[DistrictAdministrative_code] [nvarchar](500) NULL,
-	[ProviderProfileID] [varchar](100) NULL,
-	[UPIN] [varchar](100) NULL,
-	[PIMSProviderType] [varchar](100) NULL,
-	[PIMSStatus] [varchar](100) NULL,
-	[DistrictAdministrativeName] [varchar](100) NULL,
-	[OpenedOn] [varchar](100) NULL,
-	[SourceSystem] [varchar](100) NULL,
-	[ProviderTypeName] [varchar](100) NULL,
-	[GIASProviderType] [varchar](100) NULL,
-	[masteringCode] [varchar](50) NULL,
+	[masteringCode] [nvarchar](50) NULL,
+	[ProviderProfileID] [nvarchar](100) NULL,
+	[SourceSystem] [nvarchar](100) NULL,
+	[UPIN] [nvarchar](100) NULL,
+	[ProviderTypeName] [nvarchar](500) NULL,
+	[GIASProviderType] [nvarchar](100) NULL,
+	[PIMSProviderType] [nvarchar](100) NULL,
 	[ProviderTypeCode] [int] NULL,
-	[PIMSProviderTypeCode] [int] NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[pp_cache] ADD PRIMARY KEY CLUSTERED
+	[PIMSProviderTypeCode] [int] NULL,
+	[PIMSStatus] [nvarchar](100) NULL,
+	[OpenedOn] [nvarchar](100) NULL,
+	[DistrictAdministrativeName] [nvarchar](500) NULL,
+	[DistrictAdministrativeCode] [nvarchar](100) NULL,
+	[DistrictAdministrative_code] [nvarchar](100) NULL,
+	[refreshedAt] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
 (
 	[id] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF) ON [PRIMARY]
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-SET ANSI_PADDING ON
+
+ALTER TABLE [dbo].[pp_cache] ADD  DEFAULT ((1)) FOR [Status]
 GO
-CREATE NONCLUSTERED INDEX [urn_index] ON [dbo].[pp_cache]
-(
-	[URN] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, DROP_EXISTING = OFF, ONLINE = OFF) ON [PRIMARY]
+
+ALTER TABLE [dbo].[pp_cache] ADD  DEFAULT (getdate()) FOR [refreshedAt]
+
 GO
 ALTER TABLE [dbo].[pp_cache] ADD  DEFAULT ((1)) FOR [Status]
 GO
