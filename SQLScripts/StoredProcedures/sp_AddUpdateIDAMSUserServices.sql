@@ -36,7 +36,7 @@ BEGIN
 					WHERE perian_serviceId = Source.serviceId
 					),
 				Source.superuser,
-				(SELECT Id FROM dbo.idams_user WHERE mail = Source.mail)
+				(SELECT Id FROM dbo.idams_user WHERE mail = Source.mail AND ukprn = Source.ukprn )
 				)
 				-- For Updates
 	WHEN MATCHED
@@ -52,6 +52,3 @@ BEGIN
 
 
 END
-GO
-
-
