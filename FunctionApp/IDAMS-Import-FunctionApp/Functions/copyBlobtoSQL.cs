@@ -79,7 +79,7 @@ namespace IDAMS_Import_FunctionApp
 
                 foreach (idamsUserCSVItem item in items)
                 {
-                    log.LogInformation($"ServiceId : '{serviceId}' ");
+                    //log.LogInformation($"ServiceId : '{serviceId}' ");
                     dtResult.Rows.Add(item.uid, item.name,item.givenName,item.sn,  item.upin, item.ukprn, item.superuser, item.modifytimestamp,
                     item.mail, serviceId, item.roleName);
                 }
