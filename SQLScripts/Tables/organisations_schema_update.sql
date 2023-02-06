@@ -103,6 +103,7 @@ AS
                         GROUP  BY ukprn
                         HAVING Count(ukprn) > 1) 
               ) 
+GO
 CREATE FUNCTION [dbo].[Getclosedduplicateorgsbyurn] ()
 returns TABLE AS
 RETURN
@@ -117,6 +118,7 @@ RETURN
                        GROUP BY urn
                        HAVING   Count(urn) > 1 )
       )
+GO
 -- Stored Procedures---
 CREATE PROCEDURE [dbo].[Syncorgs]
 AS
