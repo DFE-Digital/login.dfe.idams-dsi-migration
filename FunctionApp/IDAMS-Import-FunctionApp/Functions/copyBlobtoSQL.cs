@@ -103,17 +103,13 @@ namespace IDAMS_Import_FunctionApp
                             try
                             {
                                 log.LogInformation($"SQL Connection is open");
-                                SqlCommand idamsrolemappingCommand = new SqlCommand
-                                {
-                                    CommandText = "SELECT * FROM dbo.idams_role_mapping",
-                                    CommandType = CommandType.Text
-                                };
-
-                                idamsrolemappingCommand.Connection = sqlConn;
+                                string commandText = "SELECT * FROM dbo.idams_role_mapping";
+                                SqlCommand idamsrolemappingCommand = new SqlCommand(commandText, sqlConn);
+                                                               
                                 sqlConn.Open();
                                 SqlDataAdapter da = new SqlDataAdapter(idamsrolemappingCommand);
                                 da.Fill(dtRoleMappings);
-
+                                log.LogInformation("DataTable Idams Role Mappings Count: " + dtRoleMappings.Rows.Count);
                             }
                             catch (Exception ex)
                             {
