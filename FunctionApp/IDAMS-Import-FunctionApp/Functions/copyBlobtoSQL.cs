@@ -127,9 +127,10 @@ namespace IDAMS_Import_FunctionApp
                         {
 
                             string searchExpression = "idams_role_name =" + item.roleName;
-                            log.LogInformation("Search Expression: "+ searchExpression);
+                           
                             string filterExpr = string.Format("{0} = '{1}' ", "[idams_role_name]", item.roleName);
-                            System.Data.DataRow[] drRowMappings = dtRoleMappings.Select(searchExpression);
+                            log.LogInformation("filterExpr : " + filterExpr);
+                            System.Data.DataRow[] drRowMappings = dtRoleMappings.Select(filterExpr);
                             if(drRowMappings.Length > 0)
                             {
                                 log.LogInformation("Roles found for MYESF");
