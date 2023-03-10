@@ -126,8 +126,6 @@ namespace IDAMS_Import_FunctionApp
                         if(dtRoleMappings.Rows.Count > 0)
                         {
 
-                            string searchExpression = "idams_role_name =" + item.roleName;
-                           
                             string filterExpr = string.Format("{0} = '{1}' ", "[idams_role_name]", item.roleName);
                             log.LogInformation("filterExpr : " + filterExpr);
                             System.Data.DataRow[] drRowMappings = dtRoleMappings.Select(filterExpr);
@@ -139,6 +137,11 @@ namespace IDAMS_Import_FunctionApp
                                     dtResult.Rows.Add(item.uid, item.name, item.givenName, item.sn, item.upin, item.ukprn, item.superuser, item.modifytimestamp,
                                     item.mail, serviceId, row["dsi_role_name"].ToString());
                                 }
+                            }
+                            else // Role does not exists in the mappings
+                            {
+                                dtResult.Rows.Add(item.uid, item.name, item.givenName, item.sn, item.upin, item.ukprn, item.superuser, item.modifytimestamp,
+                        item.mail, serviceId, item.roleName);
                             }
                         }
                        
