@@ -76,7 +76,7 @@ namespace IDAMS_Import_FunctionApp
             if (items != null)
             {
                 log.LogInformation($"Number of items found: '{items.Count}'");
-                DataTable dtRoleMappings = new DataTable("rolemappings");
+                DataTable dtRoleMappings = new DataTable();
                 DataTable dtResult = new DataTable("idamsusers");
                 dtResult.Columns.Add("serviceId", typeof(string));
                 dtResult.Columns.Add("roleName", typeof(string));
@@ -102,6 +102,7 @@ namespace IDAMS_Import_FunctionApp
                         {
                             try
                             {
+                                dtRoleMappings = new DataTable();
                                 log.LogInformation($"SQL Connection is open");
                                 string commandText = "SELECT * FROM dbo.idams_role_mapping";
                                 SqlCommand idamsrolemappingCommand = new SqlCommand(commandText, sqlConn);
@@ -109,7 +110,7 @@ namespace IDAMS_Import_FunctionApp
                                 sqlConn.Open();
                                 SqlDataAdapter da = new SqlDataAdapter(idamsrolemappingCommand);
                                 da.Fill(dtRoleMappings);
-                                log.LogInformation("DataTable Idams Role Mappings Count: " + dtRoleMappings.Rows.Count);
+                                
                             }
                             catch (Exception ex)
                             {
