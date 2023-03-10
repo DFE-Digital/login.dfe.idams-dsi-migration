@@ -16,7 +16,7 @@ BEGIN
 			AND (
 				SELECT perian_serviceName
 				FROM dbo.Idams_service
-				WHERE perian_serviceId = Source.serviceId
+				WHERE perian_serviceId =  dbo.GetPireanServiceId(Source.serviceId,Source.uid)
 				) = Target.serviceName
 			-- For Inserts
 	WHEN NOT MATCHED BY target
@@ -33,10 +33,10 @@ BEGIN
 				,(
 					SELECT perian_serviceName
 					FROM dbo.Idams_service
-					WHERE perian_serviceId = Source.serviceId
+					WHERE perian_serviceId =  dbo.GetPireanServiceId(Source.serviceId,Source.uid) 
 					),
 				Source.superuser,
-				(SELECT Id FROM dbo.idams_user WHERE mail = Source.mail AND ukprn = Source.ukprn )
+				(SELECT Id FROM dbo.idams_user WHERE mail = Source.mail )
 				)
 				-- For Updates
 	WHEN MATCHED
@@ -45,7 +45,7 @@ BEGIN
 			SET serviceName = (
 					SELECT perian_serviceName
 					FROM dbo.Idams_service
-					WHERE perian_serviceId = Source.serviceId
+					WHERE perian_serviceId =  dbo.GetPireanServiceId(Source.serviceId,Source.uid) 
 					),
 					superuser = Source.superuser;
 

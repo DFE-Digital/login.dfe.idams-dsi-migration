@@ -46,8 +46,7 @@ DECLARE @IDAMSUserData  IDAMS_USER_TYPE
 				,Source.givenName
 				,Source.sn
 				,Source.upin
-				,Source.ukprn
-				
+				,CASE Source.ukprn WHEN 'Not found' THEN NULL ELSE Source.ukprn END
 				,Source.modifytimestamp
 				,Source.mail 
 				)
@@ -60,8 +59,7 @@ DECLARE @IDAMSUserData  IDAMS_USER_TYPE
 				,Target.givenName = Source.givenName
 				,Target.sn = Source.sn
 				,Target.upin = Source.upin
-				,Target.ukprn = Source.ukprn
-				
+				,Target.ukprn = CASE Source.ukprn WHEN 'Not found' THEN NULL ELSE Source.ukprn END
 				,Target.modifytimestamp = Source.modifytimestamp
 				,Target.mail = Source.mail ;
 
@@ -73,6 +71,3 @@ DECLARE @IDAMSUserData  IDAMS_USER_TYPE
 
 
 END
-GO
-
-

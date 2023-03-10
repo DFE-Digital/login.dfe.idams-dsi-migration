@@ -2,12 +2,14 @@ CREATE TABLE [dbo].[idams_user_services](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[userId] [int] NULL,
 	[mail] [nvarchar](200) NULL,
-	[serviceName] [varchar](200) NULL,
+	[serviceName] [varchar](200) NOT NULL,
 	[sendWelcomeEmail] [tinyint] NOT NULL,
 	[sendPasswordEmail] [tinyint] NOT NULL,
 	[superuser] [nvarchar](10) NULL,
 	[dateSendWelcomeEmail] [datetime2](7) NULL,
 	[dateSendPasswordEmail] [datetime2](7) NULL,
+	[sendServiceActivationEmail] [int] NOT NULL,
+	[dateSendServiceActivationEmail] [datetime] NOT NULL,
  CONSTRAINT [PK_idams_user_services] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -22,6 +24,12 @@ ALTER TABLE [dbo].[idams_user_services] ADD  CONSTRAINT [DF_idams_user_services_
 GO
 
 ALTER TABLE [dbo].[idams_user_services] ADD  CONSTRAINT [DF__idams_use__super__540C7B00]  DEFAULT ('No') FOR [superuser]
+GO
+
+ALTER TABLE [dbo].[idams_user_services] ADD  CONSTRAINT [a_1]  DEFAULT ((0)) FOR [sendServiceActivationEmail]
+GO
+
+ALTER TABLE [dbo].[idams_user_services] ADD  CONSTRAINT [a_2]  DEFAULT (getdate()) FOR [dateSendServiceActivationEmail]
 GO
 
 ALTER TABLE [dbo].[idams_user_services]  WITH CHECK ADD  CONSTRAINT [FK_idams_user_services_idams_user] FOREIGN KEY([userId])

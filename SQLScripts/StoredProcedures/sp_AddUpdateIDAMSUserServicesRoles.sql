@@ -15,7 +15,7 @@ BEGIN
 			AND (
 				SELECT perian_serviceName
 				FROM dbo.Idams_service
-				WHERE perian_serviceId = Source.serviceId
+				WHERE perian_serviceId = dbo.GetPireanServiceId(Source.serviceId,Source.uid)
 				) = Target.serviceName
 			AND source.roleName = Target.roleName
 			-- For Inserts
@@ -32,7 +32,7 @@ BEGIN
 				,(
 					SELECT perian_serviceName
 					FROM dbo.Idams_service
-					WHERE perian_serviceId = Source.serviceId
+					WHERE perian_serviceId = dbo.GetPireanServiceId(Source.serviceId,Source.uid)
 					)
 				,Source.roleName
 				)
@@ -43,13 +43,10 @@ BEGIN
 			SET serviceName = (
 					SELECT perian_serviceName
 					FROM dbo.Idams_service
-					WHERE perian_serviceId = Source.serviceId
+					WHERE perian_serviceId = dbo.GetPireanServiceId(Source.serviceId,Source.uid)
 					)
 				,roleName = Source.roleName;
 
 
 	
 END
-GO
-
-
