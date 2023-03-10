@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
-using Microsoft.WindowsAzure.Storage.Blob;
 using IDAMS_Import_FunctionApp.HelperClasses;
 
 namespace IDAMS_Import_FunctionApp
@@ -15,6 +14,7 @@ namespace IDAMS_Import_FunctionApp
    
     public static class copyBlobtoSQL
     {
+       
         [FunctionName("copyBlobtoSQL")]
         public static void Run([BlobTrigger("attachments/{name}", Connection = "AzureWebJobsStorage")]Stream myBlob, string name, ILogger log)
         {
@@ -31,9 +31,20 @@ namespace IDAMS_Import_FunctionApp
 
             ProcessCSVFile(myBlob, name, log);
         }
+        private static string CreateConnectionString()
+        {
+            var hostName = Environment.GetEnvironmentVariable("DATABASE_DIRECTORIES_HOST_NAME");
+            var directoriesdbName = Environment.GetEnvironmentVariable("DATATBASE_DIRECTORIES_NAME");
+            var directoriesdbUserName = Environment.GetEnvironmentVariable("DATABASE_DIRECTORIES_USERNAME");
+            var directoriesdbPassword = Environment.GetEnvironmentVariable("DATABASE_DIRECTORIES_PASSWORD");
+            var connectionString = String.Format("Server=tcp:{0},1433;Initial Catalog={1};Persist Security Info=False;User ID={2};Password={3};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
+                         hostName, directoriesdbName, directoriesdbUserName, directoriesdbPassword);
 
+            return connectionString;
+        }
         private static void ProcessCSVFile(Stream myBlob, string name, ILogger log)
         {
+            
             List<idamsUserCSVItem> items;
             int pFrom;
             int pTo;
@@ -63,7 +74,7 @@ namespace IDAMS_Import_FunctionApp
             if (items != null)
             {
                 log.LogInformation($"Number of items found: '{items.Count}'");
-
+                DataTable dtRoleMappings = new DataTable("rolemappings");
                 DataTable dtResult = new DataTable("idamsusers");
                 dtResult.Columns.Add("serviceId", typeof(string));
                 dtResult.Columns.Add("roleName", typeof(string));
@@ -79,9 +90,63 @@ namespace IDAMS_Import_FunctionApp
 
                 foreach (idamsUserCSVItem item in items)
                 {
-                    //log.LogInformation($"ServiceId : '{serviceId}' ");
-                    dtResult.Rows.Add(item.uid, item.name,item.givenName,item.sn,  item.upin, item.ukprn, item.superuser, item.modifytimestamp,
-                    item.mail, serviceId, item.roleName);
+                    log.LogInformation($"ServiceId : '{serviceId}' ");
+                    // Check for MYESF Service
+                    if (serviceId == "sfs")
+                    {
+                        log.LogInformation("MyESF Service");
+                        using (var sqlConn = new SqlConnection(CreateConnectionString()))
+
+                        {
+                            try
+                            {
+                                log.LogInformation($"SQL Connection is open");
+                                SqlCommand idamsrolemappingCommand = new SqlCommand
+                                {
+                                    CommandText = "SELECT * FROM dbo.idams_role_mapping",
+                                    CommandType = CommandType.Text
+                                };
+
+                                idamsrolemappingCommand.Connection = sqlConn;
+                                sqlConn.Open();
+                                SqlDataAdapter da = new SqlDataAdapter(idamsrolemappingCommand);
+                                da.Fill(dtRoleMappings);
+
+                            }
+                            catch (Exception ex)
+                            {
+                                log.LogInformation(ex.Message);
+
+                            }
+
+                            finally
+                            {
+                                sqlConn?.Close();
+                                log.LogInformation($"SQL Connection is closed");
+                            }
+                        }
+                        if(dtRoleMappings.Rows.Count > 0)
+                        {
+                            string searchExpression = "idams_role_name =" + item.roleName;
+                            System.Data.DataRow[] drRowMappings = dtRoleMappings.Select(searchExpression);
+                            if(drRowMappings.Length > 0)
+                            {
+                                log.LogInformation("Roles found for MYESF");
+                                foreach (System.Data.DataRow row in drRowMappings)
+                                {
+                                    dtResult.Rows.Add(item.uid, item.name, item.givenName, item.sn, item.upin, item.ukprn, item.superuser, item.modifytimestamp,
+                                    item.mail, serviceId, row["dsi_role_name"].ToString());
+                                }
+                            }
+                        }
+                       
+
+                    }
+                    else // Other Services
+                    {
+                        dtResult.Rows.Add(item.uid, item.name, item.givenName, item.sn, item.upin, item.ukprn, item.superuser, item.modifytimestamp,
+                        item.mail, serviceId, item.roleName);
+                    }
                 }
                 log.LogInformation($"Records Count in Data Table '{dtResult.Rows.Count}' ");
                 ImportDataToSQL(name, log, dtResult);
@@ -92,20 +157,15 @@ namespace IDAMS_Import_FunctionApp
         {
             log.LogInformation($"Blob '{name}' found. Uploading to Azure SQL");
 
-            var hostName = Environment.GetEnvironmentVariable("DATABASE_DIRECTORIES_HOST_NAME");
-            var directoriesdbName = Environment.GetEnvironmentVariable("DATATBASE_DIRECTORIES_NAME");
-            var directoriesdbUserName = Environment.GetEnvironmentVariable("DATABASE_DIRECTORIES_USERNAME");
-            var directoriesdbPassword = Environment.GetEnvironmentVariable("DATABASE_DIRECTORIES_PASSWORD");
-            var connectionString = String.Format("Server=tcp:{0},1433;Initial Catalog={1};Persist Security Info=False;User ID={2};Password={3};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
-                         hostName, directoriesdbName, directoriesdbUserName, directoriesdbPassword);
+            
 
 
-            using (var sqlConn = new SqlConnection(connectionString))
+            using (var sqlConn = new SqlConnection(CreateConnectionString()))
 
             {
                 try
                 {
-                    log.LogInformation($"SQL Connection is Open");
+                    log.LogInformation($"SQL Connection is open");
                     SqlCommand idamsuserimportCommand = new SqlCommand
                     {
                         CommandText = "dbo.sp_IDAMSCSVDataMerge",
@@ -127,6 +187,7 @@ namespace IDAMS_Import_FunctionApp
                 finally
                 {
                     sqlConn?.Close();
+                    log.LogInformation($"SQL Connection is closed");
                 }
             }
         }

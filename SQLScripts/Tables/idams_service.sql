@@ -4,6 +4,7 @@ CREATE TABLE [dbo].[idams_service](
 	[perian_serviceName] [varchar](200) NULL,
 	[dfe_serviceId] [uniqueidentifier] NULL,
 	[dfe_clientId] [varchar](50) NULL,
+	[service_url] VARCHAR (255) NULL
  CONSTRAINT [PK_idams_service] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
