@@ -128,28 +128,20 @@ namespace IDAMS_Import_FunctionApp
                         {
 
                             string filterExpr = string.Format("{0} = '{1}' ", "[idams_role_name]", item.roleName);
+                            string filterExprExistingTable = string.Format("{0} = '{1}' && {3} = '{4}' ", "roleName", "[idams_role_name]", "mail",item.mail);
                             log.LogInformation("filterExpr : " + filterExpr);
+                            log.LogInformation("filterExprExistingTable : " + filterExprExistingTable);
                             System.Data.DataRow[] drRowMappings = dtRoleMappings.Select(filterExpr);
                             if(drRowMappings.Length > 0)
                             {
                                 log.LogInformation("Roles found for MYESF");
                                 foreach (System.Data.DataRow row in drRowMappings)
                                 {
-                                    foreach (System.Data.DataRow dataRow in dtResult.Rows)
-                                    {
-                                        foreach (var existingItem in dataRow.ItemArray)
-                                        {
-                                            log.LogInformation("Existing Datatable Data"+ existingItem);
-                                          
-                                        }
-                                    }
+                                    System.Data.DataRow[] drRowExisting = dtResult.Select(filterExprExistingTable);
                                     log.LogInformation("filterExpr : " + filterExpr);
-                                    var results = from existingRow in dtResult.AsEnumerable()
-                                                  where existingRow.Field<string>("roleName") == row["idams_role_name"].ToString()
-                                                  && existingRow.Field<string>("mail") == item.mail
-                                                  select existingRow;
-                                    log.LogInformation("results count" + results.Count());
-                                    if (results.Count() < 1)
+                                  
+                                    log.LogInformation("results count" + drRowExisting.Count());
+                                    if (drRowExisting.Count() < 1)
                                 
                                         dtResult.Rows.Add(item.uid, item.name, item.givenName, item.sn, item.upin, item.ukprn, item.superuser, item.modifytimestamp,
                                         item.mail, serviceId, row["dsi_role_name"].ToString());
