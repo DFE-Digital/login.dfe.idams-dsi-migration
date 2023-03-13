@@ -104,7 +104,7 @@ namespace IDAMS_Import_FunctionApp
                             {
                                 dtRoleMappings = new DataTable();
                                 log.LogInformation($"SQL Connection is open");
-                                string commandText = "SELECT * FROM dbo.idams_role_mapping";
+                                string commandText = "SELECT * FROM dbo.idams_role_mapping where active = 1";
                                 SqlCommand idamsrolemappingCommand = new SqlCommand(commandText, sqlConn);
                                                                
                                 sqlConn.Open();
@@ -135,14 +135,16 @@ namespace IDAMS_Import_FunctionApp
                                 log.LogInformation("Roles found for MYESF");
                                 foreach (System.Data.DataRow row in drRowMappings)
                                 {
-                                    dtResult.Rows.Add(item.uid, item.name, item.givenName, item.sn, item.upin, item.ukprn, item.superuser, item.modifytimestamp,
-                                    item.mail, serviceId, row["dsi_role_name"].ToString());
+                                    if(!dtResult.Rows.Contains(row))
+                                
+                                        dtResult.Rows.Add(item.uid, item.name, item.givenName, item.sn, item.upin, item.ukprn, item.superuser, item.modifytimestamp,
+                                        item.mail, serviceId, row["dsi_role_name"].ToString());
                                 }
                             }
-                            else // Role does not exists in the mappings
+                            else // Role do not exists in the mappings
                             {
                                 dtResult.Rows.Add(item.uid, item.name, item.givenName, item.sn, item.upin, item.ukprn, item.superuser, item.modifytimestamp,
-                        item.mail, serviceId, item.roleName);
+                                item.mail, serviceId, item.roleName);
                             }
                         }
                        
