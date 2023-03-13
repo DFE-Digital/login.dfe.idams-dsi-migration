@@ -135,15 +135,8 @@ namespace IDAMS_Import_FunctionApp
                                 log.LogInformation("Roles found for MYESF");
                                 foreach (System.Data.DataRow row in drRowMappings)
                                 {
-                                    foreach (System.Data.DataRow dataRow in dtResult.Rows)
-                                    {
-                                        foreach (var existingItem in dataRow.ItemArray)
-                                        {
-                                            log.LogInformation("Existing Datatable Data"+ existingItem);
-                                          
-                                        }
-                                    }
-                                    log.LogInformation("filterExpr : " + filterExpr);
+                                    log.LogInformation("Role: " + row["dsi_role_name"].ToString());
+                                    log.LogInformation("Mail: " + item.mail);
                                     var results = from existingRow in dtResult.AsEnumerable()
                                                   where existingRow.Field<string>("roleName") == row["dsi_role_name"].ToString()
                                                   && existingRow.Field<string>("mail") == item.mail
