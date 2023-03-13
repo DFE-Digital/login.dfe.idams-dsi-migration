@@ -136,7 +136,7 @@ namespace IDAMS_Import_FunctionApp
                                 foreach (System.Data.DataRow row in drRowMappings)
                                 {
                                     var results = from existingRow in dtResult.AsEnumerable()
-                                                  where existingRow.Field<string>("roleName") == row["[idams_role_name]"]
+                                                  where existingRow.Field<string>("roleName") == row["idams_role_name"].ToString()
                                                   && existingRow.Field<string>("mail") == item.mail
                                                   select existingRow;
                                     if (results.Count() < 1)
