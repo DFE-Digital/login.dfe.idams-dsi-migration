@@ -78,15 +78,6 @@ namespace IDAMS_Import_FunctionApp
                 log.LogInformation($"Number of items found: '{items.Count}'");
                 DataTable dtRoleMappings = new DataTable();
                 DataTable dtResult = new DataTable("idamsusers");
-                DataColumn column;
-                column = new DataColumn();
-                column.DataType = System.Type.GetType("System.Int32");
-                column.ColumnName = "Id";
-                column.AutoIncrement = true;
-                column.Caption = "ID";
-                column.ReadOnly = true;
-                column.Unique = true;
-                dtResult.Columns.Add(column);
                 dtResult.Columns.Add("serviceId", typeof(string));
                 dtResult.Columns.Add("roleName", typeof(string));
                 dtResult.Columns.Add("uid", typeof(string));
@@ -144,7 +135,11 @@ namespace IDAMS_Import_FunctionApp
                                 log.LogInformation("Roles found for MYESF");
                                 foreach (System.Data.DataRow row in drRowMappings)
                                 {
-                                    if(!dtResult.Rows.Contains(row))
+                                    var results = from existingRow in dtResult.AsEnumerable()
+                                                  where existingRow.Field<string>("roleName") == row["[idams_role_name]"]
+                                                  && existingRow.Field<string>("mail") == item.mail
+                                                  select existingRow;
+                                    if (results.Count() < 1)
                                 
                                         dtResult.Rows.Add(item.uid, item.name, item.givenName, item.sn, item.upin, item.ukprn, item.superuser, item.modifytimestamp,
                                         item.mail, serviceId, row["dsi_role_name"].ToString());
