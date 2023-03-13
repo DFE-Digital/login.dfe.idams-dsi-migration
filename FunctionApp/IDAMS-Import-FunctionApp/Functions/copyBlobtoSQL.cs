@@ -78,6 +78,15 @@ namespace IDAMS_Import_FunctionApp
                 log.LogInformation($"Number of items found: '{items.Count}'");
                 DataTable dtRoleMappings = new DataTable();
                 DataTable dtResult = new DataTable("idamsusers");
+                DataColumn column;
+                column = new DataColumn();
+                column.DataType = System.Type.GetType("System.Int32");
+                column.ColumnName = "Id";
+                column.AutoIncrement = true;
+                column.Caption = "ID";
+                column.ReadOnly = true;
+                column.Unique = true;
+                dtResult.Columns.Add(column);
                 dtResult.Columns.Add("serviceId", typeof(string));
                 dtResult.Columns.Add("roleName", typeof(string));
                 dtResult.Columns.Add("uid", typeof(string));
