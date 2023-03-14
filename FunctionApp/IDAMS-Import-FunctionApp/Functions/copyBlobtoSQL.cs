@@ -139,15 +139,15 @@ namespace IDAMS_Import_FunctionApp
 
 
                                     if (!existingData)
-
-                                        dtResult.Rows.Add(item.uid, item.name, item.givenName, item.sn, item.upin, item.ukprn, item.superuser, item.modifytimestamp,
-                                        item.mail, serviceId, row["dsi_role_name"].ToString());
+                                 
+                                    dtResult.Rows.Add(row["dsi_role_name"].ToString(), item.uid, item.name, item.givenName, item.sn, item.upin, item.ukprn, item.superuser,
+                                        item.modifytimestamp, item.mail, serviceId);
                                 }
                             }
                             else // Role do not exists in the mappings
                             {
-                                dtResult.Rows.Add(item.uid, item.name, item.givenName, item.sn, item.upin, item.ukprn, item.superuser, item.modifytimestamp,
-                                item.mail, serviceId, item.roleName);
+                                 dtResult.Rows.Add(item.roleName, item.uid, item.name, item.givenName, item.sn, item.upin, item.ukprn, item.superuser,
+                                        item.modifytimestamp, item.mail, serviceId);
                             }
                         }
 
