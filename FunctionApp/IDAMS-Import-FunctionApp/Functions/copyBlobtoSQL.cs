@@ -112,42 +112,14 @@ namespace IDAMS_Import_FunctionApp
                                 foreach (System.Data.DataRow row in drRowMappings)
                                 {
 
-
-                                    foreach (System.Data.DataRow dataRowExisting in dtResult.Rows)
-                                    {
-                                        log.LogInformation("Mapping Role : " + row["dsi_role_name"].ToString());
-                                        log.LogInformation("Existing Role : " + dataRowExisting["roleName"].ToString());
-                                        log.LogInformation("serviceId : " + dataRowExisting["serviceId"].ToString());
-                                        log.LogInformation("uid : " + dataRowExisting["uid"].ToString());
-                                        log.LogInformation("name : " + dataRowExisting["name"].ToString());
-                                        log.LogInformation("givenName : " + dataRowExisting["givenName"].ToString());
-                                        log.LogInformation("sn : " + dataRowExisting["sn"].ToString());
-                                        log.LogInformation("upin : " + dataRowExisting["upin"].ToString());
-                                        log.LogInformation("ukprn : " + dataRowExisting["ukprn"].ToString());
-                                        log.LogInformation("superuser : " + dataRowExisting["superuser"].ToString());
-                                        log.LogInformation("modifytimestamp : " + dataRowExisting["modifytimestamp"].ToString());
-                                        log.LogInformation("mail : " + dataRowExisting["mail"].ToString());
-
-
-                                        log.LogInformation("Mail: " + item.mail);
-                                        if (dataRowExisting["roleName"].ToString() == row["dsi_role_name"].ToString() &&
-                                            dataRowExisting["mail"].ToString() == item.mail)
-                                        {
-                                            existingData = true;
-                                        }
-                                    }
-
-
-                                    if (!existingData)
-                                 
-                                    dtResult.Rows.Add(row["dsi_role_name"].ToString(), item.uid, item.name, item.givenName, item.sn, item.upin, item.ukprn, item.superuser,
-                                        item.modifytimestamp, item.mail, serviceId);
+                                    dtResult.Rows.Add(item.uid, item.name, item.givenName, item.sn, item.upin, item.ukprn, item.superuser, item.modifytimestamp,
+                                    item.mail, serviceId, row["dsi_role_name"].ToString());
                                 }
                             }
                             else // Role do not exists in the mappings
                             {
-                                 dtResult.Rows.Add(item.roleName, item.uid, item.name, item.givenName, item.sn, item.upin, item.ukprn, item.superuser,
-                                        item.modifytimestamp, item.mail, serviceId);
+                                dtResult.Rows.Add(item.uid, item.name, item.givenName, item.sn, item.upin, item.ukprn, item.superuser, item.modifytimestamp,
+                                item.mail, serviceId, item.roleName);
                             }
                         }
 
