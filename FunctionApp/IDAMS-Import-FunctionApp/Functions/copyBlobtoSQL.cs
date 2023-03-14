@@ -51,6 +51,7 @@ namespace IDAMS_Import_FunctionApp
             int pFrom;
             int pTo;
             String result = name;
+            bool existingData = false;
             if (!string.IsNullOrEmpty(name))
             {
                 pFrom = name.IndexOf("_") + "_".Length;
@@ -137,12 +138,18 @@ namespace IDAMS_Import_FunctionApp
                                 {
                                     log.LogInformation("Role: " + row["dsi_role_name"].ToString());
                                     log.LogInformation("Mail: " + item.mail);
-                                    var results = from existingRow in dtResult.AsEnumerable()
-                                                  where existingRow.Field<string>("roleName") == row["dsi_role_name"].ToString()
-                                                  && existingRow.Field<string>("mail") == item.mail
-                                                  select existingRow;
 
-                                    if (results.Count() < 1)
+                                    foreach(System.Data.DataRow dataRowExisting in dtResult.Rows)
+                                    {
+                                        if(dataRowExisting["roleName"].ToString() == row["dsi_role_name"].ToString() &&
+                                            dataRowExisting["mail"].ToString() == item.mail)
+                                        {
+                                            existingData = true;
+                                        }
+                                    }
+                                   
+
+                                    if (!existingData)
                                 
                                         dtResult.Rows.Add(item.uid, item.name, item.givenName, item.sn, item.upin, item.ukprn, item.superuser, item.modifytimestamp,
                                         item.mail, serviceId, row["dsi_role_name"].ToString());
