@@ -79,7 +79,6 @@ namespace IDAMS_Import_FunctionApp
                 log.LogInformation($"Number of items found: '{items.Count}'");
                 DataTable dtRoleMappings = new DataTable();
                 DataTable dtResult = new DataTable("idamsusers");
-                dtResult.Columns.Add("serviceId", typeof(string));
                 dtResult.Columns.Add("roleName", typeof(string));
                 dtResult.Columns.Add("uid", typeof(string));
                 dtResult.Columns.Add("name", typeof(string));
@@ -90,7 +89,9 @@ namespace IDAMS_Import_FunctionApp
                 dtResult.Columns.Add("superuser", typeof(string));
                 dtResult.Columns.Add("modifytimestamp", typeof(string));
                 dtResult.Columns.Add("mail", typeof(string));
+                dtResult.Columns.Add("serviceId", typeof(string));
 
+                dtRoleMappings = GetRoleMappings(log, dtRoleMappings);
                 foreach (idamsUserCSVItem item in items)
                 {
                     log.LogInformation($"ServiceId : '{serviceId}' ");
@@ -98,47 +99,21 @@ namespace IDAMS_Import_FunctionApp
                     if (serviceId == "sfs")
                     {
                         log.LogInformation("MyESF Service");
-                        using (var sqlConn = new SqlConnection(CreateConnectionString()))
-
-                        {
-                            try
-                            {
-                                dtRoleMappings = new DataTable();
-                                log.LogInformation($"SQL Connection is open");
-                                string commandText = "SELECT * FROM dbo.idams_role_mapping where active = 1";
-                                SqlCommand idamsrolemappingCommand = new SqlCommand(commandText, sqlConn);
-                                                               
-                                sqlConn.Open();
-                                SqlDataAdapter da = new SqlDataAdapter(idamsrolemappingCommand);
-                                da.Fill(dtRoleMappings);
-                                
-                            }
-                            catch (Exception ex)
-                            {
-                                log.LogInformation(ex.Message);
-
-                            }
-
-                            finally
-                            {
-                                sqlConn?.Close();
-                                log.LogInformation($"SQL Connection is closed");
-                            }
-                        }
-                        if(dtRoleMappings.Rows.Count > 0)
+                       
+                        if (dtRoleMappings.Rows.Count > 0)
                         {
 
                             string filterExpr = string.Format("{0} = '{1}' ", "[idams_role_name]", item.roleName);
                             log.LogInformation("filterExpr : " + filterExpr);
                             System.Data.DataRow[] drRowMappings = dtRoleMappings.Select(filterExpr);
-                            if(drRowMappings.Length > 0)
+                            if (drRowMappings.Length > 0)
                             {
                                 log.LogInformation("Roles found for MYESF");
                                 foreach (System.Data.DataRow row in drRowMappings)
                                 {
-                                   
 
-                                    foreach(System.Data.DataRow dataRowExisting in dtResult.Rows)
+
+                                    foreach (System.Data.DataRow dataRowExisting in dtResult.Rows)
                                     {
                                         log.LogInformation("Mapping Role : " + row["dsi_role_name"].ToString());
                                         log.LogInformation("Existing Role : " + dataRowExisting["roleName"].ToString());
@@ -153,7 +128,7 @@ namespace IDAMS_Import_FunctionApp
                                         log.LogInformation("modifytimestamp : " + dataRowExisting["modifytimestamp"].ToString());
                                         log.LogInformation("mail : " + dataRowExisting["mail"].ToString());
 
-                                       
+
                                         log.LogInformation("Mail: " + item.mail);
                                         if (dataRowExisting["roleName"].ToString() == row["dsi_role_name"].ToString() &&
                                             dataRowExisting["mail"].ToString() == item.mail)
@@ -161,10 +136,10 @@ namespace IDAMS_Import_FunctionApp
                                             existingData = true;
                                         }
                                     }
-                                   
+
 
                                     if (!existingData)
-                                
+
                                         dtResult.Rows.Add(item.uid, item.name, item.givenName, item.sn, item.upin, item.ukprn, item.superuser, item.modifytimestamp,
                                         item.mail, serviceId, row["dsi_role_name"].ToString());
                                 }
@@ -175,7 +150,7 @@ namespace IDAMS_Import_FunctionApp
                                 item.mail, serviceId, item.roleName);
                             }
                         }
-                       
+
 
                     }
                     else // Other Services
@@ -187,6 +162,39 @@ namespace IDAMS_Import_FunctionApp
                 log.LogInformation($"Records Count in Data Table '{dtResult.Rows.Count}' ");
                 ImportDataToSQL(name, log, dtResult);
             }
+        }
+
+        private static DataTable GetRoleMappings(ILogger log, DataTable dtRoleMappings)
+        {
+            using (var sqlConn = new SqlConnection(CreateConnectionString()))
+
+            {
+                try
+                {
+                    dtRoleMappings = new DataTable();
+                    log.LogInformation($"SQL Connection is open");
+                    string commandText = "SELECT * FROM dbo.idams_role_mapping where active = 1";
+                    SqlCommand idamsrolemappingCommand = new SqlCommand(commandText, sqlConn);
+
+                    sqlConn.Open();
+                    SqlDataAdapter da = new SqlDataAdapter(idamsrolemappingCommand);
+                    da.Fill(dtRoleMappings);
+
+                }
+                catch (Exception ex)
+                {
+                    log.LogInformation(ex.Message);
+
+                }
+
+                finally
+                {
+                    sqlConn?.Close();
+                    log.LogInformation($"SQL Connection is closed");
+                }
+            }
+
+            return dtRoleMappings;
         }
 
         private static void ImportDataToSQL(string name, ILogger log, DataTable dtResult)
