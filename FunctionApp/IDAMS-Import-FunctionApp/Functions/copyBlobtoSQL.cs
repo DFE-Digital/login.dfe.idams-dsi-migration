@@ -142,6 +142,18 @@ namespace IDAMS_Import_FunctionApp
                                     {
                                         log.LogInformation("Mapping Role : " + row["dsi_role_name"].ToString());
                                         log.LogInformation("Existing Role : " + dataRowExisting["roleName"].ToString());
+                                        log.LogInformation("serviceId : " + dataRowExisting["serviceId"].ToString());
+                                        log.LogInformation("uid : " + dataRowExisting["uid"].ToString());
+                                        log.LogInformation("name : " + dataRowExisting["name"].ToString());
+                                        log.LogInformation("givenName : " + dataRowExisting["givenName"].ToString());
+                                        log.LogInformation("sn : " + dataRowExisting["sn"].ToString());
+                                        log.LogInformation("upin : " + dataRowExisting["upin"].ToString());
+                                        log.LogInformation("ukprn : " + dataRowExisting["ukprn"].ToString());
+                                        log.LogInformation("superuser : " + dataRowExisting["superuser"].ToString());
+                                        log.LogInformation("modifytimestamp : " + dataRowExisting["modifytimestamp"].ToString());
+                                        log.LogInformation("mail : " + dataRowExisting["mail"].ToString());
+
+                                       
                                         log.LogInformation("Mail: " + item.mail);
                                         if (dataRowExisting["roleName"].ToString() == row["dsi_role_name"].ToString() &&
                                             dataRowExisting["mail"].ToString() == item.mail)
