@@ -38,16 +38,16 @@ steps:
     azurePowerShellVersion: 'LatestVersion'
     
 
-- task: AzureResourceManagerTemplateDeployment@3
-  displayName: 'Create Shared Blob Storage'
-  inputs:
-    azureResourceManagerConnection: ${{parameters.serviceConnection}}
-    subscriptionId: ${{parameters.subscriptionId}}
-    resourceGroupName: ${{parameters.shdResourceGroup}}
-    location: ${{parameters.location}}
-    csmFile: ${{parameters.storageAccountTemplateFilePath}}
-    overrideParameters: ${{parameters.storageAccountParameterOverideString}}
-    deploymentMode: 'Incremental'
+# - task: AzureResourceManagerTemplateDeployment@3
+#   displayName: 'Create Shared Blob Storage'
+#   inputs:
+#     azureResourceManagerConnection: ${{parameters.serviceConnection}}
+#     subscriptionId: ${{parameters.subscriptionId}}
+#     resourceGroupName: ${{parameters.shdResourceGroup}}
+#     location: ${{parameters.location}}
+#     csmFile: ${{parameters.storageAccountTemplateFilePath}}
+#     overrideParameters: ${{parameters.storageAccountParameterOverideString}}
+#     deploymentMode: 'Incremental'
 
 
 - task: AzureResourceManagerTemplateDeployment@3
