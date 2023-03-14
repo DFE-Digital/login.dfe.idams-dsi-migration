@@ -136,12 +136,14 @@ namespace IDAMS_Import_FunctionApp
                                 log.LogInformation("Roles found for MYESF");
                                 foreach (System.Data.DataRow row in drRowMappings)
                                 {
-                                    log.LogInformation("Role: " + row["dsi_role_name"].ToString());
-                                    log.LogInformation("Mail: " + item.mail);
+                                   
 
                                     foreach(System.Data.DataRow dataRowExisting in dtResult.Rows)
                                     {
-                                        if(dataRowExisting["roleName"].ToString() == row["dsi_role_name"].ToString() &&
+                                        log.LogInformation("Mapping Role : " + row["dsi_role_name"].ToString());
+                                        log.LogInformation("Existing Role : " + dataRowExisting["roleName"].ToString());
+                                        log.LogInformation("Mail: " + item.mail);
+                                        if (dataRowExisting["roleName"].ToString() == row["dsi_role_name"].ToString() &&
                                             dataRowExisting["mail"].ToString() == item.mail)
                                         {
                                             existingData = true;
