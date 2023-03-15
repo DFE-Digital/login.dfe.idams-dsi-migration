@@ -118,8 +118,9 @@ namespace IDAMS_Import_FunctionApp
                             }
                             else // Role do not exists in the mappings
                             {
-                                dtResult.Rows.Add(item.uid, item.name, item.givenName, item.sn, item.upin, item.ukprn, item.superuser, item.modifytimestamp,
-                                item.mail, serviceId, item.roleName);
+                                if(item.roleName != "MYESF - Contract admin")
+                                    dtResult.Rows.Add(item.uid, item.name, item.givenName, item.sn, item.upin, item.ukprn, item.superuser, item.modifytimestamp,
+                                    item.mail, serviceId, item.roleName);
                             }
                         }
 
