@@ -58,5 +58,7 @@ INSERT [dbo].[idams_role_mapping] ([Id], [idams_role_name], [dsi_role_name], [ac
 GO
 INSERT [dbo].[idams_role_mapping] ([Id], [idams_role_name], [dsi_role_name], [active]) VALUES (29, N'MYESF - Download Reports', N'Download Reports', 1)
 GO
+INSERT [dbo].[idams_role_mapping] ([Id], [idams_role_name], [dsi_role_name], [active]) VALUES (30, N'MYESF - Admin', N'MYESF Admin', 1)
+GO
 SET IDENTITY_INSERT [dbo].[idams_role_mapping] OFF
 GO

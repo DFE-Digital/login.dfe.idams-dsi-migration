@@ -94,7 +94,7 @@ namespace IDAMS_Import_FunctionApp
                 dtRoleMappings = GetRoleMappings(log, dtRoleMappings);
                 foreach (idamsUserCSVItem item in items)
                 {
-                    log.LogInformation($"ServiceId : '{serviceId}' ");
+                   // log.LogInformation($"ServiceId : '{serviceId}' ");
                     // Check for MYESF Service
                     if (serviceId == "sfs")
                     {
