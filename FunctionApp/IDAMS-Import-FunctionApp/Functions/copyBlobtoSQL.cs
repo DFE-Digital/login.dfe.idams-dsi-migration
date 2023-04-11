@@ -52,7 +52,7 @@ namespace IDAMS_Import_FunctionApp
             int pTo;
             String result = name;
             bool existingData = false;
-            string serviceId;
+            string serviceId = "";
             if (!string.IsNullOrEmpty(name))
             {
                 if (name.IndexOf("_") == -1)
