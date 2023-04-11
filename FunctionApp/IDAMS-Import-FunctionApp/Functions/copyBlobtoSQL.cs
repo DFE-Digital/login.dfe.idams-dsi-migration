@@ -52,13 +52,20 @@ namespace IDAMS_Import_FunctionApp
             int pTo;
             String result = name;
             bool existingData = false;
+            string serviceId;
             if (!string.IsNullOrEmpty(name))
             {
-                pFrom = name.IndexOf("_") + "_".Length;
-                pTo = name.LastIndexOf(".");
-                result = name[pFrom..pTo];
+                if (name.IndexOf("_") == -1)
+                    serviceId = null;
+                else
+                {
+                    pFrom = name.IndexOf("_") + "_".Length;
+                    pTo = name.LastIndexOf(".");
+                    result = name[pFrom..pTo];
+                    serviceId = result;
+                }
             }
-            string serviceId = result;
+            
             CsvFileDescription inputFileDescription = new CsvFileDescription
             {
                 SeparatorChar = ',',
