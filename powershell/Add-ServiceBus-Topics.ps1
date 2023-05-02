@@ -3,19 +3,17 @@ param (
      
     [Parameter(Mandatory = $true)]
     [string]
-    $resourceGroupName,
+    $serviceBusResourceGroupName,
     [Parameter(Mandatory = $true)]
     [string]
     $serviceBusNamespace,
     [Parameter(Mandatory = $true)]
     [string]
-    $topicName,
+    $serviceBusTopicName,
     [Parameter(Mandatory = $true)]
     [string]
-    $subscriptionName,
-    [Parameter(Mandatory = $true)]
-    [string]
-    $subnetNameFunction
+    $serviceBusSubscriptionName
+    
 )
 Write-Host "Create Topic"
 az servicebus topic create --resource-group $resourceGroupName --namespace-name $serviceBusNamespace --name $topicName
