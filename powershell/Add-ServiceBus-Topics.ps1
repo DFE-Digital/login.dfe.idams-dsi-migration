@@ -16,6 +16,6 @@ param (
     
 )
 Write-Host "Create Topic"
-az servicebus topic create --resource-group $resourceGroupName --namespace-name $serviceBusNamespace --name $topicName
+az servicebus topic create --resource-group $serviceBusResourceGroupName --namespace-name $serviceBusNamespace --name $serviceBusTopicName
 Write-Host "Create Subscription"
-az servicebus topic subscription create --resource-group $resourceGroupName --namespace-name $serviceBusNamespace --topic-name $topicName --name $subscriptionName
+az servicebus topic subscription create --resource-group $serviceBusResourceGroupName --namespace-name $serviceBusNamespace --topic-name $serviceBusTopicName --name $serviceBusSubscriptionName
