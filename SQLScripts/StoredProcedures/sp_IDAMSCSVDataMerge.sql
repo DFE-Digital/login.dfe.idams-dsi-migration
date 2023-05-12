@@ -4,6 +4,8 @@ CREATE PROCEDURE [dbo].[sp_IDAMSCSVDataMerge] (
 	)
 AS
 BEGIN
+DECLARE @serviceId NVARCHAR(50)
+SELECT TOP 1 @serviceId = serviceId FROM @idams_user_type
 DECLARE @IDAMSUserData  IDAMS_USER_TYPE
 	INSERT INTO @IDAMSUserData
 	SELECT * FROM @idams_user_type
@@ -25,7 +27,7 @@ DECLARE @IDAMSUserData  IDAMS_USER_TYPE
 	MERGE dbo.idams_user AS Target
 	USING @IDAMSUserData AS Source
 		ON source.mail = Target.mail
-			AND source.ukprn = Target.ukprn
+			AND (source.ukprn = Target.ukprn OR source.ukprn = 'Not found')
 			-- For Inserts
 	WHEN NOT MATCHED BY target
 		THEN
@@ -67,7 +69,9 @@ DECLARE @IDAMSUserData  IDAMS_USER_TYPE
 	-- Merge idams_user_services data
 	EXEC dbo.sp_AddUpdateIDAMSUserServices @IDAMSUserData;
 	-- Merge idams_user_services_roles data
-	EXEC sp_AddUpdateIDAMSUserServicesRoles @idams_user_type;
+	-- Check for Users without a Service
+	IF(@serviceId IS NOT NULL OR @serviceId <> '')
+		EXEC sp_AddUpdateIDAMSUserServicesRoles @idams_user_type;
 
 
 END

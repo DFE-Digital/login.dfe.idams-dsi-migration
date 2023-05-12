@@ -1,73 +1,55 @@
-CREATE PROCEDURE [dbo].[sp_IDAMSCSVDataMerge] (
+CREATE PROCEDURE [dbo].[sp_AddUpdateIDAMSUserServices] (
 	-- Add the parameters for the stored procedure here
 	@idams_user_type IDAMS_USER_TYPE readonly
 	)
 AS
 BEGIN
-DECLARE @IDAMSUserData  IDAMS_USER_TYPE
-	INSERT INTO @IDAMSUserData
-	SELECT * FROM @idams_user_type
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON
 
-	;WITH cteIDAMS
-	AS (
-		SELECT mail,ukprn
-			,Row_number() OVER (
-				PARTITION BY mail,ukprn ORDER BY mail,ukprn
-				) row_num
-		FROM @IDAMSUserData
-		)
-	DELETE
-	FROM cteIDAMS
-	WHERE row_num > 1;
-
-	--This top line essentially does a "SELECT *" from the named table
-	--and looks for a match based on the "ON" statement below
-	MERGE dbo.idams_user AS Target
-	USING @IDAMSUserData AS Source
+	-- Insert statements for procedure here
+	-- Merge idams_user_services data
+	MERGE dbo.idams_user_services AS Target
+	USING @idams_user_type AS Source
 		ON source.mail = Target.mail
-			AND (source.ukprn = Target.ukprn OR source.ukprn = 'Not found')
+			AND ((
+				SELECT perian_serviceName
+				FROM dbo.Idams_service
+				WHERE perian_serviceId =  dbo.GetPireanServiceId(Source.serviceId,Source.uid)
+				) = Target.serviceName OR Source.serviceId IS NULL)
 			-- For Inserts
 	WHEN NOT MATCHED BY target
 		THEN
+			-- INSERT Data for idams_Services table
 			INSERT (
-				uid
-				,NAME
-				,givenName
-				,sn
-				,upin
-				,ukprn
-				
-				,modifytimestamp
-				,mail
+				mail
+				,serviceName
+				,superuser
+				,userId
 				)
 			VALUES (
-				Source.uid
-				,Source.NAME
-				,Source.givenName
-				,Source.sn
-				,Source.upin
-				,CASE Source.ukprn WHEN 'Not found' THEN NULL ELSE Source.ukprn END
-				,Source.modifytimestamp
-				,Source.mail 
+				Source.mail 
+				,(
+					SELECT perian_serviceName
+					FROM dbo.Idams_service
+					WHERE perian_serviceId =  dbo.GetPireanServiceId(Source.serviceId,Source.uid) 
+					),
+				Source.superuser,
+				(SELECT iu.id FROM dbo.idams_user iu INNER JOIN dbo.idams_user_services ius ON iu.mail = ius.mail
+				WHERE iu.mail = Source.mail AND ius.userId <> iu.Id)
 				)
 				-- For Updates
 	WHEN MATCHED
 		THEN
 			UPDATE
-			SET Target.uid = Source.uid
-				,Target.NAME = Source.NAME
-				,Target.givenName = Source.givenName
-				,Target.sn = Source.sn
-				,Target.upin = Source.upin
-				,Target.ukprn = CASE Source.ukprn WHEN 'Not found' THEN NULL ELSE Source.ukprn END
-				,Target.modifytimestamp = Source.modifytimestamp
-				,Target.mail = Source.mail ;
+			SET serviceName = (
+					SELECT perian_serviceName
+					FROM dbo.Idams_service
+					WHERE perian_serviceId =  dbo.GetPireanServiceId(Source.serviceId,Source.uid) 
+					),
+					superuser = Source.superuser;
 
-	
-	-- Merge idams_user_services data
-	EXEC dbo.sp_AddUpdateIDAMSUserServices @IDAMSUserData;
-	-- Merge idams_user_services_roles data
-	EXEC sp_AddUpdateIDAMSUserServicesRoles @idams_user_type;
 
 
 END
