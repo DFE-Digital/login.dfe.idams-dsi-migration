@@ -26,3 +26,5 @@ Write-Host "Create Subscription - ppdeltacollect-messages"
 az servicebus topic subscription create --resource-group $serviceBusResourceGroupName --namespace-name $serviceBusNamespace --topic-name $serviceBusTopicName --name 'ppdeltacollect-messages'
 Write-Host "Create Subscription - ppdeltateachers-messages"
 az servicebus topic subscription create --resource-group $serviceBusResourceGroupName --namespace-name $serviceBusNamespace --topic-name $serviceBusTopicName --name 'ppdeltateachers-messages'
+Write-Host "Create Subscription - ppdeltas2s-messages"
+az servicebus topic subscription create --resource-group $serviceBusResourceGroupName --namespace-name $serviceBusNamespace --topic-name $serviceBusTopicName --name 'ppdeltas2s-messages'
