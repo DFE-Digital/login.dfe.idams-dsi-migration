@@ -17,5 +17,12 @@ param (
 )
 Write-Host "Create Topic"
 az servicebus topic create --resource-group $serviceBusResourceGroupName --namespace-name $serviceBusNamespace --name $serviceBusTopicName
-Write-Host "Create Subscription"
-az servicebus topic subscription create --resource-group $serviceBusResourceGroupName --namespace-name $serviceBusNamespace --topic-name $serviceBusTopicName --name $serviceBusSubscriptionName
+
+Write-Host "Create Subscription - ppcachestatus-messages"
+az servicebus topic subscription create --resource-group $serviceBusResourceGroupName --namespace-name $serviceBusNamespace --topic-name $serviceBusTopicName --name 'ppcachestatus-messages'
+Write-Host "Create Subscription - ppsyncstatus-messages"
+az servicebus topic subscription create --resource-group $serviceBusResourceGroupName --namespace-name $serviceBusNamespace --topic-name $serviceBusTopicName --name 'ppsyncstatus-messages'
+Write-Host "Create Subscription - ppdeltacollect-messages"
+az servicebus topic subscription create --resource-group $serviceBusResourceGroupName --namespace-name $serviceBusNamespace --topic-name $serviceBusTopicName --name 'ppdeltacollect-messages'
+Write-Host "Create Subscription - ppdeltateachers-messages"
+az servicebus topic subscription create --resource-group $serviceBusResourceGroupName --namespace-name $serviceBusNamespace --topic-name $serviceBusTopicName --name 'ppdeltateachers-messages'
