@@ -30,7 +30,7 @@ if (!$existingsubnetStorage) {
     $ServiceEndPoint = New-Object 'System.Collections.Generic.List[String]'
     $ServiceEndPoint.Add("Microsoft.Storage")
     $ServiceEndPoint.Add("Microsoft.Web")
-        
+    $ServiceEndPoint.Add("Microsoft.ServiceBus")    
     Add-AzVirtualNetworkSubnetConfig -Name $subnetNameStorage -AddressPrefix $AddressPrefixStorage -VirtualNetwork $azvNet -ServiceEndpoint $ServiceEndPoint
 
     #Make changes to vNet
@@ -43,7 +43,7 @@ if (!$existingsubnetFunction) {
     $ServiceEndPoint = New-Object 'System.Collections.Generic.List[String]'
     $ServiceEndPoint.Add("Microsoft.Storage")
     $ServiceEndPoint.Add("Microsoft.Web")
-        
+    $ServiceEndPoint.Add("Microsoft.ServiceBus")    
     Add-AzVirtualNetworkSubnetConfig -Name $subnetNameFunction -AddressPrefix $AddressPrefixFunction -VirtualNetwork $azvNet -ServiceEndpoint $ServiceEndPoint
 
     #Make changes to vNet
