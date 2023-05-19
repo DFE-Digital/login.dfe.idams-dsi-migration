@@ -36,8 +36,7 @@ BEGIN
 					WHERE perian_serviceId =  dbo.GetPireanServiceId(Source.serviceId,Source.uid) 
 					),
 				Source.superuser,
-				(SELECT iu.id FROM dbo.idams_user iu INNER JOIN dbo.idams_user_services ius ON iu.mail = ius.mail
-				WHERE iu.mail = Source.mail AND ius.userId <> iu.Id)
+				(SELECT Id FROM dbo.idams_user WHERE id = [dbo].[GetPireanUserId](Source.mail,Source.serviceId,Source.uid) )
 				)
 				-- For Updates
 	WHEN MATCHED
