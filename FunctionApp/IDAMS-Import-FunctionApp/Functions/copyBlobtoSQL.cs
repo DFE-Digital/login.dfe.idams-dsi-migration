@@ -39,7 +39,7 @@ namespace IDAMS_Import_FunctionApp
             var directoriesdbName = Environment.GetEnvironmentVariable("DATATBASE_DIRECTORIES_NAME");
             var directoriesdbUserName = Environment.GetEnvironmentVariable("DATABASE_DIRECTORIES_USERNAME");
             var directoriesdbPassword = Environment.GetEnvironmentVariable("DATABASE_DIRECTORIES_PASSWORD");
-            var connectionString = String.Format("Server=tcp:{0},1433;Initial Catalog={1};Persist Security Info=False;User ID={2};Password={3};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=0;Command Timeout=0",
+            var connectionString = String.Format("Server=tcp:{0},1433;Initial Catalog={1};Persist Security Info=False;User ID={2};Password={3};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=0;Execution Timeout=0",
                          hostName, directoriesdbName, directoriesdbUserName, directoriesdbPassword);
 
             return connectionString;
