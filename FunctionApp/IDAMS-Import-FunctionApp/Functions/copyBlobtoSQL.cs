@@ -105,7 +105,7 @@ namespace IDAMS_Import_FunctionApp
                     // Check for MYESF Service
                     if (serviceId == "sfs")
                     {
-                        log.LogInformation("MyESF Service");
+                      //  log.LogInformation("MyESF Service");
                        
                         if (dtRoleMappings.Rows.Count > 0)
                         {
