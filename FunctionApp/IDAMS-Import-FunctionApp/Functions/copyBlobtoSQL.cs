@@ -111,11 +111,11 @@ namespace IDAMS_Import_FunctionApp
                         {
 
                             string filterExpr = string.Format("{0} = '{1}' ", "[idams_role_name]", item.roleName);
-                            log.LogInformation("filterExpr : " + filterExpr);
+                          //  log.LogInformation("filterExpr : " + filterExpr);
                             System.Data.DataRow[] drRowMappings = dtRoleMappings.Select(filterExpr);
                             if (drRowMappings.Length > 0)
                             {
-                                log.LogInformation("Roles found for MYESF");
+                            //    log.LogInformation("Roles found for MYESF");
                                 foreach (System.Data.DataRow row in drRowMappings)
                                 {
 
