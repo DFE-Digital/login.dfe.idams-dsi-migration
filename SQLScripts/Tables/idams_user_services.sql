@@ -2,6 +2,7 @@ CREATE TABLE [dbo].[idams_user_services](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[userId] [int] NULL,
 	[mail] [nvarchar](200) NULL,
+	[uid] [nvarchar](50) NULL,
 	[serviceName] [varchar](200) NOT NULL,
 	[sendWelcomeEmail] [tinyint] NOT NULL,
 	[sendPasswordEmail] [tinyint] NOT NULL,

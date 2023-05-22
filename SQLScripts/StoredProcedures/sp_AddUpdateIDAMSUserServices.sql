@@ -12,7 +12,7 @@ BEGIN
 	-- Merge idams_user_services data
 	MERGE dbo.idams_user_services AS Target
 	USING @idams_user_type AS Source
-		ON source.mail = Target.mail
+		ON source.uid = Target.[uid]
 			AND ((
 				SELECT perian_serviceName
 				FROM dbo.Idams_service
@@ -27,6 +27,7 @@ BEGIN
 				,serviceName
 				,superuser
 				,userId
+				,[uid]
 				)
 			VALUES (
 				Source.mail 
@@ -36,7 +37,8 @@ BEGIN
 					WHERE perian_serviceId =  dbo.GetPireanServiceId(Source.serviceId,Source.uid) 
 					),
 				Source.superuser,
-				(SELECT Id FROM dbo.idams_user WHERE id = [dbo].[GetPireanUserId](Source.mail,Source.serviceId,Source.uid) )
+				(SELECT Id FROM dbo.idams_user WHERE uid = Source.uid ),
+				Source.uid 
 				)
 				-- For Updates
 	WHEN MATCHED
@@ -47,6 +49,7 @@ BEGIN
 					FROM dbo.Idams_service
 					WHERE perian_serviceId =  dbo.GetPireanServiceId(Source.serviceId,Source.uid) 
 					),
+					mail = Source.mail,
 					superuser = Source.superuser;
 
 

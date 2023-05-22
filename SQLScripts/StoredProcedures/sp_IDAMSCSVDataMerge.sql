@@ -12,9 +12,9 @@ DECLARE @IDAMSUserData  IDAMS_USER_TYPE
 
 	;WITH cteIDAMS
 	AS (
-		SELECT mail,ukprn
+		SELECT [uid]
 			,Row_number() OVER (
-				PARTITION BY mail,ukprn ORDER BY mail,ukprn
+				PARTITION BY [uid] ORDER BY [uid]
 				) row_num
 		FROM @IDAMSUserData
 		)
@@ -26,8 +26,8 @@ DECLARE @IDAMSUserData  IDAMS_USER_TYPE
 	--and looks for a match based on the "ON" statement below
 	MERGE dbo.idams_user AS Target
 	USING @IDAMSUserData AS Source
-		ON source.mail = Target.mail
-			AND (source.ukprn = Target.ukprn OR source.ukprn = 'Not found')
+		ON source.uid = Target.[uid]
+		
 			-- For Inserts
 	WHEN NOT MATCHED BY target
 		THEN
@@ -38,7 +38,6 @@ DECLARE @IDAMSUserData  IDAMS_USER_TYPE
 				,sn
 				,upin
 				,ukprn
-				
 				,modifytimestamp
 				,mail
 				)
@@ -56,8 +55,8 @@ DECLARE @IDAMSUserData  IDAMS_USER_TYPE
 	WHEN MATCHED
 		THEN
 			UPDATE
-			SET Target.uid = Source.uid
-				,Target.NAME = Source.NAME
+			SET 
+				 Target.NAME = Source.NAME
 				,Target.givenName = Source.givenName
 				,Target.sn = Source.sn
 				,Target.upin = Source.upin

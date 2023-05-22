@@ -13,9 +13,9 @@ BEGIN
 
 	;WITH cteIDAMS
 	AS (
-		SELECT mail,ukprn
+		SELECT uid
 			,Row_number() OVER (
-				PARTITION BY mail,serviceId,roleName ORDER BY mail,serviceId,roleName
+				PARTITION BY uid,serviceId,roleName ORDER BY uid,serviceId,roleName
 				) row_num
 		FROM @IDAMSUserData
 		)
@@ -25,7 +25,7 @@ BEGIN
 	-- Insert statements for procedure here
 	MERGE dbo.idams_user_services_roles AS Target
 	USING @IDAMSUserData AS Source
-		ON source.mail  = Target.mail
+		ON source.uid  = Target.[uid]
 			AND (
 				SELECT perian_serviceName
 				FROM dbo.Idams_service
@@ -38,11 +38,13 @@ BEGIN
 			-- INSERT Data for IDams_Services_Roles table
 			INSERT (
 				mail
+				,[uid]
 				,serviceName
 				,roleName
 				)
 			VALUES (
 				Source.mail 
+				,Source.uid
 				,(
 					SELECT perian_serviceName
 					FROM dbo.Idams_service
@@ -59,7 +61,8 @@ BEGIN
 					FROM dbo.Idams_service
 					WHERE perian_serviceId = dbo.GetPireanServiceId(Source.serviceId,Source.uid)
 					)
-				,roleName = Source.roleName;
+				,roleName = Source.roleName
+				,mail = Source.mail;
 
 
 	
