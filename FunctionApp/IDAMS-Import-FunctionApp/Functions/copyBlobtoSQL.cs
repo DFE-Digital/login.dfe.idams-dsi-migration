@@ -39,7 +39,7 @@ namespace IDAMS_Import_FunctionApp
             var directoriesdbName = Environment.GetEnvironmentVariable("DATATBASE_DIRECTORIES_NAME");
             var directoriesdbUserName = Environment.GetEnvironmentVariable("DATABASE_DIRECTORIES_USERNAME");
             var directoriesdbPassword = Environment.GetEnvironmentVariable("DATABASE_DIRECTORIES_PASSWORD");
-            var connectionString = String.Format("Server=tcp:{0},1433;Initial Catalog={1};Persist Security Info=False;User ID={2};Password={3};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=0;Execution Timeout=0",
+            var connectionString = String.Format("Server=tcp:{0},1433;Initial Catalog={1};Persist Security Info=False;User ID={2};Password={3};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=0;",
                          hostName, directoriesdbName, directoriesdbUserName, directoriesdbPassword);
 
             return connectionString;
@@ -155,6 +155,7 @@ namespace IDAMS_Import_FunctionApp
                     log.LogInformation($"SQL Connection is open");
                     string commandText = "SELECT * FROM dbo.idams_role_mapping where active = 1";
                     SqlCommand idamsrolemappingCommand = new SqlCommand(commandText, sqlConn);
+                    idamsrolemappingCommand.CommandTimeout = 0;
 
                     sqlConn.Open();
                     SqlDataAdapter da = new SqlDataAdapter(idamsrolemappingCommand);
@@ -193,7 +194,8 @@ namespace IDAMS_Import_FunctionApp
                     SqlCommand idamsuserimportCommand = new SqlCommand
                     {
                         CommandText = "dbo.sp_IDAMSCSVDataMerge",
-                        CommandType = CommandType.StoredProcedure
+                        CommandType = CommandType.StoredProcedure,
+                        CommandTimeout = 0
                     };
                     SqlParameter sqlParameter = idamsuserimportCommand.Parameters.AddWithValue("@idams_user_type", dtResult);
                     idamsuserimportCommand.Connection = sqlConn;
