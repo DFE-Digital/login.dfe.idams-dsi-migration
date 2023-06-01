@@ -1,6 +1,6 @@
 CREATE OR ALTER TRIGGER [dbo].[TrackChanges_Idams_user_services]
 ON [dbo].[idams_user_services]
-AFTER UPDATE
+FOR UPDATE
 AS
 BEGIN
     DECLARE @TableName NVARCHAR(100) = 'dbo.idams_user_services';
@@ -26,7 +26,7 @@ BEGIN
         SELECT TOP 1 @ColumnName = ColumnName, @OldValue = OldValue, @NewValue = NewValue, @uid = Idamsuid
         FROM @UpdatedColumns;
         
-        DELETE FROM @UpdatedColumns WHERE ColumnName = @ColumnName;
+        DELETE FROM @UpdatedColumns WHERE ColumnName = @ColumnName and Idamsuid = @uid;
         
         INSERT INTO idams_user_data_updates (Idamsuid, fieldchanged, beforevalue, updatedvalue,  updatedat)
         VALUES (@uid, @ColumnName,  @OldValue, @NewValue, GETDATE());

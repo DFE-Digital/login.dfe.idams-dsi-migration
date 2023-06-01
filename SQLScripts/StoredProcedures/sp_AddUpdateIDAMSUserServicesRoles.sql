@@ -1,4 +1,4 @@
-CREATE PROCEDURE [dbo].[sp_AddUpdateIDAMSUserServicesRoles] (
+CREATE OR ALTER PROCEDURE [dbo].[sp_AddUpdateIDAMSUserServicesRoles] (
 	-- Add the parameters for the stored procedure here
 	@idams_user_type IDAMS_USER_TYPE readonly
 	)
