@@ -62,7 +62,12 @@ BEGIN
 					WHERE perian_serviceId = dbo.GetPireanServiceId(Source.serviceId,Source.uid)
 					)
 				,roleName = Source.roleName
-				,mail = Source.mail;
+				,mail = Source.mail
+
+	WHEN NOT MATCHED BY SOURCE THEN
+  DELETE
+;
+		
 
 
 	
