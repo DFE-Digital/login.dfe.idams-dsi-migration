@@ -97,13 +97,13 @@
       "resourceNames": {
         "storageAccountName": "[tolower(concat(parameters('projectId'), parameters('environmentId'), parameters('serviceName'),'dataimport'))]",
         "functionName": "[variables('baseName')]",
-        "functionAppServicePlanName": "[concat(variables('baseName'), '-asp')]",
+        "functionAppServicePlanName": "[concat(variables('baseName'), '-asp')]"
         // "appInsightsName": "[concat(variables('baseName'), '-ai')]"
       },
       "resourceIds": {
         "functionAppServicePlanId": "[resourceId('Microsoft.Resources/deployments', variables('resourceNames').functionAppServicePlanName)]",
         "functionId": "[resourceId('Microsoft.Web/sites', variables('resourceNames').functionName)]",
-        "storageAccountId": "[resourceId('Microsoft.Resources/deployments', variables('resourceNames').storageAccountName)]",
+        "storageAccountId": "[resourceId('Microsoft.Resources/deployments', variables('resourceNames').storageAccountName)]"
         // "appInsightsId": "[resourceId('microsoft.insights/components', variables('resourceNames').appInsightsName)]"
       },
           
