@@ -240,8 +240,8 @@
         },
         "dependsOn": [
           "[variables('resourceIds').storageAccountId]",
-          "[variables('resourceIds').functionAppServicePlanId]",
-          "[variables('resourceIds').appInsightsId]"
+          "[variables('resourceIds').functionAppServicePlanId]"
+          // "[variables('resourceIds').appInsightsId]"
         ]
       }
     ],
