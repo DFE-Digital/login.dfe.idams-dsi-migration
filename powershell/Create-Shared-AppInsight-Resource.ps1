@@ -13,11 +13,5 @@ param (
    
 )
 
-
-New-AzResource -ResourceName $applicationInsightsName `
-  -ResourceGroupName $resourceGroupName `
-  -ResourceType "Microsoft.Insights/components" `
-  -Location $location `
-  -Properties @{
-    "Application_Type" = "web"
-  }
+Write-Host "Creating Shared App Insights Resource for Pirean"
+New-AzResource -ResourceName $applicationInsightsName  -ResourceGroupName $resourceGroupName -ResourceType "Microsoft.Insights/components" -Location $location  -Properties @{"Application_Type" = "web"}
