@@ -124,6 +124,15 @@ jobs:
             azurePowerShellVersion: 'LatestVersion'
             pwsh: true
 
+        - task: AzurePowerShell@5
+          displayName: Create Shared App Insights Resource
+          inputs:
+            azureSubscription: ${{parameters.serviceConnection}}
+            ScriptType: 'FilePath'
+            ScriptPath: ./powershell/Create-Shared-AppInsight-Resource.ps1
+            ScriptArguments: '-resourceGroupName $(vnetresourcegroupname) -location 'westeurope' -applicationInsightsName $(sharedPireanAppInsightsName) '
+            azurePowerShellVersion: 'LatestVersion'
+            pwsh: true
         - task: ExtractFiles@1
           displayName: Extract Build Artifact
           inputs:
