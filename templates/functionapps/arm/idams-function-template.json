@@ -192,10 +192,10 @@
                 "functionAppAppSettings": {
                     "value": {
                         "array": [
-                            {
-                              "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                              "value": "[reference(variables('resourceIds').appInsightsId, '2020-02-02').InstrumentationKey]"
-                            },
+                            // {
+                            //   "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                            //   "value": "[reference(variables('resourceIds').appInsightsId, '2020-02-02').InstrumentationKey]"
+                            // },
                             {
                               "name": "DATABASE_DIRECTORIES_HOST_NAME",
                               "value": "[parameters('dirdbHostName')]"
