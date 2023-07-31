@@ -130,7 +130,7 @@ jobs:
             azureSubscription: ${{parameters.serviceConnection}}
             ScriptType: 'FilePath'
             ScriptPath: ./powershell/Create-Shared-AppInsight-Resource.ps1
-            ScriptArguments: '-resourceGroupName $(vnetresourcegroupname) -location 'westeurope' -applicationInsightsName $(sharedPireanAppInsightsName) '
+            ScriptArguments: '-resourceGroupName $(vnetresourcegroupname) -location "westeurope" -applicationInsightsName $(sharedPireanAppInsightsName) '
             azurePowerShellVersion: 'LatestVersion'
             pwsh: true
         - task: ExtractFiles@1
