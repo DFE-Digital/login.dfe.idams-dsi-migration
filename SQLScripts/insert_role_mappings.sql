@@ -52,7 +52,7 @@ INSERT [dbo].[idams_role_mapping] ([Id], [idams_role_name], [dsi_role_name], [ac
 GO
 INSERT [dbo].[idams_role_mapping] ([Id], [idams_role_name], [dsi_role_name], [active]) VALUES (26, N'MYESF - Admin', N'MYESF Admin', 1)
 GO
-INSERT [dbo].[idams_role_mapping] ([Id], [idams_role_name], [dsi_role_name], [active]) VALUES (27, N'MYESF - Data Returns and Claims Authoriser', N'ViewContractsAndAgreements', 1)
+INSERT [dbo].[idams_role_mapping] ([Id], [idams_role_name], [dsi_role_name], [active]) VALUES (27, N'MYESF - Data Returns and Claims Authoriser', N'View contracts and agreements', 1)
 GO
 SET IDENTITY_INSERT [dbo].[idams_role_mapping] OFF
 GO
