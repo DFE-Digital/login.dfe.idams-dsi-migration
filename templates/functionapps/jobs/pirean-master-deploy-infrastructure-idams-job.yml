@@ -134,7 +134,7 @@ jobs:
             azurePowerShellVersion: 'LatestVersion'
             pwsh: true
 
-         - task: AzurePowerShell@5
+        - task: AzurePowerShell@5
           displayName: Associate Shared App Insight with Function App
           inputs:
             azureSubscription: ${{parameters.serviceConnection}}
