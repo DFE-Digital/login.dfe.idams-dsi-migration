@@ -12,9 +12,6 @@ param (
     $functionAppResourceGroupName,
     [Parameter(Mandatory = $true)]
     [string]
-    $applicationInsightsName,
-    [Parameter(Mandatory = $true)]
-    [string]
     $functionAppName
    
 )

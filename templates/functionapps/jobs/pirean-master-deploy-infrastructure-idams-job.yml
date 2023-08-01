@@ -140,7 +140,7 @@ jobs:
             azureSubscription: ${{parameters.serviceConnection}}
             ScriptType: 'FilePath'
             ScriptPath: ./powershell/Asoociate-Shared-AppInsight.ps1
-            ScriptArguments: '-resourceGroupName $(vnetresourcegroupname) -appInsightsName $(sharedPireanAppInsightsName) -functionAppResourceGroupName $(resourceGroupName) -applicationInsightsName $(sharedPireanAppInsightsName) -functionAppName $(functionAppImport) '
+            ScriptArguments: '-appInsightsResourceGroupName $(vnetresourcegroupname) -appInsightsName $(sharedPireanAppInsightsName) -functionAppResourceGroupName $(resourceGroupName) -functionAppName $(functionAppImport) '
             azurePowerShellVersion: 'LatestVersion'
             pwsh: true
 
