@@ -21,5 +21,7 @@ $appInsightsKey=$(az monitor app-insights component show --resource-group $appIn
 Write-Host "Associate Shared App Insight with the Import Function"
 
 # az functionapp config appsettings set --name $functionAppName --resource-group $functionAppResourceGroupName --settings "APPINSIGHTS_INSTRUMENTATIONKEY=$appInsightsKey"
+az functionapp config set --name $functionAppName --resource-group $functionAppResourceGroupName --app-settings "APPINSIGHTS_INSTRUMENTATIONKEY=$appInsightsKey"
 
-az functionapp monitor app-insights set --name $functionAppName --resource-group $functionAppResourceGroupName --app-insights $appInsightsName
+
+
