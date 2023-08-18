@@ -132,7 +132,7 @@ jobs:
             subscriptionId: ${{parameters.subscriptionId}}
             action: 'Create Or Update Resource Group'
             resourceGroupName: ${{parameters.shdResourceGroup}}
-            location: ${{parameters.location}}
+            location: 'westeurope'
             templateLocation: 'Linked artifact'
             csmFile: ${{parameters.templateFilePath}}
             csmParametersFile: ${{parameters.parametersFilePath}}
