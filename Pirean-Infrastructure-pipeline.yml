@@ -25,7 +25,7 @@ stages:
   variables:
    -group: pirean-dev      
   jobs:
-    - template: /templates/infrastructure/pirean-master-deploy-infrastructure.yml@devopsTemplates
+    - template: /templates/infrastructure/pirean-master-deploy-infrastructure.yml
       parameters:
         serviceConnection: $(devServiceConnection)
         subscriptionId: $(devSubscriptionId)
@@ -46,7 +46,7 @@ stages:
            
   dependsOn: deployDevD01
   jobs:
-   - template: /templates/infrastructure/pirean-master-deploy-infrastructure.yml@devopsTemplates
+   - template: /templates/infrastructure/pirean-master-deploy-infrastructure.yml
      parameters:
         serviceConnection: $(testServiceConnection)
         subscriptionId: $(testSubscriptionId)
