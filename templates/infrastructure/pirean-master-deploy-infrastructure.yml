@@ -131,7 +131,7 @@ jobs:
             azureResourceManagerConnection: ${{parameters.serviceConnection}}
             subscriptionId: ${{parameters.subscriptionId}}
             action: 'Create Or Update Resource Group'
-            resourceGroupName: ${{parameters.resourceGroupName}}
+            resourceGroupName: ${{parameters.shdResourceGroup}}
             location: ${{parameters.location}}
             templateLocation: 'Linked artifact'
             csmFile: ${{parameters.templateFilePath}}

@@ -32,7 +32,7 @@ stages:
         pireanstorageaccountname: $(pireanstorageaccountname)
         environmentId: d01
         environmentName: dev
-        resourceGroupName: s141d01-shd
+        shdResourceGroup: s141d01-shd
         platformVariableGroupName: pirean-dev
         platformIdamsVariableGroupName: pirean-dev-idamsdsiapp
         templateFilePath: $(Build.SourcesDirectory)/templates/infrastructure/privatelinkscope.json
@@ -53,7 +53,7 @@ stages:
         pireanstorageaccountname: $(pireanstorageaccountname)
         environmentId: t01
         environmentName: test
-        resourceGroupName: s141t01-shd
+        shdResourceGroup: s141t01-shd
         platformVariableGroupName: pirean-test
         platformIdamsVariableGroupName: pirean-test-idamsdsiapp
         templateFilePath: $(Build.SourcesDirectory)/templates/infrastructure/privatelinkscope.json
