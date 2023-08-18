@@ -48,7 +48,7 @@ jobs:
         steps:
         - checkout: self
         - download: current
-                              
+
         - task: AzureCLI@2
           displayName: 'Azure CLI - Promote Service Principal'
           inputs:
@@ -102,7 +102,7 @@ jobs:
             azureSubscription: ${{parameters.serviceConnection}}
             ScriptType: 'FilePath'
             ScriptPath: ./powershell/Create-PrivateLinkScope-For-AppInsight-Resource.ps1
-            ScriptArguments: '-resourceGroupName $(vnetresourcegroupname) -location "westeurope" -applicationInsightsName $(sharedPireanAppInsightsName) -scopeName $(scopeName) '
+            ScriptArguments: '-resourceGroupName $(vnetresourcegroupname) -location "westeurope" -applicationInsightsName $(sharedPireanAppInsightsName) -scopeName $(scopeName) -environmentName ${{parameters.environmentName}} '
             azurePowerShellVersion: 'LatestVersion'
             pwsh: true
 
