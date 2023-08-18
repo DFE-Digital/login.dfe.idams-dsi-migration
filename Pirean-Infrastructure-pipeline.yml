@@ -46,7 +46,6 @@ stages:
         serviceConnection: $(testServiceConnection)
         subscriptionId: $(testSubscriptionId)
         pireanstorageaccountname: $(pireanstorageaccountname)
-        applicationName: $(applicationName)
         environmentId: t01
         environmentName: test
         shdResourceGroup: s141t01-shd
