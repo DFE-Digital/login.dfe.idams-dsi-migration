@@ -3,13 +3,9 @@ parameters:
       type: string
     - name: subscriptionId
       type: string
-    - name: applicationName
-      type: string
     - name: deploymentLocation
       type: string
       default: westeurope
-    - name: pireanstorageaccountname
-      type: string
     - name: projectId
       type: string
       default: s141
