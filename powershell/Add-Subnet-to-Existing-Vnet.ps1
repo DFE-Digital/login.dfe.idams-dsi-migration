@@ -9,13 +9,13 @@ param (
     [Parameter(Mandatory = $true)]
     [string]
     $AddressPrefixStorage,
-    [Parameter(Mandatory = $true)]
+    [Parameter(Mandatory = $false)]
     [string]
     $AddressPrefixFunction,
     [Parameter(Mandatory = $true)]
     [string]
     $subnetNameStorage,
-    [Parameter(Mandatory = $true)]
+    [Parameter(Mandatory = $false)]
     [string]
     $subnetNameFunction
 )

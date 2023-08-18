@@ -15,7 +15,14 @@ param (
     $scopeName,
     [Parameter(Mandatory = $true)]
     [string]
-    $environmentName
+    $environmentName,
+    [Parameter(Mandatory = $true)]
+    [string]
+    $vNetName,
+    [Parameter(Mandatory = $true)]
+    [string]
+    $vnetsubnetaddressprefixampls
+
    
 )
 # Get the resource ID of the App Insight Resource and save it in a variable
@@ -26,7 +33,24 @@ Write-Host "Create Private Link Scope"
 
 az monitor private-link-scope  create --name $scopeName --resource-group $resourceGroupName
 
-Write-Host "Associate Private Link Scope for AppInsight Resource"
+Write-Host "Create subnet for the Private Link"
 
-az monitor private-link-scope update --name $scopeName --resource-group $resourceGroupName --private-link-service Connections --associated-resource $resourceid --tags Environment=$environmentName Product="DfE Sign-in" Service Offering="DfE Sign-in"
+& ".\Add-Subnet-to-Existing-Vnet.ps1" -vnetName $vNetName -resourceGroupName $resourceGroupName -AddressPrefixStorage $vnetsubnetaddressprefixampls -subnetNameStorage "pirean-ampls-sn-1"
+
+# Get the resource ID of the App Insight Resource and save it in a variable
+
+$subnetId= $(az resource show --resource-group $resourceGroupName --name  "pirean-ampls-sn-1" --resource-type "Microsoft.Network/virtualNetworks/subnets" --query id --output tsv)
+
+# Get the resource ID of the App Insight Resource and save it in a variable
+
+$privateConnectionResourceId= $(az resource show --resource-group $resourceGroupName --name  $scopeName --resource-type "microsoft.insights/privatelinkscopes" --query id --output tsv)
+
+Write-Host "Associate Private Link Scope for AppInsight Resource"
+$randomString = ([System.Guid]::NewGuid()).ToString()
+az network private-endpoint create --name "pirean-appinsight-private-endpoint" --resource-group $resourceGroupName --subnet $subnetId --private-connection-resource-id $privateConnectionResourceId --private-link-service-connection "connection"-$randomString --location $location
+
+
+
+
+# az monitor private-link-scope update --name $scopeName --resource-group $resourceGroupName --private-link-service Connections --associated-resource $resourceid --tags Environment=$environmentName Product="DfE Sign-in" Service Offering="DfE Sign-in"
    

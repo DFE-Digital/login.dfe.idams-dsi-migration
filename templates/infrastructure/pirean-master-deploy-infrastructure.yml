@@ -102,7 +102,7 @@ jobs:
             azureSubscription: ${{parameters.serviceConnection}}
             ScriptType: 'FilePath'
             ScriptPath: ./powershell/Create-PrivateLinkScope-For-AppInsight-Resource.ps1
-            ScriptArguments: '-resourceGroupName $(vnetresourcegroupname) -location "westeurope" -applicationInsightsName $(sharedPireanAppInsightsName) -scopeName $(scopeName) -environmentName ${{parameters.environmentName}} '
+            ScriptArguments: '-resourceGroupName $(vnetresourcegroupname) -location "westeurope" -applicationInsightsName $(sharedPireanAppInsightsName) -scopeName $(scopeName) -environmentName ${{parameters.environmentName}} -vNetName $(vnetname) -vnetsubnetaddressprefixampls $(vnetsubnetaddressprefixampls) '
             azurePowerShellVersion: 'LatestVersion'
             pwsh: true
 
