@@ -25,7 +25,7 @@ stages:
   variables:
    -group: pirean-dev      
   jobs:
-    - template: /templates/infrastructure/pirean-master-deploy-infrastructure.yml
+    - template: /templates/infrastructure/pirean-master-deploy-infrastructure.yml@devopsTemplates
       parameters:
         serviceConnection: $(devServiceConnection)
         subscriptionId: $(devSubscriptionId)
@@ -35,7 +35,10 @@ stages:
         shdResourceGroup: s141d01-shd
         platformVariableGroupName: pirean-dev
         platformIdamsVariableGroupName: pirean-dev-idamsdsiapp
-
+        templateFilePath: $(Build.SourcesDirectory)/templates/infrastructure/privatelinkscope.json
+        armParameterOverrideString: '-templatesBaseUri "$(templatesBaseUri)" -applicationName "${{parameters.applicationName}}" -environmentName "${{parameters.environmentName}}" -dirDBName "$(dirSqlDbName)" -dirDBHostName "$(dirSqlHostName)" -dirDBUsername "$(dirSqlLogin)" -dirDBPassword "$(dirSqlPassword)" -orgDBName "$(organisationsdbName)" -orgDBHostName "$(organisationsSqlHostName)" -orgDBUsername "$(organisationsdbUserName)" -orgDBPassword "$(organisationsdbPassword)" -idamsblobstorageconnectionstring "$(idamsblobstorageconnectionstring)" -environmentId "${{parameters.environmentId}}" -AppServicePlanSku "$(FunctionAppServicePlanSku)" -sharedResourceGroupName "${{parameters.shdResourceGroup}}" -ppapiendpointurl "$(ppapiendpointurl)" -ppapifunctionkey "$(ppapifunctionkey)" '
+        processOutputs: true
+    
 - stage: deployTestT01
   displayName: Deploy Test T01
   variables:
@@ -43,7 +46,7 @@ stages:
            
   dependsOn: deployDevD01
   jobs:
-   - template: /templates/infrastructure/pirean-master-deploy-infrastructure.yml
+   - template: /templates/infrastructure/pirean-master-deploy-infrastructure.yml@devopsTemplates
      parameters:
         serviceConnection: $(testServiceConnection)
         subscriptionId: $(testSubscriptionId)
@@ -53,3 +56,6 @@ stages:
         shdResourceGroup: s141t01-shd
         platformVariableGroupName: pirean-test
         platformIdamsVariableGroupName: pirean-test-idamsdsiapp
+        templateFilePath: $(Build.SourcesDirectory)/templates/infrastructure/privatelinkscope.json
+        armParameterOverrideString: '-templatesBaseUri "$(templatesBaseUri)" -applicationName "${{parameters.applicationName}}" -environmentName "${{parameters.environmentName}}"  -environmentId "${{parameters.environmentId}}" -sharedResourceGroupName "${{parameters.shdResourceGroup}}" '
+        processOutputs: true

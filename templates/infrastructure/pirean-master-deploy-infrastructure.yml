@@ -15,6 +15,8 @@ parameters:
       type: string
     - name: environmentName
       type: string
+    - name: templateFilePath
+      type: string
     - name: servicePlanSkuName
       type: string
       default: Y1
@@ -30,6 +32,12 @@ parameters:
       type: string
     - name: platformIdamsVariableGroupName
       type: string
+    - name: armParameterOverrideString
+      type: string
+      default: ''
+    - name: parametersFilePath
+      type: string
+      default: ''
 jobs:
 - deployment: 'deploy_${{parameters.environmentName}}'
   displayName: 'Deploy [${{parameters.environmentName}}]'
@@ -39,8 +47,7 @@ jobs:
   variables:
   - group: '${{parameters.platformVariableGroupName}}'
   - group: '${{parameters.platformIdamsVariableGroupName}}'
-  - name: resourceGroupName
-    value: '${{parameters.projectId}}${{parameters.environmentId}}-dataimport'
+  
  
   strategy:
     runOnce:
@@ -106,15 +113,30 @@ jobs:
             azurePowerShellVersion: 'LatestVersion'
             pwsh: true
 
-        - task: AzurePowerShell@5
-          displayName: Create & Associate Private Link Scope with App Insights
-          inputs:
-            azureSubscription: ${{parameters.serviceConnection}}
-            ScriptType: 'FilePath'
-            ScriptPath: ./powershell/Create-PrivateLinkScope-For-AppInsight-Resource.ps1
-            ScriptArguments: '-resourceGroupName $(vnetresourcegroupname) -location "westeurope" -applicationInsightsName $(sharedPireanAppInsightsName) -scopeName $(scopeName) -environmentName ${{parameters.environmentName}} '
-            azurePowerShellVersion: 'LatestVersion'
-            pwsh: true
+        # - task: AzurePowerShell@5
+        #   displayName: Create & Associate Private Link Scope with App Insights
+        #   inputs:
+        #     azureSubscription: ${{parameters.serviceConnection}}
+        #     ScriptType: 'FilePath'
+        #     ScriptPath: ./powershell/Create-PrivateLinkScope-For-AppInsight-Resource.ps1
+        #     ScriptArguments: '-resourceGroupName $(vnetresourcegroupname) -location "westeurope" -applicationInsightsName $(sharedPireanAppInsightsName) -scopeName $(scopeName) -environmentName ${{parameters.environmentName}} '
+        #     azurePowerShellVersion: 'LatestVersion'
+        #     pwsh: true
 
-        
-       
+   
+        - task: AzureResourceManagerTemplateDeployment@3
+          displayName:  Create & Associate Private Link Scope with App Insights
+          inputs:
+            deploymentScope: 'Resource Group'
+            azureResourceManagerConnection: ${{parameters.serviceConnection}}
+            subscriptionId: ${{parameters.subscriptionId}}
+            action: 'Create Or Update Resource Group'
+            resourceGroupName: ${{parameters.resourceGroupName}}
+            location: ${{parameters.location}}
+            templateLocation: 'Linked artifact'
+            csmFile: ${{parameters.templateFilePath}}
+            csmParametersFile: ${{parameters.parametersFilePath}}
+            overrideParameters: ${{parameters.armParameterOverrideString}}
+            deploymentMode: 'Incremental'
+            deploymentOutputs: armOutput
+              
