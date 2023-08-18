@@ -21,8 +21,8 @@ $resourceid= $(az resource show --resource-group $resourceGroupName --name  $app
 
 Write-Host "Create Private Link Scope"
 
-az network private-link scope create --name $scopeName --resource-group $resourceGroupName
+az monitor private-link-scope  create --name $scopeName --resource-group $resourceGroupName
 
 Write-Host "Associate Private Link Scope for AppInsight Resource"
 
-az network private-link scope update --name $scopeName --resource-group $resourceGroupName --private-link-service Connections --associated-resource $resourceid
+az monitor private-link-scope update --name $scopeName --resource-group $resourceGroupName --private-link-service Connections --associated-resource $resourceid
