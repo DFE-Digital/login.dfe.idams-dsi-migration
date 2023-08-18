@@ -18,6 +18,11 @@ variables:
 - group: pirean-dev-idamsdsiapp
 
 stages:
+- stage: build
+  displayName: Build
+  jobs:
+  - template: /templates/functionapps/jobs/pirean-master-Infrastructure-build.yml
+
 - stage: deployDevD01
   displayName: Deploy Dev D01
   variables:

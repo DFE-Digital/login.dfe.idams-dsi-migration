@@ -46,6 +46,8 @@ jobs:
     runOnce:
       deploy:
         steps:
+        - checkout: self
+        - download: current
                               
         - task: AzureCLI@2
           displayName: 'Azure CLI - Promote Service Principal'
