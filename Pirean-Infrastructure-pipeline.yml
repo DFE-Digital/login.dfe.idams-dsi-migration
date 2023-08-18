@@ -54,6 +54,7 @@ stages:
         environmentId: t01
         environmentName: test
         shdResourceGroup: s141t01-shd
+        location: "westeurope"
         platformVariableGroupName: pirean-test
         platformIdamsVariableGroupName: pirean-test-idamsdsiapp
         templateFilePath: $(Build.SourcesDirectory)/templates/infrastructure/privatelinkscope.json
