@@ -31,7 +31,7 @@ az monitor private-link-scope  create --name $scopeName --resource-group $resour
 # Get the resource ID of the App Insight Resource and save it in a variable
 
 Write-Host "Get Subnet Id"
-"id": "/subscriptions/7226bf32-6f0e-4e2f-aca4-e5f6a3546d14/resourceGroups/s141t01-shd/providers/Microsoft.Network/virtualNetworks/s141t01-signin-shd-vnet/subnets/mgmt-sn-1"
+
 $subnetId= $(az resource show --resource-group $resourceGroupName --name  "pirean-ampls-sn-1" --resource-type "Microsoft.Network/virtualNetworks/s141t01-signin-shd-vnet/subnets" --query id --output tsv)
 Write-Host "Subnet Id :" $subnetId
 # Get the resource ID of the App Insight Resource and save it in a variable
