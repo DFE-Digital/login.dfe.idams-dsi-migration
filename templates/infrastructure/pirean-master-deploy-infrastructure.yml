@@ -92,7 +92,7 @@ jobs:
             azureSubscription: ${{parameters.serviceConnection}}
             ScriptType: 'FilePath'
             ScriptPath: ./powershell/Add-Subnet-to-Existing-Vnet.ps1
-            ScriptArguments: '-vNetName $(vnetname) -resourceGroupName $(vnetresourcegroupname) -AddressPrefixStorage $(vnetsubnetaddressprefixampls) -subnetNameStorage $(vnetsubnetnamest)'
+            ScriptArguments: '-vNetName $(vnetname) -resourceGroupName $(vnetresourcegroupname) -AddressPrefixStorage $(vnetsubnetaddressprefixampls) -subnetNameStorage "pirean-ampls-sn-1"'
             azurePowerShellVersion: 'LatestVersion'
             pwsh: true
 

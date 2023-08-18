@@ -20,17 +20,13 @@ param (
 
    
 )
-# Get the resource ID of the App Insight Resource and save it in a variable
-$resourceid= $(az resource show --resource-group $resourceGroupName --name  $applicationInsightsName --resource-type "microsoft.insights/components" --query id --output tsv)
+# # Get the resource ID of the App Insight Resource and save it in a variable
+# $resourceid= $(az resource show --resource-group $resourceGroupName --name  $applicationInsightsName --resource-type "microsoft.insights/components" --query id --output tsv)
 
 
 Write-Host "Create Private Link Scope"
 
 az monitor private-link-scope  create --name $scopeName --resource-group $resourceGroupName
-
-Write-Host "Create subnet for the Private Link"
-
-& "Add-Subnet-to-Existing-Vnet.ps1" -vnetName $vNetName -resourceGroupName $resourceGroupName -AddressPrefixStorage $vnetsubnetaddressprefixampls -subnetNameStorage "pirean-ampls-sn-1"
 
 # Get the resource ID of the App Insight Resource and save it in a variable
 
