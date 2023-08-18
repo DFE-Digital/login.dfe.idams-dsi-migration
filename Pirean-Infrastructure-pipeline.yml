@@ -57,5 +57,5 @@ stages:
         platformVariableGroupName: pirean-test
         platformIdamsVariableGroupName: pirean-test-idamsdsiapp
         templateFilePath: $(Build.SourcesDirectory)/templates/infrastructure/privatelinkscope.json
-        armParameterOverrideString: '-templatesBaseUri "$(templatesBaseUri)" -environmentName "${{parameters.environmentName}}"  -environmentId "${{parameters.environmentId}}" -sharedResourceGroupName "${{parameters.shdResourceGroup}}" '
+        # armParameterOverrideString: '-templatesBaseUri "$(templatesBaseUri)" -environmentName "${{parameters.environmentName}}"  -environmentId "${{parameters.environmentId}}" -sharedResourceGroupName "${{parameters.shdResourceGroup}}" '
         processOutputs: true
