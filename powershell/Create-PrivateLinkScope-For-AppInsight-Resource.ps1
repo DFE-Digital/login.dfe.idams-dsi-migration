@@ -35,7 +35,7 @@ az monitor private-link-scope  create --name $scopeName --resource-group $resour
 
 Write-Host "Create subnet for the Private Link"
 
-& ".\Add-Subnet-to-Existing-Vnet.ps1" -vnetName $vNetName -resourceGroupName $resourceGroupName -AddressPrefixStorage $vnetsubnetaddressprefixampls -subnetNameStorage "pirean-ampls-sn-1"
+& "Add-Subnet-to-Existing-Vnet.ps1" -vnetName $vNetName -resourceGroupName $resourceGroupName -AddressPrefixStorage $vnetsubnetaddressprefixampls -subnetNameStorage "pirean-ampls-sn-1"
 
 # Get the resource ID of the App Insight Resource and save it in a variable
 
