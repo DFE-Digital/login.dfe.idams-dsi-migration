@@ -42,7 +42,7 @@ Write-Host "privateConnectionResourceId" $privateConnectionResourceId
 Write-Host "Associate Private Link Scope for AppInsight Resource"
 $randomString = ([System.Guid]::NewGuid()).ToString()
 
-az network private-endpoint create --name "pirean-appinsight-private-endpoint" --resource-group $resourceGroupName --subnet $subnetId --private-connection-resource-id $privateConnectionResourceId --connection-name "connection"-$randomString --location $location
+az network private-endpoint create --name "pirean-appinsight-private-endpoint" --resource-group $resourceGroupName --subnet $subnetId --private-connection-resource-id $privateConnectionResourceId --connection-name "connection-"$randomString --location $location
 
 
 
