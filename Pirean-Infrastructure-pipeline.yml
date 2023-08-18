@@ -18,7 +18,7 @@ variables:
 - group: pirean-dev-idamsdsiapp
 
 stages:
-- stage: deployDev
+- stage: deployDevD01
   displayName: Deploy Dev D01
   variables:
    -group: pirean-dev      
