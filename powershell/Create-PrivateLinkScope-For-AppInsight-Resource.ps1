@@ -15,13 +15,8 @@ param (
     $scopeName,
     [Parameter(Mandatory = $true)]
     [string]
-    $environmentName,
-    [Parameter(Mandatory = $true)]
-    [string]
-    $vNetName,
-    [Parameter(Mandatory = $true)]
-    [string]
-    $vnetsubnetaddressprefixampls
+    $environmentName
+
 
    
 )
