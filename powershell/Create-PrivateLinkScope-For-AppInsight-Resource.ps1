@@ -30,11 +30,13 @@ az monitor private-link-scope  create --name $scopeName --resource-group $resour
 
 # Get the resource ID of the App Insight Resource and save it in a variable
 
+Write-Host "Get Subnet Id"
 $subnetId= $(az resource show --resource-group $resourceGroupName --name  "pirean-ampls-sn-1" --resource-type "Microsoft.Network/virtualNetworks/subnets" --query id --output tsv)
-
+Write-Host "Subnet Id :" $subnetId
 # Get the resource ID of the App Insight Resource and save it in a variable
-
+Write-Host "Get privateConnectionResourceId"
 $privateConnectionResourceId= $(az resource show --resource-group $resourceGroupName --name  $scopeName --resource-type "microsoft.insights/privatelinkscopes" --query id --output tsv)
+Write-Host "privateConnectionResourceId" $privateConnectionResourceId
 
 Write-Host "Associate Private Link Scope for AppInsight Resource"
 $randomString = ([System.Guid]::NewGuid()).ToString()
