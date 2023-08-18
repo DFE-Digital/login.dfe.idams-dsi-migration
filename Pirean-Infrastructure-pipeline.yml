@@ -32,7 +32,7 @@ variables:
         pireanVariableGroupName: pirean-dev
         shdResourceGroup: s141d01-shd
         platformVariableGroupName: pirean-dev
-        
+        platformIdamsVariableGroupName: pirean-dev-idamsdsiapp
 
 - stage: deployTestT01
   displayName: Deploy Test T01
@@ -51,4 +51,4 @@ variables:
         environmentName: test
         shdResourceGroup: s141t01-shd
         platformVariableGroupName: pirean-test
-        
+        platformIdamsVariableGroupName: pirean-test-idamsdsiapp
