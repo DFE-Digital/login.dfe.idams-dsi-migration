@@ -6,6 +6,8 @@ parameters:
     - name: deploymentLocation
       type: string
       default: westeurope
+    - name: pireanstorageaccountname
+      type: string
     - name: projectId
       type: string
       default: s141

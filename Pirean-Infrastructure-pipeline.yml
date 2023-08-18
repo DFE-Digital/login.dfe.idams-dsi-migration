@@ -27,6 +27,7 @@ stages:
       parameters:
         serviceConnection: $(devServiceConnection)
         subscriptionId: $(devSubscriptionId)
+        pireanstorageaccountname: $(pireanstorageaccountname)
         environmentId: d01
         environmentName: dev
         shdResourceGroup: s141d01-shd
@@ -44,8 +45,10 @@ stages:
      parameters:
         serviceConnection: $(testServiceConnection)
         subscriptionId: $(testSubscriptionId)
+        pireanstorageaccountname: $(pireanstorageaccountname)
         applicationName: $(applicationName)
         environmentId: t01
         environmentName: test
         shdResourceGroup: s141t01-shd
+        platformVariableGroupName: pirean-test
         platformIdamsVariableGroupName: pirean-test-idamsdsiapp
