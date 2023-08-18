@@ -1,0 +1,17 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "resources": [
+      {
+        "apiVersion": "2015-05-01",
+        "type": "Microsoft.Insights/components",
+        "name": "<application-insights-name>",
+        "location": "<location>",
+        "properties": {
+          "Application_Type": "web",
+          "Request_Source": "IbizaWebAppExtensionCreate"
+        }
+      }
+    ]
+  }
+  

@@ -62,16 +62,12 @@ BEGIN
 					WHERE perian_serviceId = dbo.GetPireanServiceId(Source.serviceId,Source.uid)
 					)
 				,roleName = Source.roleName
-				,mail = Source.mail
+				,mail = Source.mail;
 
-	WHEN NOT MATCHED BY SOURCE AND CASE serviceName WHEN 'Submit Learner Data Operations' THEN 'SLD'  WHEN 'Submit Learner Data' THEN 'SLD' WHEN 'Manage your education and skills funding (MYESF)' THEN 'SFS' WHEN 'ChildSafeGuarding' THEN 'CSS' END = (SELECT TOP 1 serviceId FROM @IDAMSUserData ) THEN
-  DELETE ;
+	--WHEN NOT MATCHED BY SOURCE AND CASE serviceName WHEN 'Submit Learner Data Operations' THEN 'SLD'  WHEN 'Submit Learner Data' THEN 'SLD' WHEN 'Manage your education and skills funding (MYESF)' THEN 'sfs' WHEN 'ChildSafeGuarding' THEN 'CSS' END = (SELECT TOP 1 serviceId FROM @IDAMSUserData ) THEN
+ -- DELETE ;
+ DELETE FROM dbo.idams_user_services_roles WHERE roleName NOT IN (SELECT roleName FROM @IDAMSUserData )
+ AND CASE serviceName WHEN 'Submit Learner Data Operations' THEN 'SLD'  WHEN 'Submit Learner Data' THEN 'SLD' WHEN 'MYESF' THEN 'SFS' WHEN 'ChildSafeGuarding' THEN 'CSS' END = (SELECT TOP 1 serviceId FROM @IDAMSUserData )
+ AND uid IN (SELECT uid FROM @IDAMSUserData)
 
- 
- 
-
-		
-
-
-	
 END
