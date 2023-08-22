@@ -14,9 +14,15 @@
           "resources": [
             {
               "type": "Microsoft.Insights/privateLinkScopes",
-              "name": "myPrivateLinkScope",
+              "apiVersion": "2021-07-01-preview",
+              "name": "test-pirean-ampls",
               "location": "[resourceGroup().location]",
-              "properties": {}
+              "properties": {
+                "accessModeSettings":{
+                    "queryAccessMode":"Open",
+                    "ingestionAccessMode":"Open"
+                }
+            }
             }
           ]
         }
@@ -24,3 +30,4 @@
     }
   ]
 }
+
