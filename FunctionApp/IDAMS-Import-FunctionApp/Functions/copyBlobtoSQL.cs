@@ -25,7 +25,7 @@ namespace IDAMS_Import_FunctionApp
             string azureSQLConnectionString = Environment.GetEnvironmentVariable("AzureSQL");
             if (!name.EndsWith(".csv"))
             {
-                log.LogInformation($"Blob '{name}' doesn't have the .csv extension. Skipping processing.");
+                log.LogWarning($"Blob '{name}' doesn't have the .csv extension. Skipping processing.");
                 return;
             }
 
@@ -164,7 +164,7 @@ namespace IDAMS_Import_FunctionApp
                 }
                 catch (Exception ex)
                 {
-                    log.LogInformation(ex.Message);
+                    log.LogError(ex.Message);
 
                 }
 
@@ -206,7 +206,7 @@ namespace IDAMS_Import_FunctionApp
                 }
                 catch (Exception ex)
                 {
-                    log.LogInformation(ex.Message);
+                    log.LogError(ex.Message);
 
                 }
 
@@ -214,6 +214,7 @@ namespace IDAMS_Import_FunctionApp
                 {
                     sqlConn?.Close();
                     log.LogInformation($"SQL Connection is closed");
+                    
                 }
             }
         }
