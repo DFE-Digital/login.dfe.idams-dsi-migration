@@ -119,8 +119,8 @@ jobs:
             ScriptType: InlineScript
             Inline: |
                    
-                   privateLinkScopeResourceId=$(az monitor private-link-scope private-endpoint-connection show -n $(privateendpointconnection) --resource-group $(sharedResourceGroupName) --scope-name $(privateLinkScopeName) --query 'id' --output tsv)
-                   az monitor private-link-scope update --id $privateLinkScopeResourceId --add 'Microsoft.Insights/components/$(sharedPireanAppInsightsName)'
+                   
+                   az monitor private-link-scope update --id $(az monitor private-link-scope private-endpoint-connection show -n $(privateendpointconnection) --resource-group $(sharedResourceGroupName) --scope-name $(privateLinkScopeName) --query 'id' --output tsv) --add 'Microsoft.Insights/components/$(sharedPireanAppInsightsName)'
 
             azurePowerShellVersion: 'LatestVersion'
 
