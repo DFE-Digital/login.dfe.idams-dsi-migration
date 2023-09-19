@@ -118,8 +118,8 @@ jobs:
             azureSubscription: '${{parameters.serviceConnection}}'
             ScriptType: InlineScript
             Inline: |
-                 
-                   az monitor private-link-scope update --name $(privateLinkScopeName) --resource-group $(sharedResourceGroupName) --add 'Microsoft.Insights/components/$(sharedPireanAppInsightsName)'
+                   privateLinkScopeResourceId=$(az monitor private-link-scope show --name $(privateLinkScopeName) --resource-group $(sharedResourceGroupName) --query 'id' --output tsv)
+                   az monitor private-link-scope update --id $privateLinkScopeResourceId --add 'Microsoft.Insights/components/$(sharedPireanAppInsightsName)'
 
             azurePowerShellVersion: 'LatestVersion'
 
