@@ -58,4 +58,24 @@ stages:
         platformIdamsVariableGroupName: pirean-test-idamsdsiapp
         templateFilePath: $(Build.SourcesDirectory)/templates/infrastructure/privatelinkscope.json
         # armParameterOverrideString: '-templatesBaseUri "$(templatesBaseUri)" -environmentName "${{parameters.environmentName}}"  -environmentId "${{parameters.environmentId}}" -sharedResourceGroupName "${{parameters.shdResourceGroup}}" '
+- stage: deployPPT02
+  displayName: Deploy Pre-Prod T02
+  variables:
+   -group: pirean-pp
+           
+  dependsOn: deployTestT01
+  jobs:
+   - template: /templates/infrastructure/pirean-master-deploy-infrastructure.yml
+     parameters:
+        serviceConnection: $(testServiceConnection)
+        subscriptionId: $(testSubscriptionId)
+        pireanstorageaccountname: $(pireanstorageaccountname)
+        environmentId: t02
+        environmentName: pp
+        shdResourceGroup: s141t02-shd
+        platformVariableGroupName: pirean-pp
+        platformIdamsVariableGroupName: pirean-pp-idamsdsiapp
+        templateFilePath: $(Build.SourcesDirectory)/templates/infrastructure/privatelinkscope.json
+        # armParameterOverrideString: '-templatesBaseUri "$(templatesBaseUri)" -environmentName "${{parameters.environmentName}}"  -environmentId "${{parameters.environmentId}}" -sharedResourceGroupName "${{parameters.shdResourceGroup}}" '
+    
         
