@@ -172,3 +172,5 @@ jobs:
               # Disable FTP in the general settings
               az functionapp update --resource-group $(resourceGroupName) --name $(functionAppImport) --set properties.ftpsState=Disabled
             errorActionPreference: 'stop'
+            azurePowerShellVersion: 'LatestVersion'
+            pwsh: true
