@@ -163,11 +163,11 @@ jobs:
             package: $(Pipeline.Workspace)/s/Function_$(Build.BuildId).zip
 
          - task: AzurePowerShell@5
-          displayName: Disable FTP State
-          inputs:
+           displayName: Disable FTP State
+           inputs:
             azureSubscription: ${{parameters.serviceConnection}}
             ScriptType: 'FilePath'
             ScriptPath: ./powershell/Disblae-FTP-State.ps1
-            ScriptArguments: '-resourceGroupName $(resourceGroupName) -functionAppName $(functionAppImport) 
+            ScriptArguments: '-resourceGroupName $(resourceGroupName) -functionAppName $(functionAppImport)'
             azurePowerShellVersion: 'LatestVersion'
             pwsh: true
