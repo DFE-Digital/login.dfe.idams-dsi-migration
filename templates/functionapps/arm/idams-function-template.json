@@ -239,10 +239,7 @@
                     }
                 }
                 
-            },
-             "siteConfig": {
-          "ftpsState": "Disabled"
-        }
+            }
         },
         "dependsOn": [
           "[variables('resourceIds').storageAccountId]",

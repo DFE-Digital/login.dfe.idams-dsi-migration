@@ -161,3 +161,14 @@ jobs:
             deploymentMethod: zipDeploy
             appName: $(functionName)
             package: $(Pipeline.Workspace)/s/Function_$(Build.BuildId).zip
+
+        - task: AzurePowerShell@5
+          displayName: Disable FTP state
+          inputs:
+            azureSubscription: '${{parameters.serviceConnection}}'
+            ScriptType: 'InlineScript'
+            Inline: |
+             
+              # Disable FTP in the general settings
+              az functionapp update --resource-group $(resourceGroupName) --name $(functionAppImport) --set properties.ftpsState=Disabled
+            errorActionPreference: 'stop'
