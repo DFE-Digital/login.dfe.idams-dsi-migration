@@ -167,7 +167,7 @@ jobs:
           inputs:
             azureSubscription: ${{parameters.serviceConnection}}
             ScriptType: 'FilePath'
-            ScriptPath: ./powershell/Disblae-FTP-State.ps1
+            ScriptPath: ./powershell/Disblae-FTPState.ps1
             ScriptArguments: '-resourceGroupName $(resourceGroupName) -functionAppName $(functionAppImport)'
             azurePowerShellVersion: 'LatestVersion'
             pwsh: true
