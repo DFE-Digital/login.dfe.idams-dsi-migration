@@ -13,4 +13,6 @@ param (
                   
 Write-Host "Disable Function FTP-State"
 
-az functionapp update --resource-group $resourceGroupName --name $functionAppName --set properties.ftpsState=Disabled
+# az functionapp update --resource-group $resourceGroupName --name $functionAppName --set properties.ftpsState=Disabled
+az functionapp config appsettings set --name $functionAppName --resource-group $resourceGroupName --settings WEBSITE_WEBFTP_ENABLED=0
+
