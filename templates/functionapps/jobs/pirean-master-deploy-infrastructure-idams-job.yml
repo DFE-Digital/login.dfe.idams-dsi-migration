@@ -112,15 +112,15 @@ jobs:
             azurePowerShellVersion: 'LatestVersion'
             pwsh: true
 
-        - task: AzurePowerShell@5
-          displayName: Disable FTP State
-          inputs:
-            azureSubscription: ${{parameters.serviceConnection}}
-            ScriptType: 'FilePath'
-            ScriptPath: ./powershell/Disable-FTPState.ps1
-            ScriptArguments: '-resourceGroupName $(resourceGroupName) -functionAppName $(functionAppImport)'
-            azurePowerShellVersion: 'LatestVersion'
-            pwsh: true
+        # - task: AzurePowerShell@5
+        #   displayName: Disable FTP State
+        #   inputs:
+        #     azureSubscription: ${{parameters.serviceConnection}}
+        #     ScriptType: 'FilePath'
+        #     ScriptPath: ./powershell/Disable-FTPState.ps1
+        #     ScriptArguments: '-resourceGroupName $(resourceGroupName) -functionAppName $(functionAppImport)'
+        #     azurePowerShellVersion: 'LatestVersion'
+        #     pwsh: true
 
         - task: ExtractFiles@1
           displayName: Extract Build Artifact

@@ -235,7 +235,8 @@
                               "name": "StorageAccountConnectionString",
                               "value": "[reference(variables('resourceNames').storageAccountName).outputs.storageAccountConnectionString.value]"
                             }
-                        ]
+                        ],
+                         "ftpsState": "Disabled"
                     }
                 }
                 
