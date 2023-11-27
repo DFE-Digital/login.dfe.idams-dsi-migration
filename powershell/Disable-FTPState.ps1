@@ -21,15 +21,17 @@
 $targetString = "pirean"
 
 # Get a list of function apps containing the target string
-$functionApps = Get-AzWebApp | Where-Object { $_.Name -like "*$targetString*" } | Select-Object -ExpandProperty Name
+$functionApps = Get-AzWebApp | Where-Object { $_.Name -like "*$targetString*" } | Select-Object -Property Name, ResourceGroup
 
 # Loop through each function app
 foreach ($functionApp in $functionApps) {
-    $resourceGroup = (Get-AzResource -ResourceId $functionApp.ResourceId).ResourceGroupName
-    Write-Host "Processing function app: $functionApp in resource group: $resourceGroup"
+    $resourceGroup = $functionApp.ResourceGroup
+    $functionAppName = $functionApp.Name
+
+    Write-Host "Processing function app: $functionAppName in resource group: $resourceGroup"
 
     # Update the FTP state of the function app (replace 'AllAllowed' with your actual logic)
-    Set-AzWebApp -ResourceGroupName $resourceGroup -Name $functionApp -FtpsState "Disabled"
+    Set-AzWebApp -ResourceGroupName $resourceGroup -Name $functionAppName -FtpsState "Disabled"
     
-    Write-Host "FTP state updated for function app: $functionApp"
+    Write-Host "FTP state updated for function app: $functionAppName"
 }
