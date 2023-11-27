@@ -13,6 +13,6 @@ param (
                   
 Write-Host "Disable Function FTP-State"
 # $jsonPayload = @{"ftpsState" = "Disabled"} | ConvertTo-Json
-az functionapp config set --resource-group $resourceGroupName --name $functionAppName --generic-configurations "ftpsState=Disabled"
-# az functionapp config set --resource-group $resourceGroupName --name $functionAppName --generic-configurations {ftpsState:Disabled}
+
+az functionapp config set --resource-group $resourceGroupName --name $functionAppName --ftps-state Disabled
 
