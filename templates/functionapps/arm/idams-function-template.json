@@ -2,7 +2,7 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-      "templatesBaseUri": {
+      "templatesBaseUriIDAMS": {
         "type": "string",
         "defaultValue": "https://raw.githubusercontent.com/DFE-Digital/login.dfe.infrastructure/master/"
       },
@@ -153,7 +153,7 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri": "[concat(parameters('templatesBaseUri'),'Shared/app-service-plan.json')]",
+                "uri": "[concat(parameters('templatesBaseUriIDAMS'),'Shared/app-service-plan.json')]",
                 "contentVersion": "1.0.0.0"
             },
             "parameters": {
@@ -179,7 +179,7 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri": "[concat(parameters('templatesBaseUri'),'Shared/function-app.json')]",
+                "uri": "[concat(parameters('templatesBaseUriIDAMS'),'Shared/function-app.json')]",
                 "contentVersion": "1.0.0.0"
             },
             "parameters": {
