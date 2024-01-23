@@ -26,7 +26,7 @@ stages:
 - stage: deployDevD02
   displayName: Deploy Dev D02
   variables:
-   -group: pirean-dev           
+   - group: pirean-dev           
   dependsOn: build
   jobs:
     - template: /templates/functionapps/jobs/pirean-master-deploy-infrastructure-idams-job.yml
@@ -45,7 +45,7 @@ stages:
 - stage: deployDevD01
   displayName: Deploy Dev D01
   variables:
-   -group: pirean-dev 
+   - group: pirean-dev 
              
   dependsOn: build
   jobs:
@@ -65,20 +65,19 @@ stages:
 - stage: deployTestT01
   displayName: Deploy Test T01
   variables:
-   -group: pirean-Test
-           
-  # dependsOn: deployDevD01
+   - group: pirean-Test
   jobs:
-- job: Deploy
-  pool:
-    vmImage: 'ubuntu-latest'
-  steps:
-  - checkout: self
-  - task: AzureKeyVault@2
-    inputs:
-      azureSubscription: $(testServiceConnection)
-      KeyVaultName: s141t01-signin-kv
-      SecretsFilter: '*'
+  - job: RetrieveSecrets
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - checkout: self
+    - task: AzureKeyVault@2
+      inputs:
+        azureSubscription: $(testServiceConnection)
+        KeyVaultName: s141t01-signin-kv
+        SecretsFilter: '*'
+
   - template: /templates/functionapps/jobs/pirean-master-deploy-infrastructure-idams-job.yml
     parameters:
       serviceConnection: $(testServiceConnection)
@@ -91,6 +90,7 @@ stages:
       platformVariableGroupName: pirean-test
       platformIdamsVariableGroupName: pirean-test-idamsdsiapp
       platformdsikvVariableGroupName: dsi-test-kv
+
     
 
 # - stage: deployPPT02
