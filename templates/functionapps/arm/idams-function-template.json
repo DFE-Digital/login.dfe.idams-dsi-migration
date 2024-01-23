@@ -153,7 +153,7 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri": "[concat(parameters('templatesBaseUriIDAMS'),'Shared/app-service-plan.json')]",
+                "uri": "https://raw.githubusercontent.com/DFE-Digital/login.dfe.infrastructure/master/Shared/app-service-plan.json",
                 "contentVersion": "1.0.0.0"
             },
             "parameters": {
@@ -179,7 +179,7 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri": "[concat(parameters('templatesBaseUriIDAMS'),'Shared/function-app.json')]",
+                "uri": "https://raw.githubusercontent.com/DFE-Digital/login.dfe.infrastructure/master/Shared/app-service-plan.json",
                 "contentVersion": "1.0.0.0"
             },
             "parameters": {
