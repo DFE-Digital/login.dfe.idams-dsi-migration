@@ -26,7 +26,7 @@ stages:
 - stage: deployDevD02
   displayName: Deploy Dev D02
   variables:
-   - group: pirean-dev           
+   -group: pirean-dev           
   dependsOn: build
   jobs:
     - template: /templates/functionapps/jobs/pirean-master-deploy-infrastructure-idams-job.yml
@@ -40,13 +40,11 @@ stages:
         shdResourceGroup: s141d02-shd
         platformVariableGroupName: pirean-dev02
         platformIdamsVariableGroupName: pirean-dev02-idamsdsiapp
-        platformdsikvVariableGroupName: dsi-dev-kv
 
 - stage: deployDevD01
   displayName: Deploy Dev D01
   variables:
-   - group: pirean-dev 
-             
+   -group: pirean-dev           
   dependsOn: build
   jobs:
     - template: /templates/functionapps/jobs/pirean-master-deploy-infrastructure-idams-job.yml
@@ -60,75 +58,62 @@ stages:
         shdResourceGroup: s141d01-shd
         platformVariableGroupName: pirean-dev
         platformIdamsVariableGroupName: pirean-dev-idamsdsiapp
-        platformdsikvVariableGroupName: dsi-dev-kv
 
 - stage: deployTestT01
   displayName: Deploy Test T01
   variables:
-   - group: pirean-Test
+   -group: pirean-Test
+           
+  dependsOn: deployDevD01
   jobs:
-  - job: RetrieveSecrets
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-    - task: AzureKeyVault@2
-      inputs:
-        azureSubscription: $(testServiceConnection)
-        KeyVaultName: s141t01-signin-kv
-        SecretsFilter: '*'
+    - template: /templates/functionapps/jobs/pirean-master-deploy-infrastructure-idams-job.yml
+      parameters:
+        serviceConnection: $(testServiceConnection)
+        subscriptionId: $(testSubscriptionId)
+        pireanstorageaccountname: $(pireanstorageaccountname)
+        applicationName: $(applicationName)
+        environmentId: t01
+        environmentName: test
+        shdResourceGroup: s141t01-shd
+        platformVariableGroupName: pirean-test
+        platformIdamsVariableGroupName: pirean-test-idamsdsiapp
 
-  - template: /templates/functionapps/jobs/pirean-master-deploy-infrastructure-idams-job.yml
-    parameters:
-      serviceConnection: $(testServiceConnection)
-      subscriptionId: $(testSubscriptionId)
-      pireanstorageaccountname: $(pireanstorageaccountname)
-      applicationName: $(applicationName)
-      environmentId: t01
-      environmentName: test
-      shdResourceGroup: s141t01-shd
-      platformVariableGroupName: pirean-test
-      platformIdamsVariableGroupName: pirean-test-idamsdsiapp
-      platformdsikvVariableGroupName: dsi-test-kv
-
-    
-
-# - stage: deployPPT02
-#   displayName: Deploy Pre-Prod T02
-#   variables:
-#    -group: pirean-PP
+- stage: deployPPT02
+  displayName: Deploy Pre-Prod T02
+  variables:
+   -group: pirean-PP
            
-#   dependsOn: deployTestT01
-#   jobs:
-#     - template: /templates/functionapps/jobs/pirean-master-deploy-infrastructure-idams-job.yml
-#       parameters:
-#         serviceConnection: $(testServiceConnection)
-#         subscriptionId: $(testSubscriptionId)
-#         pireanstorageaccountname: $(pireanstorageaccountname)
-#         applicationName: $(applicationName)
-#         environmentId: t02
-#         environmentName: pp
-#         shdResourceGroup: s141t02-shd
-#         platformVariableGroupName: pirean-pp
-#         platformIdamsVariableGroupName: pirean-pp-idamsdsiapp
+  dependsOn: deployTestT01
+  jobs:
+    - template: /templates/functionapps/jobs/pirean-master-deploy-infrastructure-idams-job.yml
+      parameters:
+        serviceConnection: $(testServiceConnection)
+        subscriptionId: $(testSubscriptionId)
+        pireanstorageaccountname: $(pireanstorageaccountname)
+        applicationName: $(applicationName)
+        environmentId: t02
+        environmentName: pp
+        shdResourceGroup: s141t02-shd
+        platformVariableGroupName: pirean-pp
+        platformIdamsVariableGroupName: pirean-pp-idamsdsiapp
 
-# - stage: deployPRP01
-#   displayName: Deploy Prod P01
-#   variables:
-#    -group: pirean-pr
+- stage: deployPRP01
+  displayName: Deploy Prod P01
+  variables:
+   -group: pirean-pr
            
-#   dependsOn: deployPPT02
-#   jobs:
-#     - template: /templates/functionapps/jobs/pirean-master-deploy-infrastructure-idams-job.yml
-#       parameters:
-#         serviceConnection: $(prodServiceConnection)
-#         subscriptionId: $(prodSubscriptionId)
-#         pireanstorageaccountname: $(pireanstorageaccountname)
-#         applicationName: $(applicationName)
-#         environmentId: p01
-#         environmentName: pr
-#         shdResourceGroup: s141p01-shd
-#         platformVariableGroupName: pirean-pr
-#         platformIdamsVariableGroupName: pirean-pr-idamsdsiapp
+  dependsOn: deployPPT02
+  jobs:
+    - template: /templates/functionapps/jobs/pirean-master-deploy-infrastructure-idams-job.yml
+      parameters:
+        serviceConnection: $(prodServiceConnection)
+        subscriptionId: $(prodSubscriptionId)
+        pireanstorageaccountname: $(pireanstorageaccountname)
+        applicationName: $(applicationName)
+        environmentId: p01
+        environmentName: pr
+        shdResourceGroup: s141p01-shd
+        platformVariableGroupName: pirean-pr
+        platformIdamsVariableGroupName: pirean-pr-idamsdsiapp
     
       
