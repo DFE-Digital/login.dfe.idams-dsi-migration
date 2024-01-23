@@ -69,8 +69,19 @@ stages:
            
   # dependsOn: deployDevD01
   jobs:
+  - job: Deploy
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - checkout: self
+    - task: AzureKeyVault@2
+      inputs:
+        azureSubscription: $(testServiceConnection)
+        KeyVaultName: s141t01-signin-kv
+        SecretsFilter: '*'
     - template: /templates/functionapps/jobs/pirean-master-deploy-infrastructure-idams-job.yml
       parameters:
+        parameters:
         serviceConnection: $(testServiceConnection)
         subscriptionId: $(testSubscriptionId)
         pireanstorageaccountname: $(pireanstorageaccountname)
@@ -81,6 +92,7 @@ stages:
         platformVariableGroupName: pirean-test
         platformIdamsVariableGroupName: pirean-test-idamsdsiapp
         platformdsikvVariableGroupName: dsi-test-kv
+    
 
 # - stage: deployPPT02
 #   displayName: Deploy Pre-Prod T02
