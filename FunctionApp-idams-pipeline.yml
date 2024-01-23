@@ -62,24 +62,25 @@ stages:
         platformIdamsVariableGroupName: pirean-dev-idamsdsiapp
         platformdsikvVariableGroupName: dsi-dev-kv
 
-# - stage: deployTestT01
-#   displayName: Deploy Test T01
-#   variables:
-#    -group: pirean-Test
+- stage: deployTestT01
+  displayName: Deploy Test T01
+  variables:
+   -group: pirean-Test
            
-#   dependsOn: deployDevD01
-#   jobs:
-#     - template: /templates/functionapps/jobs/pirean-master-deploy-infrastructure-idams-job.yml
-#       parameters:
-#         serviceConnection: $(testServiceConnection)
-#         subscriptionId: $(testSubscriptionId)
-#         pireanstorageaccountname: $(pireanstorageaccountname)
-#         applicationName: $(applicationName)
-#         environmentId: t01
-#         environmentName: test
-#         shdResourceGroup: s141t01-shd
-#         platformVariableGroupName: pirean-test
-#         platformIdamsVariableGroupName: pirean-test-idamsdsiapp
+  # dependsOn: deployDevD01
+  jobs:
+    - template: /templates/functionapps/jobs/pirean-master-deploy-infrastructure-idams-job.yml
+      parameters:
+        serviceConnection: $(testServiceConnection)
+        subscriptionId: $(testSubscriptionId)
+        pireanstorageaccountname: $(pireanstorageaccountname)
+        applicationName: $(applicationName)
+        environmentId: t01
+        environmentName: test
+        shdResourceGroup: s141t01-shd
+        platformVariableGroupName: pirean-test
+        platformIdamsVariableGroupName: pirean-test-idamsdsiapp
+        platformdsikvVariableGroupName: dsi-test-kv
 
 # - stage: deployPPT02
 #   displayName: Deploy Pre-Prod T02
