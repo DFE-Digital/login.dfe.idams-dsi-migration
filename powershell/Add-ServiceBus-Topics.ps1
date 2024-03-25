@@ -35,3 +35,9 @@ az servicebus topic create --resource-group $serviceBusResourceGroupName --names
 Write-Host "Create Subscriptions for Topic - providerprofilecache"
 Write-Host "Create Subscriptions - ppcachestatus-messages"
 az servicebus topic subscription create --resource-group $serviceBusResourceGroupName --namespace-name $serviceBusNamespace --topic-name 'providerprofilecache' --name 'ppcachestatus-messages'
+
+Write-Host "Create Topic - providerprofilesupport"
+az servicebus topic create --resource-group $serviceBusResourceGroupName --namespace-name $serviceBusNamespace --name 'providerprofilesupport'
+
+Write-Host "Create Subscriptions for Topic - providerprofilesupport"
+az servicebus topic subscription create --resource-group $serviceBusResourceGroupName --namespace-name $serviceBusNamespace --topic-name 'providerprofilesupport' --name 'ppsupport-messages'

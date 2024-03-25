@@ -112,7 +112,16 @@ jobs:
             azurePowerShellVersion: 'LatestVersion'
             pwsh: true
 
-
+        - task: AzurePowerShell@5
+          displayName: Create Service Bus Topics and Subscriptions
+          inputs:
+            azureSubscription: ${{parameters.serviceConnection}}
+            ScriptType: 'FilePath'
+            ScriptPath: $(Pipeline.Workspace)/s/artifactoutput/powershell/Add-ServiceBus-Topics.ps1
+            ScriptArguments: '-serviceBusResourceGroupName $(serviceBusResourceGroupName) -serviceBusNamespace $(serviceBusNamespace) -serviceBusTopicName $(serviceBusTopicName) -serviceBusSubscriptionName $(serviceBusSubscriptionName)'
+            azurePowerShellVersion: 'LatestVersion'
+            pwsh: true
+            
         # - task: AzurePowerShell@5
         #   displayName: Create & Associate Private Link Scope with App Insights
         #   inputs:
