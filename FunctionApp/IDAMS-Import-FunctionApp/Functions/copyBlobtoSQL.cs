@@ -133,7 +133,7 @@ namespace IDAMS_Import_FunctionApp
 
 
                     }
-                   else if (serviceId == "vyed")
+                   else if (serviceId.ToLower() == "vyed" || serviceId.ToUpper() == "VYED")
                     {
                           log.LogInformation("VYED Service");
 
