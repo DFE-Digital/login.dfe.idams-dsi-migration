@@ -133,6 +133,31 @@ namespace IDAMS_Import_FunctionApp
 
 
                     }
+                   else if (serviceId == "vyed")
+                    {
+                          log.LogInformation("VYED Service");
+
+                        if (dtRoleMappings.Rows.Count > 0)
+                        {
+
+                            string filterExpr = string.Format("{0} = '{1}' ", "[idams_role_name]", item.roleName);
+                            //  log.LogInformation("filterExpr : " + filterExpr);
+                            System.Data.DataRow[] drRowMappings = dtRoleMappings.Select(filterExpr);
+                            if (drRowMappings.Length > 0)
+                            {
+                                //    log.LogInformation("Roles found for MYESF");
+                                foreach (System.Data.DataRow row in drRowMappings)
+                                {
+
+                                    dtResult.Rows.Add(item.uid, item.name, item.givenName, item.sn, item.upin, item.ukprn, item.superuser, item.modifytimestamp,
+                                    item.mail, serviceId, row["dsi_role_name"].ToString());
+                                }
+                            }
+                           
+                        }
+
+
+                    }
                     else // Other Services
                     {
                         dtResult.Rows.Add(item.uid, item.name, item.givenName, item.sn, item.upin, item.ukprn, item.superuser, item.modifytimestamp,
