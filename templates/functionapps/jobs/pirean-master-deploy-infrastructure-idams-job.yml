@@ -44,6 +44,10 @@ jobs:
   - group: '${{parameters.platformVariableGroupName}}'
   - group: '${{parameters.platformIdamsVariableGroupName}}'
   - group: '${{parameters.platformdsikvVariableGroupName}}'
+  - name: keyVaultName 
+    value: ${{parameters.projectId}}${{parameters.environmentId}}-signin-kv
+  - name: resourceGroupNameShd
+    value: "${{parameters.projectId}}${{parameters.environmentId}}-shd"
   
   - name: resourceGroupName
     value: '${{parameters.projectId}}${{parameters.environmentId}}-dataimport'
@@ -191,7 +195,7 @@ jobs:
             deploymentMethod: zipDeploy
             appName: $(functionName)
             package: $(Pipeline.Workspace)/s/Function_$(Build.BuildId).zip
-            
+
         - task: AzureCLI@2
           displayName: Remove pipeline IP from keyvault
           condition: always()
