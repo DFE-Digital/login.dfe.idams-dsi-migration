@@ -51,6 +51,8 @@ INSERT [dbo].[idams_role_mapping] ([Id], [idams_role_name], [dsi_role_name], [ac
 GO
 INSERT [dbo].[idams_role_mapping] ([Id], [idams_role_name], [dsi_role_name], [active]) VALUES (24, N'View Your Education Data - VMFI Maintained Schools Full Access', N'VMFI Maintained Schools Full User', 1)
 GO
+INSERT [dbo].[idams_role_mapping] ([Id], [idams_role_name], [dsi_role_name], [active]) VALUES (25, N'View Your Education Data - NPDAAT', N'16 to 18 Retention', 1)
+GO
 
 GO
 SET IDENTITY_INSERT [dbo].[idams_role_mapping] OFF
