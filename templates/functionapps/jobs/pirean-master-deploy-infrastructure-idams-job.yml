@@ -56,6 +56,32 @@ jobs:
         - download: current
           artifact: $(Build.BuildId)
 
+        - task: AzureCLI@2
+          displayName: White-list pipeline IP for keyVault & SCM
+          inputs:
+            azureSubscription: ${{parameters.serviceConnection}}
+            ScriptType: 'pscore'
+            scriptLocation: 'inlineScript'
+            inlineScript: |
+              $IpAddress = Invoke-RestMethod -uri https://api.ipify.org
+              $keyVault = "$(keyVaultName)"
+              az keyvault network-rule add --name $keyVault --resource-group $(resourceGroupNameShd) --ip-address $IpAddress
+        - task: AzureKeyVault@2
+          displayName: Load environment [${{ parameters.environmentName }}] secrets
+          inputs:
+            azureSubscription: '${{parameters.serviceConnection}}'
+            KeyVaultName: '$(keyVaultName)'
+            SecretsFilter: '*'
+            RunAsPreJob: false
+        - task: PowerShell@2
+          inputs:
+            targetType: inline
+            script: Invoke-RestMethod -Uri ('http://ipinfo.io/'+(Invoke-WebRequest -uri "http://ifconfig.me/ip").Content)
+                   
+        
+        - pwsh: |
+                    Write-Host "functionName is: $env:ARMOUTPUTS_ARMOUTPUT_FUNCTIONNAME"
+                    Write-Host "##vso[task.setvariable variable=functionName]$env:ARMOUTPUTS_ARMOUTPUT_FUNCTIONNAME"
         - task: AzurePowerShell@5
           displayName: Create Subnets
           inputs:
@@ -165,5 +191,17 @@ jobs:
             deploymentMethod: zipDeploy
             appName: $(functionName)
             package: $(Pipeline.Workspace)/s/Function_$(Build.BuildId).zip
+            
+        - task: AzureCLI@2
+          displayName: Remove pipeline IP from keyvault
+          condition: always()
+          inputs:
+            azureSubscription: ${{parameters.serviceConnection}}
+            ScriptType: 'pscore'
+            scriptLocation: 'inlineScript'
+            inlineScript: |
+              $IpAddress = Invoke-RestMethod -uri https://api.ipify.org
+              $keyVault = "$(keyVaultName)"
+              az keyvault network-rule remove --name $keyVault --resource-group $(resourceGroupNameShd) --ip-address $IpAddress
 
        
