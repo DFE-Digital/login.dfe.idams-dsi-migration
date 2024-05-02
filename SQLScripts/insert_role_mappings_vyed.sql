@@ -39,15 +39,13 @@ GO
 INSERT [dbo].[idams_role_mapping] ([Id], [idams_role_name], [dsi_role_name], [active]) VALUES (19, N'View Your Education Data - VMFI Read Only', N'VMFI Read Only', 1)
 GO
 
-INSERT [dbo].[idams_role_mapping] ([Id], [idams_role_name], [dsi_role_name], [active]) VALUES (20, N'View Your Education Data - Post-16 Monitoring', N'View Your Education Data - Post-16 Monitoring
-
-Post-16 Monitoring', 1)
+INSERT [dbo].[idams_role_mapping] ([Id], [idams_role_name], [dsi_role_name], [active]) VALUES (20, N'View Your Education Data - Post-16 Monitoring', N'Post-16 Monitoring', 1)
 GO
-INSERT [dbo].[idams_role_mapping] ([Id], [idams_role_name], [dsi_role_name], [active]) VALUES (21, N'View Your Education Data - RAAC', N'Reinforced Autoclaved Aerated Concrete', 1)
+INSERT [dbo].[idams_role_mapping] ([Id], [idams_role_name], [dsi_role_name], [active]) VALUES (21, N'View Your Education Data - RAAC', N'RAAC', 1)
 GO
 INSERT [dbo].[idams_role_mapping] ([Id], [idams_role_name], [dsi_role_name], [active]) VALUES (22, N'View Your Education Data-Risk Protection Arrangement', N'Risk Protection Arrangement', 1)
 GO
-INSERT [dbo].[idams_role_mapping] ([Id], [idams_role_name], [dsi_role_name], [active]) VALUES (23, N'View Your Education Data - School Attendance Data', N'Monitor Your School Attendance', 1)
+INSERT [dbo].[idams_role_mapping] ([Id], [idams_role_name], [dsi_role_name], [active]) VALUES (23, N'View Your Education Data - School Attendance Data', N'School Attendance Data', 1)
 GO
 INSERT [dbo].[idams_role_mapping] ([Id], [idams_role_name], [dsi_role_name], [active]) VALUES (24, N'View Your Education Data - VMFI Maintained Schools Full Access', N'VMFI Maintained Schools Full User', 1)
 GO
