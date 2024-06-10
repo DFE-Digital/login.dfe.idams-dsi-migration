@@ -40,7 +40,7 @@ stages:
         shdResourceGroup: s141d02-shd
         platformVariableGroupName: pirean-dev02
         platformIdamsVariableGroupName: pirean-dev02-idamsdsiapp
-        platformdsikvVariableGroupName: dsi-dev-kv
+        
 
 - stage: deployDevD01
   displayName: Deploy Dev D01
@@ -60,7 +60,7 @@ stages:
         shdResourceGroup: s141d01-shd
         platformVariableGroupName: pirean-dev
         platformIdamsVariableGroupName: pirean-dev-idamsdsiapp
-        platformdsikvVariableGroupName: dsi-dev-kv
+       
 
 - stage: deployTestT01
   displayName: Deploy Test T01
@@ -80,7 +80,7 @@ stages:
       shdResourceGroup: s141t01-shd
       platformVariableGroupName: pirean-test
       platformIdamsVariableGroupName: pirean-test-idamsdsiapp
-      platformdsikvVariableGroupName: dsi-test-kv
+      
 
     
 
@@ -102,7 +102,7 @@ stages:
         shdResourceGroup: s141t02-shd
         platformVariableGroupName: pirean-pp
         platformIdamsVariableGroupName: pirean-pp-idamsdsiapp
-        platformdsikvVariableGroupName: dsi-pp-kv
+       
 
 - stage: deployPRP01
   displayName: Deploy Prod P01
@@ -122,6 +122,6 @@ stages:
         shdResourceGroup: s141p01-shd
         platformVariableGroupName: pirean-pr
         platformIdamsVariableGroupName: pirean-pr-idamsdsiapp
-        platformdsikvVariableGroupName: dsi-pr-kv
+       
     
       
