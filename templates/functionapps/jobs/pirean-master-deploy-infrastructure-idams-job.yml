@@ -32,8 +32,7 @@ parameters:
       type: string
     - name: platformIdamsVariableGroupName
       type: string
-    - name: platformdsikvVariableGroupName
-      type: string
+    
 jobs:
 - deployment: 'deploy_${{parameters.environmentName}}'
   displayName: 'Deploy [${{parameters.environmentName}}]'
@@ -43,7 +42,7 @@ jobs:
   variables:
   - group: '${{parameters.platformVariableGroupName}}'
   - group: '${{parameters.platformIdamsVariableGroupName}}'
-  - group: '${{parameters.platformdsikvVariableGroupName}}'
+  
   - name: keyVaultName 
     value: ${{parameters.projectId}}${{parameters.environmentId}}-signin-kv
   - name: resourceGroupNameShd
