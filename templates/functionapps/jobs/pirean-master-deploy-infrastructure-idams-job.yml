@@ -56,10 +56,7 @@ jobs:
     runOnce:
       deploy:
         steps:
-        - checkout: self
-        - download: current
-          artifact: $(Build.BuildId)
-
+       
         - task: AzureCLI@2
           displayName: White-list pipeline IP for keyVault & SCM
           inputs:
